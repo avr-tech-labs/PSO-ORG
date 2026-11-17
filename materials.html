@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Study Materials & IMP Questions | PSO Career Hub</title>
+    <title>Materials, IMP Questions & PYQs Hub | PSO Career Hub</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Telugu:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 </head>
@@ -13,8 +13,8 @@
         <div class="header-content">
             <div class="logo">PSO</div>
             <div>
-                <h1 class="pso-heading">📚 Study Materials & IMP Questions Hub</h1>
-                <p>10th, Inter, Degree, B.Tech, Entrance & Govt Exams ముఖ్య ప్రశ్నలు & నోట్స్</p>
+                <h1 class="pso-heading">📚 Study Materials, IMP Questions & PYQs Hub</h1>
+                <p>Boards, Graduation, Entrance Exams, State/Central Govt & IT Jobs Complete Resource Library</p>
             </div>
         </div>
         <button id="themeToggle" class="theme-btn" onclick="toggleTheme()">🌙 Dark</button>
@@ -25,64 +25,70 @@
         <a href="roadmap.html">🛣️ Career Roadmap</a>
         <a href="guidance.html">🎯 Detailed Guidance</a>
         <a href="exams.html">📝 Exams & Scholarships</a>
-        <a href="materials.html" class="active-nav">📚 Materials & IMP Questions</a>
+        <a href="materials.html" class="active-nav">📚 Materials & PYQs</a>
         <a href="quiz.html">🧩 Career Quiz</a>
     </nav>
 
     <div class="container">
         <a href="index.html" class="back-link-btn">⬅️ హోమ్ పేజీకి తిరిగి వెళ్ళండి</a>
 
-        <!-- Quick Subject & Exam IMP Strategy Guide -->
+        <!-- Domain Overview Cards -->
         <section class="card">
-            <h2 class="card-title">🎯 పరీక్షలలో అధిక మార్కులు సాధించడానికి ప్రిపరేషన్ గైడ్</h2>
-            <div class="flow-grid-4">
-                <div class="flow-subcard">
-                    <h4>📘 10th Class (SSC)</h4>
-                    <p>Public Exam IMP</p>
-                    <small>Maths, Physical Science, Biology, Social 4-Marks & 8-Marks ముఖ్య ప్రశ్నలు.</small>
+            <h2 class="card-title">🗂️ 5 ప్రధాన విభాగాల స్టడీ మెటీరియల్ ఆర్కిటెక్చర్</h2>
+            <div class="portal-hub-grid">
+                <div class="portal-tile tile-blue" style="cursor:pointer;" onclick="quickSelectDomain('Boards & Graduation')">
+                    <div class="tile-icon">🏫</div>
+                    <h3>1. Boards & Graduation</h3>
+                    <p>10th SSC, Inter (MPC/BiPC/CEC/HEC), Diploma, B.Tech, Degree & PG IMP Questions & Notes.</p>
                 </div>
-                <div class="flow-subcard">
-                    <h4>📗 Intermediate (10+2)</h4>
-                    <p>IPE & EAPCET Notes</p>
-                    <small>MPC & BiPC 1st/2nd Year Gun-Shot IMP Questions & Formula Sheets.</small>
+                <div class="portal-tile tile-green" style="cursor:pointer;" onclick="quickSelectDomain('Entrance Exams')">
+                    <div class="tile-icon">🎯</div>
+                    <h3>2. Entrance Exams</h3>
+                    <p>EAPCET, POLYCET, ECET, ICET, JEE, NEET, CUET, GATE, CAT & CLAT PYQs & Keys.</p>
                 </div>
-                <div class="flow-subcard">
-                    <h4>🎓 Degree & B.Tech</h4>
-                    <p>Semester IMP & Lab</p>
-                    <small>B.Sc, B.Com, BA, BCA & B.Tech అన్ని సెమిస్టర్ల ముఖ్య ప్రశ్నలు & నోట్స్.</small>
+                <div class="portal-tile tile-amber" style="cursor:pointer;" onclick="quickSelectDomain('State Govt Jobs')">
+                    <div class="tile-icon">🏛️</div>
+                    <h3>3. State Govt Jobs</h3>
+                    <p>APPSC/TSPSC Groups 1/2/4, Police SI/Constable, TET/DSC, Sachivalayam & VRO Papers.</p>
                 </div>
-                <div class="flow-subcard">
-                    <h4>🏛️ Govt & Entrance</h4>
-                    <p>PYQs & Practice Sets</p>
-                    <small>POLYCET, EAPCET, APPSC, SSC, RRB, Police గత ప్రశ్నాపత్రాలు & కీస్.</small>
+                <div class="portal-tile tile-purple" style="cursor:pointer;" onclick="quickSelectDomain('Central Govt Jobs')">
+                    <div class="tile-icon">🇮🇳</div>
+                    <h3>4. Central Govt Jobs</h3>
+                    <p>UPSC, SSC CGL/CHSL/MTS, Railways (RRB), Banking (IBPS/SBI), Defence & ISRO/DRDO.</p>
+                </div>
+                <div class="portal-tile tile-blue" style="cursor:pointer;" onclick="quickSelectDomain('IT & Software Jobs')">
+                    <div class="tile-icon">💻</div>
+                    <h3>5. IT & Software Jobs</h3>
+                    <p>Core CS, DSA, MERN Stack, Python, Java, Aptitude & Campus Placement Cheat Sheets.</p>
                 </div>
             </div>
         </section>
 
-        <!-- Dynamic Filter & Materials List Section -->
-        <section class="card">
-            <h2 class="card-title">📥 డౌన్‌లోడ్ మెటీరియల్స్ & ముఖ్య ప్రశ్నలు (Browse & Download)</h2>
+        <!-- Advanced Multi-Filter Resource Browser -->
+        <section id="browserSection" class="card">
+            <h2 class="card-title">📥 Browse & Download Resources (మెటీరియల్స్, IMP Questions & PYQs)</h2>
             
-            <!-- Level Filter Pills -->
-            <div class="filter-pills">
-                <button class="pill-btn active" onclick="setMaterialLevel('ALL', this)">All Levels</button>
-                <button class="pill-btn" onclick="setMaterialLevel('10th Class', this)">🏫 10th Class (SSC)</button>
-                <button class="pill-btn" onclick="setMaterialLevel('Intermediate', this)">📖 Intermediate</button>
-                <button class="pill-btn" onclick="setMaterialLevel('Polytechnic / ITI', this)">🔧 Polytechnic / ITI</button>
-                <button class="pill-btn" onclick="setMaterialLevel('Degree / B.Tech', this)">🎓 Degree / B.Tech</button>
-                <button class="pill-btn" onclick="setMaterialLevel('Entrance & Govt Exams', this)">🏛️ Entrance & Govt Exams</button>
+            <!-- Primary Domain Pills -->
+            <div class="filter-pills" id="domainPills">
+                <button class="pill-btn active" onclick="setMaterialLevel('ALL', this)">🌐 All Domains</button>
+                <button class="pill-btn" onclick="setMaterialLevel('Boards & Graduation', this)">🏫 Boards & Graduation</button>
+                <button class="pill-btn" onclick="setMaterialLevel('Entrance Exams', this)">🎯 Entrance Exams</button>
+                <button class="pill-btn" onclick="setMaterialLevel('State Govt Jobs', this)">🏛️ State Govt Jobs</button>
+                <button class="pill-btn" onclick="setMaterialLevel('Central Govt Jobs', this)">🇮🇳 Central Govt Jobs</button>
+                <button class="pill-btn" onclick="setMaterialLevel('IT & Software Jobs', this)">💻 IT & Software Jobs</button>
             </div>
 
-            <!-- Type Filter & Search -->
-            <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:18px;">
-                <select id="materialTypeFilter" class="modern-select" onchange="filterMaterials()" style="max-width: 240px;">
-                    <option value="ALL">📂 అన్ని రకాలు (All Types)</option>
-                    <option value="IMP Questions">⭐ IMP Questions</option>
-                    <option value="Study Notes">📘 Study Notes / PDF</option>
-                    <option value="Previous Papers">📝 Previous Year Papers</option>
-                    <option value="Formula / Cheat Sheet">⚡ Formula / Cheat Sheet</option>
+            <!-- Resource Type & Search Bar -->
+            <div class="quiz-controls" style="margin-bottom: 18px;">
+                <select id="materialTypeFilter" class="modern-select" onchange="filterMaterials()" style="max-width: 260px;">
+                    <option value="ALL">📂 అన్ని రకాలు (All Resource Types)</option>
+                    <option value="IMP Questions">⭐ Gun-Shot IMP Questions</option>
+                    <option value="Previous Year Papers (PYQs)">📝 Previous Year Papers (PYQs)</option>
+                    <option value="Official Answer Key">✅ Official Answer Keys</option>
+                    <option value="Study Notes & Textbooks">📘 Study Notes & Textbooks</option>
+                    <option value="Formula & Cheat Sheet">⚡ Formula & Cheat Sheets</option>
                 </select>
-                <input type="text" id="materialSearchInput" class="modern-search" style="flex:1; margin-bottom:0;" placeholder="🔍 సబ్జెక్ట్ లేదా చాప్టర్ పేరుతో వెతకండి (ఉదా: Maths, Physics, Python, Polity)..." onkeyup="filterMaterials()">
+                <input type="text" id="materialSearchInput" class="modern-search" style="flex:1; margin-bottom:0;" placeholder="🔍 సబ్జెక్ట్, పరీక్ష లేదా చాప్టర్ పేరుతో వెతకండి (ఉదా: EAPCET, 10th Maths, Group-2, DSA, SSC)..." onkeyup="filterMaterials()">
             </div>
 
             <div id="materialsContainer">
