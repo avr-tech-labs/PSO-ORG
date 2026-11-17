@@ -738,3 +738,269 @@ body {
 .modern-table tr:nth-child(even) {
     background: var(--subcard-bg);
 }
+/* ========================================================= */
+/* COMPLETE MOBILE & TABLET RESPONSIVE DESIGN (MEDIA QUERIES) */
+/* ========================================================= */
+
+/* Prevent horizontal overflow across all devices */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+html, body {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+/* Tablet & Medium Screens (Max-width: 900px) */
+@media (max-width: 900px) {
+    .container {
+        margin: 20px auto;
+        padding: 0 12px;
+    }
+
+    .portal-hub-grid {
+        grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    }
+
+    .bilingual-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Mobile Screens (Max-width: 640px) */
+@media (max-width: 640px) {
+    /* Header Adjustments */
+    .header {
+        padding: 20px 14px;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .header-content {
+        gap: 12px;
+        width: 100%;
+    }
+
+    .logo {
+        font-size: 19px;
+        padding: 9px 13px;
+        border-radius: 10px;
+    }
+
+    .pso-heading {
+        font-size: 18px;
+        line-height: 1.3;
+    }
+
+    .header-content p {
+        font-size: 12px;
+    }
+
+    .theme-btn {
+        align-self: flex-end;
+        padding: 6px 14px;
+        font-size: 12.5px;
+    }
+
+    /* Smooth Horizontal Swipe Navigation Bar on Mobile */
+    .nav {
+        justify-content: flex-start;
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        padding: 9px 10px;
+        gap: 8px;
+        scrollbar-width: none; /* Firefox */
+    }
+
+    .nav::-webkit-scrollbar {
+        display: none; /* Chrome/Safari */
+    }
+
+    .nav a {
+        white-space: nowrap;
+        flex-shrink: 0;
+        padding: 7px 13px;
+        font-size: 13px;
+    }
+
+    /* Live News Ticker */
+    .ticker-label {
+        padding: 7px 10px;
+        font-size: 11px;
+    }
+
+    .ticker-move {
+        font-size: 12.5px;
+    }
+
+    /* Cards & Typography */
+    .card {
+        padding: 18px 14px;
+        margin-bottom: 18px;
+        border-radius: 13px;
+    }
+
+    .card-title {
+        font-size: 17.5px;
+        padding-bottom: 10px;
+    }
+
+    /* Founder Card Mobile Center Alignment */
+    .founder-badge {
+        position: static;
+        display: inline-block;
+        margin-bottom: 12px;
+    }
+
+    .founder-content {
+        flex-direction: column;
+        text-align: center;
+        gap: 14px;
+    }
+
+    .founder-avatar {
+        width: 110px;
+        height: 110px;
+        min-width: 110px;
+    }
+
+    .founder-name {
+        font-size: 19px;
+    }
+
+    .founder-quote {
+        text-align: left;
+        font-size: 13.5px;
+    }
+
+    /* Hero Section & Full-Width Mobile Buttons */
+    .hero-card h2 {
+        font-size: 19px;
+        line-height: 1.4;
+    }
+
+    .hero-description {
+        font-size: 14px;
+    }
+
+    .hero-cta-group {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .hero-cta-group a,
+    .hero-cta-group button,
+    .btn-primary,
+    .btn-outline {
+        width: 100%;
+        text-align: center;
+        padding: 11px 16px;
+        font-size: 14px;
+    }
+
+    /* Portal Tiles & Grids */
+    .portal-hub-grid,
+    .flow-grid-4,
+    .flow-grid-3 {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .portal-tile {
+        padding: 16px;
+    }
+
+    .portal-tile h3 {
+        font-size: 16.5px;
+    }
+
+    /* Flowchart Steps */
+    .main-step {
+        min-width: unset;
+        width: 100%;
+        font-size: 14px;
+        padding: 12px 14px;
+    }
+
+    /* Career Tabs */
+    .category-tags {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .tab-btn {
+        width: 100%;
+        min-width: unset;
+        padding: 10px 14px;
+        font-size: 13.5px;
+    }
+
+    /* Quiz Controls & Filters */
+    .quiz-controls {
+        flex-direction: column;
+    }
+
+    .modern-select,
+    .quiz-btn {
+        width: 100% !important;
+        max-width: 100% !important;
+        min-width: unset;
+    }
+
+    .filter-pills {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        padding-bottom: 6px;
+        scrollbar-width: none;
+    }
+
+    .filter-pills::-webkit-scrollbar {
+        display: none;
+    }
+
+    .pill-btn {
+        white-space: nowrap;
+        flex-shrink: 0;
+        font-size: 12.5px;
+    }
+
+    /* Responsive Tables */
+    .modern-table th,
+    .modern-table td {
+        padding: 9px 10px;
+        font-size: 12.5px;
+    }
+
+    /* Contact Modal */
+    .modal-content {
+        width: 94%;
+        padding: 20px 16px;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+
+    /* Compact Floating Buttons on Mobile */
+    .whatsapp-float {
+        bottom: 14px;
+        right: 14px;
+        padding: 10px 15px;
+        font-size: 13px;
+    }
+
+    .back-to-top {
+        bottom: 64px;
+        right: 16px;
+        width: 38px;
+        height: 38px;
+        font-size: 16px;
+    }
+
+    /* Footer */
+    .modern-footer {
+        padding: 20px 12px 70px 12px; /* Extra bottom space for floating WhatsApp button */
+        font-size: 13.5px;
+    }
+}
