@@ -3,13 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Public Service Organization - Career Guidance Hub</title>
+    <title>PSO Career Hub - Public Service Organization</title>
+    <meta name="description" content="PSO Career Hub - Public Service Organization complete 360-degree career guidance platform for rural youth after 10th, Inter, Degree, B.Tech, and PG. Founder Hon'ble Mr. K. Kullayappa.">
+    <meta name="keywords" content="PSO org hub, PSO Career Hub, Public Service Organization, Kullayappa, Rural Youth Guidance, Telugu Career Guidance, Govt Jobs, Scholarships, Study Materials, IMP Questions">
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Telugu:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <!-- Header Section -->
+    <!-- Modern Header -->
     <header class="header">
         <div class="header-content">
             <div class="logo">PSO</div>
@@ -21,21 +23,32 @@
         <button id="themeToggle" class="theme-btn" onclick="toggleTheme()">🌙 Dark</button>
     </header>
 
-    <!-- Navigation Bar -->
+    <!-- Sticky Glassmorphism Navigation Bar -->
     <nav class="nav">
-        <a href="#about">About</a>
-        <a href="#founder">Founder</a>
-        <a href="#flowchart">Career Roadmap</a>
-        <a href="#guidance">Detailed Guidance</a>
-        <a href="#quiz">Career Quiz</a>
-        <a href="#news">News & Events</a>
-        <a href="javascript:void(0)" onclick="openContactModal()">Contact Us</a>
-        <a href="admin.html" style="color: #ffd700; font-weight: bold;">🔐 Admin Login</a>
+        <a href="index.html" class="active-nav">🏠 Home</a>
+        <a href="roadmap.html">🛣️ Career Roadmap</a>
+        <a href="guidance.html">🎯 Detailed Guidance</a>
+        <a href="exams.html">📝 Exams & Scholarships</a>
+        <a href="materials.html">📚 Materials & IMP Questions</a>
+        <a href="quiz.html">🧩 Career Quiz</a>
+        <a href="#news">📢 Updates</a>
+        <a href="javascript:void(0)" onclick="openContactModal()" class="nav-contact-btn">📞 Contact Us</a>
+        <a href="admin.html" class="nav-admin-btn">🔐 Admin</a>
     </nav>
+
+    <!-- Live Breaking News Ticker -->
+    <div class="news-ticker-bar">
+        <span class="ticker-label">⚡ LIVE UPDATES</span>
+        <div class="ticker-wrap">
+            <div id="liveTickerText" class="ticker-move">
+                గ్రామీణ విద్యార్థుల భవిష్యత్తుకు బంగారు బాట — PSO Career Hub కు స్వాగతం! 10th, Inter, Degree, B.Tech, PG, Study Materials, IMP Questions, Govt Jobs & Scholarships పూర్తి సమాచారం ఇక్కడ అందుబాటులో ఉంది.
+            </div>
+        </div>
+    </div>
 
     <div class="container">
         
-        <!-- Founder Section -->
+        <!-- 1. FOUNDER & CHAIRMAN SPOTLIGHT -->
         <section id="founder" class="card founder-card">
             <div class="founder-badge">👑 Founder & Chairman</div>
             <div class="founder-content">
@@ -44,293 +57,343 @@
                 </div>
                 <div class="founder-info">
                     <h3 class="founder-name">Hon'ble Mr. K. KULLAYAPPA</h3>
-                    <p class="founder-tagline">Founder & Chairman | (Public Service Organization)</p>
+                    <p class="founder-tagline">Founder & Chairman | Public Service Organization (PSO)</p>
                     <p class="founder-quote">
-                        "గ్రామీణ ప్రాంత విద్యార్థులకు సరైన దిశానిర్దేశం చేసి, వారి భవిష్యత్తుకు బలమైన పునాది వేయడమే మా ముఖ్య సంకల్పం."
+                        "గ్రామీణ ప్రాంత విద్యార్థులకు సరైన సమయానికి సరైన దిశానిర్దేశం చేసి, వారి భవిష్యత్తుకు బలమైన పునాది వేయడమే మా ముఖ్య సంకల్పం."
                     </p>
                 </div>
             </div>
         </section>
 
-        <!-- Hero / About Section -->
+        <!-- 2. HERO MISSION & VISION -->
         <section id="about" class="card hero-card">
-            <span class="hero-badge">🌟 Empowering Rural Youth</span>
+            <span class="hero-badge">🌟 Empowering Rural Youth & Students</span>
             <h2>గ్రామీణ ఆణిముత్యాలకు రక్షణ.. భావి భారతానికి మార్గదర్శనం!</h2>
             <p class="hero-description">
-                గ్రామీణ ప్రాంతాల్లోని విద్యార్థుల్లో దాగిఉన్న <strong>నైపుణ్యాలను (Skills) వెలికితీయడం</strong>, మిడిల్ క్లాస్ యూత్‌కి సరైన <strong>Life Goals</strong> నిర్దేశించి ఉన్నత స్థాయికి చేర్చడమే మన <strong>Public Service Organization (PSO)</strong> ముఖ్య ఆశయం.
+                గ్రామీణ మరియు మధ్యతరగతి కుటుంబాల విద్యార్థుల్లో దాగి ఉన్న <strong>ప్రతిభను & నైపుణ్యాలను (Skills) వెలికితీయడం</strong>, 10వ తరగతి నుండి డిగ్రీ/PG వరకు సరైన కోర్సులను ఎంచుకునేలా అవగాహన కల్పించి ఉన్నత ఉద్యోగ శిఖరాలకు చేర్చడమే మన <strong>Public Service Organization (PSO)</strong> ప్రధాన లక్ష్యం.
             </p>
-        </section>
-
-        <!-- Live Statistics Counter -->
-        <section class="card counter-card">
-            <div class="counter-grid">
-                <div class="counter-item">
-                    <h2>1000+</h2>
-                    <p>Students Guided</p>
-                </div>
-                <div class="counter-item">
-                    <h2>50+</h2>
-                    <p>Career Pathways</p>
-                </div>
-                <div class="counter-item">
-                    <h2>100+</h2>
-                    <p>Govt Notifications</p>
-                </div>
+            <div class="hero-cta-group">
+                <a href="guidance.html" class="btn-primary">A-to-Z కోర్సుల గైడ్ చదవండి 🎓</a>
+                <a href="materials.html" class="btn-outline" style="text-decoration: none;">📚 IMP Questions & Notes</a>
+                <a href="quiz.html" class="btn-outline" style="text-decoration: none;">🧩 కెరీర్ క్విజ్ రాయండి</a>
             </div>
         </section>
 
-        <!-- Visual Flowchart Section -->
-        <section id="flowchart" class="card">
-            <h2 class="card-title">🛣️ Career Flowchart Overview (కెరీర్ రోడ్‌మ్యాప్)</h2>
-            <div class="flowchart-box">
-                <div class="flow-step main-step">10th Class (పదో తరగతి)</div>
-                <div class="flow-arrow">⬇️</div>
-                <div class="flow-grid-4">
-                    <div class="flow-subcard">
-                        <h4>Intermediate</h4>
-                        <p>(2 Years)</p>
-                        <small>MPC, BiPC, CEC, MEC, HEC</small>
-                    </div>
-                    <div class="flow-subcard">
-                        <h4>Polytechnic</h4>
-                        <p>(3 Years)</p>
-                        <small>Civil, Mech, EEE, ECE, CSE</small>
-                    </div>
-                    <div class="flow-subcard">
-                        <h4>ITI Courses</h4>
-                        <p>(1-2 Years)</p>
-                        <small>Electrician, Fitter, Welder</small>
-                    </div>
-                    <div class="flow-subcard">
-                        <h4>Paramedical</h4>
-                        <p>(2-3 Years)</p>
-                        <small>DMLT, Dialysis, Ophthalmic</small>
-                    </div>
-                </div>
-                <div class="flow-arrow">⬇️</div>
-                <div class="flow-step main-step">Degree / B.Tech / Professional Courses</div>
-                <div class="flow-arrow">⬇️</div>
-                <div class="flow-grid-3">
-                    <div class="flow-subcard job-sub">
-                        <h4>IT & Private Jobs</h4>
-                        <small>Software, Data Analytics, AWS</small>
-                    </div>
-                    <div class="flow-subcard job-sub">
-                        <h4>Govt Jobs</h4>
-                        <small>SSC CGL, Banking, UPSC, Groups</small>
-                    </div>
-                    <div class="flow-subcard job-sub">
-                        <h4>Higher Education</h4>
-                        <small>M.Tech, MBA, MS Abroad, B.Ed</small>
-                    </div>
-                </div>
+        <!-- 3. 5 DEDICATED DEEP-DIVE PORTALS -->
+        <section class="card">
+            <h2 class="card-title">🚀 Complete Career & Education Portals (ప్రత్యేక విభాగాలు)</h2>
+            <p style="margin-bottom: 18px; opacity: 0.85;">ప్రతీ కార్డుపై క్లిక్ చేస్తే ఆ విభాగానికి సంబంధించిన పూర్తి లోతైన సమాచారంతో ప్రత్యేక పేజీ ఓపెన్ అవుతుంది:</p>
+            
+            <div class="portal-hub-grid">
+                <a href="roadmap.html" class="portal-tile tile-blue">
+                    <div class="tile-icon">🛣️</div>
+                    <h3>1. A-to-Z Career Roadmap</h3>
+                    <p>10th తరగతి నుండి ఇంటర్, పాలిటెక్నిక్, డిగ్రీ, B.Tech, PG మరియు ప్రభుత్వ/ప్రైవేట్ ఉద్యోగాల వరకు పూర్తి రూట్ మ్యాప్.</p>
+                    <span class="tile-cta">పూర్తి రోడ్‌మ్యాప్ చూడండి ➡️</span>
+                </a>
+
+                <a href="guidance.html" class="portal-tile tile-green">
+                    <div class="tile-icon">🎯</div>
+                    <h3>2. Detailed Course Encyclopedia</h3>
+                    <p>After 10th, MPC, BiPC, CEC, MEC, HEC, Polytechnic, ITI, B.Tech, B.Sc, B.Com, BA, PG కోర్సుల పూర్తి లోతైన విశ్లేషణ.</p>
+                    <span class="tile-cta">కోర్సుల వివరాలు చదవండి ➡️</span>
+                </a>
+
+                <a href="exams.html" class="portal-tile tile-amber">
+                    <div class="tile-icon">📝</div>
+                    <h3>3. Exams & Scholarships Hub</h3>
+                    <p>POLYCET, EAPCET, ECET, ICET, JEE, NEET, CUET పరీక్షలు మరియు NSP / State Fee Reimbursement స్కాలర్‌షిప్ వివరాలు.</p>
+                    <span class="tile-cta">పరీక్షలు & స్కాలర్‌షిప్స్ ➡️</span>
+                </a>
+
+                <a href="materials.html" class="portal-tile tile-blue">
+                    <div class="tile-icon">📚</div>
+                    <h3>4. Study Materials & IMP Questions</h3>
+                    <p>10th, Inter, Polytechnic, Degree, B.Tech & Govt Exams ముఖ్య ప్రశ్నలు (IMP Questions), PDF నోట్స్ మరియు గత ప్రశ్నాపత్రాలు.</p>
+                    <span class="tile-cta">మెటీరియల్స్ డౌన్‌లోడ్ చేయండి ➡️</span>
+                </a>
+
+                <a href="quiz.html" class="portal-tile tile-purple">
+                    <div class="tile-icon">🧩</div>
+                    <h3>5. Smart Career Assessment</h3>
+                    <p>మీ ప్రస్తుత చదువు, ఇష్టమైన సబ్జెక్ట్ మరియు జీవిత లక్ష్యం ఆధారంగా మీకు సరిపోయే కోర్సు & ఉద్యోగ మార్గాన్ని తెలుసుకోండి.</p>
+                    <span class="tile-cta">క్విజ్ ప్రారంభించండి ➡️</span>
+                </a>
             </div>
         </section>
 
-        <!-- Detailed Career Guidance Pathways -->
-        <section id="guidance" class="card">
-            <h2 class="card-title">🎯 Detailed Career Guidance Pathways (A to Z Guide)</h2>
-            <p class="subtitle">10వ తరగతి, ఇంటర్ మరియు డిగ్రీ కోర్సుల పూర్తి వివరాలు (తెలుగు & English):</p>
-
-            <div class="category-tags career-tabs">
-                <button class="tag-btn tab-btn active" onclick="openCareerTab('after10th')">🏫 10th Class Pathways</button>
-                <button class="tag-btn tab-btn" onclick="openCareerTab('after12th')">🎓 Intermediate Streams</button>
-                <button class="tag-btn tab-btn" onclick="openCareerTab('graduation')">💼 Degree Streams & Branches</button>
-            </div>
-
-            <!-- Tab 1: 10th Class Options -->
-            <div id="after10th" class="career-tab-content" style="display: block;">
-                <h3 class="tab-heading">🏫 10వ తరగతి తర్వాత ఉండే ప్రధాన మార్గాలు (Options After 10th)</h3>
-                <div class="bilingual-grid">
-                    <div class="bilingual-card">
-                        <span class="stream-badge btech-badge">Intermediate (2 Years)</span>
-                        <h3>1. ఇంటర్మీడియట్ (Higher Secondary)</h3>
-                        <div class="lang-section telugu">
-                            <strong>తెలుగు:</strong> సైన్స్, కామర్స్ లేదా ఆర్ట్స్ గ్రూపులు ఎంచుకుని డిగ్రీ లేదా ప్రొఫెషనల్ కోర్సులకు పునాది వేసే మార్గం.
-                        </div>
-                        <div class="lang-section english">
-                            <strong>English:</strong> Standard 2-year academic foundation for higher university degrees and professional streams.
-                        </div>
-                    </div>
-
-                    <div class="bilingual-card">
-                        <span class="stream-badge bsc-badge">Polytechnic (3 Years)</span>
-                        <h3>2. పాలిటెక్నిక్ డిప్లొమా (Engineering Diploma)</h3>
-                        <div class="lang-section telugu">
-                            <strong>తెలుగు:</strong> Civil, Mech, EEE, ECE, CSE బ్రాంచ్‌లలో ప్రాక్టికల్ ఇంజనీరింగ్. ECET ద్వారా నేరుగా B.Tech 2nd Year లో చేరవచ్చు.
-                        </div>
-                        <div class="lang-section english">
-                            <strong>English:</strong> Practical diploma engineering. Offers lateral entry into the 2nd year of B.Tech via ECET.
-                        </div>
-                    </div>
-
-                    <div class="bilingual-card">
-                        <span class="stream-badge bcom-badge">ITI Courses (1-2 Years)</span>
-                        <h3>3. ITI - Industrial Training Institute</h3>
-                        <div class="lang-section telugu">
-                            <strong>తెలుగు:</strong> Electrician, Fitter, Welder వృత్తి విద్యలు. రైల్వేలు (RRB ALP), పరిశ్రమలలో త్వరిత ఉద్యోగాలు లభిస్తాయి.
-                        </div>
-                        <div class="lang-section english">
-                            <strong>English:</strong> Vocational technical training providing trade skills for quick employment in railways and industries.
-                        </div>
-                    </div>
+        <!-- 4. STAGE-BY-STAGE COMPLETE EDUCATION STRUCTURE -->
+        <section class="card">
+            <h2 class="card-title">🧭 విద్యా దశల వారీగా సమగ్ర అవగాహన (Complete Education Stages)</h2>
+            <div class="bilingual-grid">
+                <div class="deep-detail-box" style="margin-bottom:0;">
+                    <span class="stream-badge btech-badge">STAGE 1 • AFTER 10TH (SSC)</span>
+                    <h3>🏫 10వ తరగతి తర్వాత ఉండే 6 మార్గాలు</h3>
+                    <ul>
+                        <li><strong>Intermediate (2 Yrs):</strong> MPC, BiPC, CEC, MEC, HEC గ్రూపులు.</li>
+                        <li><strong>Polytechnic Diploma (3 Yrs):</strong> POLYCET ద్వారా CSE, ECE, EEE, Mech, Civil.</li>
+                        <li><strong>IIIT RGUKT (6 Yrs):</strong> 10th మార్కుల మెరిట్‌తో నేరుగా PUC + B.Tech.</li>
+                        <li><strong>ITI Trades (1-2 Yrs):</strong> Electrician, Fitter, Welder, COPA (రైల్వే ALP & విద్యుత్ శాఖ).</li>
+                        <li><strong>Paramedical (2 Yrs):</strong> DMLT, Dialysis, X-Ray, Ophthalmic టెక్నీషియన్.</li>
+                    </ul>
+                    <a href="guidance.html" style="color:var(--primary-color); font-weight:700; text-decoration:none; font-size:13.5px;">పూర్తి వివరాలు చదవండి ➡️</a>
                 </div>
-            </div>
 
-            <!-- Tab 2: Intermediate Groups -->
-            <div id="after12th" class="career-tab-content" style="display: none;">
-                <h3 class="tab-heading">📚 ఇంటర్మీడియట్ గ్రూపుల విశ్లేషణ (Intermediate Groups In-Depth)</h3>
-                <div class="bilingual-grid">
-                    <div class="bilingual-card">
-                        <span class="stream-badge btech-badge">MPC Group</span>
-                        <h3>1. MPC (Mathematics, Physics, Chemistry)</h3>
-                        <div class="lang-section telugu">
-                            <strong>తెలుగు:</strong> ఇంజనీరింగ్ (B.Tech), ఐటీ, డిఫెన్స్ (UPSC NDA), మరియు మ్యాథ్స్ రీసెర్చ్ రంగాలు.
-                        </div>
-                        <div class="lang-section english">
-                            <strong>English:</strong> Gateway to B.Tech, IT, NDA Defence, Architecture, and Data Analytics.
-                        </div>
-                    </div>
-
-                    <div class="bilingual-card">
-                        <span class="stream-badge bsc-badge">BiPC Group</span>
-                        <h3>2. BiPC (Biology, Physics, Chemistry)</h3>
-                        <div class="lang-section telugu">
-                            <strong>తెలుగు:</strong> వైద్యం (MBBS/BDS), ఫార్మా (B.Pharm), నర్సింగ్, అగ్రికల్చర్, వెటర్నరీ సైన్స్.
-                        </div>
-                        <div class="lang-section english">
-                            <strong>English:</strong> Foundation for Medicine (MBBS), Pharmacy, Nursing, and Agriculture.
-                        </div>
-                    </div>
-
-                    <div class="bilingual-card">
-                        <span class="stream-badge bcom-badge">CEC & MEC Group</span>
-                        <h3>3. CEC & MEC (Commerce, Economics, Civics / Maths)</h3>
-                        <div class="lang-section telugu">
-                            <strong>తెలుగు:</strong> బ్యాంకింగ్, అకౌంటింగ్, బిజినెస్, CA, CMA, CS రంగాలకు ఉత్తమం.
-                        </div>
-                        <div class="lang-section english">
-                            <strong>English:</strong> Designed for Corporate Finance, Accounting, CA, CS, and Banking careers.
-                        </div>
-                    </div>
-
-                    <div class="bilingual-card">
-                        <span class="stream-badge ba-badge">HEC Group</span>
-                        <h3>4. HEC (History, Economics, Civics)</h3>
-                        <div class="lang-section telugu">
-                            <strong>తెలుగు:</strong> UPSC Civil Services (IAS/IPS), APPSC/TSPSC Groups, లా (Law), జర్నలిజం.
-                        </div>
-                        <div class="lang-section english">
-                            <strong>English:</strong> Preparation ground for Civil Services (UPSC), State Public Exams, and Law.
-                        </div>
-                    </div>
+                <div class="deep-detail-box" style="margin-bottom:0;">
+                    <span class="stream-badge bsc-badge">STAGE 2 • INTERMEDIATE (10+2)</span>
+                    <h3>📖 ఇంటర్మీడియట్ గ్రూపుల లోతైన ఎంపిక</h3>
+                    <ul>
+                        <li><strong>MPC:</strong> B.Tech, B.Arch, Data Science, NDA Defence, B.Sc.</li>
+                        <li><strong>BiPC:</strong> MBBS, BDS, BAMS, B.Pharm, Pharm.D, B.Sc Agriculture, Nursing.</li>
+                        <li><strong>CEC & MEC:</strong> B.Com, BBA, CA, CMA, CS, Banking & Finance.</li>
+                        <li><strong>HEC:</strong> Civil Services (IAS/IPS), Groups, BA LLB (Law), Journalism.</li>
+                    </ul>
+                    <a href="guidance.html" style="color:var(--primary-color); font-weight:700; text-decoration:none; font-size:13.5px;">గ్రూపుల విశ్లేషణ చూడండి ➡️</a>
                 </div>
-            </div>
 
-            <!-- Tab 3: Degree Streams & Branches -->
-            <div id="graduation" class="career-tab-content" style="display: none;">
-                <h3 class="tab-heading">🎓 డిగ్రీ కోర్సులు - బ్రాంచ్‌లు & విశ్లేషణ (Degree Streams & Branches)</h3>
-                <div class="bilingual-grid">
-                    <div class="bilingual-card">
-                        <span class="stream-badge btech-badge">B.Tech / B.E (4 Years)</span>
-                        <h3>1. B.Tech Branches (CSE, ECE, Civil, Mech)</h3>
-                        <div class="lang-section telugu">
-                            <strong>తెలుగు:</strong> CSE (కోడింగ్/AI), ECE (చిప్స్/టెలికామ్), Civil & Mechanical (ఇన్ఫ్రా/యంత్రాలు).
-                        </div>
-                        <div class="lang-section english">
-                            <strong>English:</strong> Technical streams in Computer Science, Electronics, Civil, and Mechanical Engineering.
-                        </div>
-                    </div>
+                <div class="deep-detail-box" style="margin-bottom:0;">
+                    <span class="stream-badge bcom-badge">STAGE 3 • UNDER-GRADUATE (UG)</span>
+                    <h3>🎓 అండర్ గ్రాడ్యుయేట్ (Degree & B.Tech)</h3>
+                    <ul>
+                        <li><strong>B.Tech / B.E (4 Yrs):</strong> CSE, AI & ML, Data Science, Cyber Security, ECE, EEE, Mech, Civil.</li>
+                        <li><strong>BCA & B.Sc (3-4 Yrs):</strong> Computer Science, Biotechnology, Microbiology, Chemistry, Agriculture.</li>
+                        <li><strong>B.Com & BBA (3-4 Yrs):</strong> Accounting, Tally, GST, Corporate Management.</li>
+                        <li><strong>B.A & Law (3-5 Yrs):</strong> Public Administration, Political Science, BA LLB.</li>
+                    </ul>
+                    <a href="guidance.html" style="color:var(--primary-color); font-weight:700; text-decoration:none; font-size:13.5px;">UG కోర్సుల వివరాలు ➡️</a>
+                </div>
 
-                    <div class="bilingual-card">
-                        <span class="stream-badge bsc-badge">B.Sc Stream (3-4 Years)</span>
-                        <h3>2. B.Sc Branches (MPCS, BZC, Agriculture)</h3>
-                        <div class="lang-section telugu">
-                            <strong>తెలుగు:</strong> MPCS (ఐటీ నాన్-ఇంజనీరింగ్), BZC (లైఫ్ సైన్సెస్), B.Sc అగ్రికల్చర్.
-                        </div>
-                        <div class="lang-section english">
-                            <strong>English:</strong> Science programs including Computer Science, Biological Sciences, and Agriculture.
-                        </div>
-                    </div>
-
-                    <div class="bilingual-card">
-                        <span class="stream-badge bcom-badge">B.Com Stream (3-4 Years)</span>
-                        <h3>3. B.Com Branches (Computers & General)</h3>
-                        <div class="lang-section telugu">
-                            <strong>తెలుగు:</strong> B.Com Computers (Tally/SQL), B.Com General (CA/CMA ప్రిపరేషన్).
-                        </div>
-                        <div class="lang-section english">
-                            <strong>English:</strong> Accounting and commercial management streams with IT or finance specialization.
-                        </div>
-                    </div>
-
-                    <div class="bilingual-card">
-                        <span class="stream-badge ba-badge">B.A, BBA & BCA Stream</span>
-                        <h3>4. B.A (HEP), BCA & BBA</h3>
-                        <div class="lang-section telugu">
-                            <strong>తెలుగు:</strong> B.A (పబ్లిక్ ఎగ్జామ్స్), BCA (కంప్యూటర్ అప్లికేషన్స్), BBA (మేనేజ్‌మెంట్).
-                        </div>
-                        <div class="lang-section english">
-                            <strong>English:</strong> Arts, Computer Applications, and Business Administration programs.
-                        </div>
-                    </div>
+                <div class="deep-detail-box" style="margin-bottom:0;">
+                    <span class="stream-badge ba-badge">STAGE 4 • AFTER GRADUATION (PG & JOBS)</span>
+                    <h3>🚀 డిగ్రీ తర్వాత PG & ఉన్నత ఉద్యోగాలు</h3>
+                    <ul>
+                        <li><strong>Central Govt:</strong> UPSC (IAS/IPS), SSC CGL, IBPS/SBI Bank PO, RRB NTPC, CDS.</li>
+                        <li><strong>State Govt:</strong> APPSC/TSPSC Group-1, Group-2, Police SI, Constable, DSC Teacher (B.Ed).</li>
+                        <li><strong>Post-Graduation (PG):</strong> M.Tech (GATE - ₹12,400 స్టైపెండ్), MBA (CAT/ICET), MCA, M.Sc, UGC NET.</li>
+                        <li><strong>IT & Corporate:</strong> Full Stack Development, AI/Cloud Engineer, Data Analyst.</li>
+                    </ul>
+                    <a href="roadmap.html" style="color:var(--primary-color); font-weight:700; text-decoration:none; font-size:13.5px;">జాబ్ రోడ్‌మ్యాప్ చూడండి ➡️</a>
                 </div>
             </div>
         </section>
 
-        <!-- Interactive Career Choice Quiz -->
-        <section id="quiz" class="card">
-            <h2 class="card-title">🧩 Career Decision Helper (ఏ కోర్సు ఎంచుకోవాలి?)</h2>
-            <p>మీ ఆసక్తిని బట్టి సరైన గ్రూప్‌ను సూచిస్తాం:</p>
-            <div style="margin-top: 15px;">
-                <label><strong>మీకు అత్యంత ఆసక్తి ఉన్న రంగం:</strong></label>
-                <select id="interestSelect" style="width: 100%; padding: 10px; margin: 10px 0; border-radius: 6px; border: 1px solid #ccc;">
-                    <option value="">-- ఎంచుకోండి --</option>
-                    <option value="math">Mathematics, Coding & Technology</option>
-                    <option value="bio">Biology, Medicine & Healthcare</option>
-                    <option value="commerce">Business, Accounting & Finance</option>
-                    <option value="arts">Civil Services, History & Law</option>
-                </select>
-                <button onclick="checkCareerSuggestion()" class="submit-btn" style="width: auto; padding: 10px 20px;">సలహా పొందండి 💡</button>
-                <div id="quizResult" style="margin-top: 15px; font-weight: bold; color: #0056b3;"></div>
+        <!-- 5. COURSE & SALARY MATRIX -->
+        <section class="card">
+            <h2 class="card-title">📊 ముఖ్య కోర్సులు, కాలపరిమితి & ప్రారంభ జీతాల పట్టిక (Course & Salary Matrix)</h2>
+            <div class="table-responsive">
+                <table class="modern-table">
+                    <thead>
+                        <tr>
+                            <th>కోర్సు పేరు (Course)</th>
+                            <th>అర్హత & కాలపరిమితి</th>
+                            <th>ప్రధాన ఉద్యోగ అవకాశాలు (Job Roles)</th>
+                            <th>సగటు ప్రారంభ జీతం (Approx.)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>ITI (Electrician / Fitter)</strong></td>
+                            <td>10th Pass (1 - 2 Years)</td>
+                            <td>Railway ALP & Technician, Electricity Lineman, Industrial Technician</td>
+                            <td>₹18,000 – ₹35,000 / నెల</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Polytechnic Diploma</strong></td>
+                            <td>10th Pass (3 Years)</td>
+                            <td>Junior Engineer (RRB JE, SSC JE, TRANSCO), Supervisor</td>
+                            <td>₹25,000 – ₹50,000 / నెల</td>
+                        </tr>
+                        <tr>
+                            <td><strong>B.Tech (CSE / AI / ECE)</strong></td>
+                            <td>Inter MPC / Diploma (4 Years)</td>
+                            <td>Software Developer, AI Engineer, Data Scientist, VLSI Engineer</td>
+                            <td>₹35,000 – ₹1,20,000+ / నెల</td>
+                        </tr>
+                        <tr>
+                            <td><strong>BCA / B.Sc Computers</strong></td>
+                            <td>Inter Any / MPC (3 - 4 Years)</td>
+                            <td>Web Developer, App Developer, Cloud Support, IT Analyst</td>
+                            <td>₹25,000 – ₹60,000 / నెల</td>
+                        </tr>
+                        <tr>
+                            <td><strong>MBBS / BDS / B.Pharm</strong></td>
+                            <td>Inter BiPC (4 - 5.5 Years)</td>
+                            <td>Civil Assistant Surgeon, Doctor, Pharmacist, Clinical Researcher</td>
+                            <td>₹40,000 – ₹1,00,000+ / నెల</td>
+                        </tr>
+                        <tr>
+                            <td><strong>B.Sc Agriculture</strong></td>
+                            <td>Inter BiPC (4 Years)</td>
+                            <td>Agriculture Officer (AO), Bank AFO, Seed & Agri Tech Specialist</td>
+                            <td>₹35,000 – ₹65,000 / నెల</td>
+                        </tr>
+                        <tr>
+                            <td><strong>B.Com / CA / CMA</strong></td>
+                            <td>Inter CEC/MEC (3 - 5 Years)</td>
+                            <td>Chartered Accountant, Auditor, Tax Consultant, Bank PO</td>
+                            <td>₹30,000 – ₹90,000+ / నెల</td>
+                        </tr>
+                        <tr>
+                            <td><strong>B.A + UPSC / Groups</strong></td>
+                            <td>Inter Any (3 Years + Prep)</td>
+                            <td>IAS, IPS, Deputy Collector, DSP, MRO, Police SI, DSC Teacher</td>
+                            <td>₹50,000 – ₹1,10,000+ / నెల</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </section>
 
-        <!-- Posts Display Section & Search -->
+        <!-- 6. GOVT JOBS DIRECTORY BY QUALIFICATION -->
+        <section id="govt-calendar" class="card">
+            <h2 class="card-title">🏛️ విద్యార్హతల వారీగా కేంద్ర & రాష్ట్ర ప్రభుత్వ ఉద్యోగాలు (Govt Jobs Directory)</h2>
+            <div class="bilingual-grid">
+                <div class="deep-detail-box" style="margin-bottom:0;">
+                    <span class="stream-badge btech-badge">10TH PASS GOVT JOBS</span>
+                    <h3>1. పదో తరగతి (SSC) అర్హతతో ఉద్యోగాలు</h3>
+                    <ul>
+                        <li><strong>SSC MTS & Havaldar:</strong> కేంద్ర ప్రభుత్వ కార్యాలయాలలో మల్టీ-టాస్కింగ్ స్టాఫ్.</li>
+                        <li><strong>India Post GDS:</strong> గ్రామీణ డాక్ సేవక్ (10th మార్కుల మెరిట్ ద్వారా నేరుగా ఎంపిక).</li>
+                        <li><strong>Defence & Paramilitary:</strong> Indian Army Agniveer, Navy MR, SSC GD Constable.</li>
+                        <li><strong>Railways:</strong> RRB Group-D (ట్రాక్ మెయింటైనర్, పాయింట్స్‌మెన్).</li>
+                    </ul>
+                </div>
+
+                <div class="deep-detail-box" style="margin-bottom:0;">
+                    <span class="stream-badge bsc-badge">12TH / ITI / DIPLOMA JOBS</span>
+                    <h3>2. ఇంటర్ / ITI / డిప్లొమా అర్హతతో ఉద్యోగాలు</h3>
+                    <ul>
+                        <li><strong>UPSC NDA:</strong> ఇంటర్ MPC తో ఆర్మీ, నేవీ, ఎయిర్‌ఫోర్స్ ఆఫీసర్ ఉద్యోగాలు.</li>
+                        <li><strong>SSC CHSL & Stenographer:</strong> కేంద్ర ప్రభుత్వ విభాగాలలో LDC, DEO, PA/SA.</li>
+                        <li><strong>Railways (RRB):</strong> Assistant Loco Pilot (ALP - ITI), Technician, NTPC, JE (Diploma).</li>
+                        <li><strong>State Police & Fire:</strong> పోలీస్ కానిస్టేబుల్, ఫైర్‌మెన్, జైలు వార్డెన్.</li>
+                    </ul>
+                </div>
+
+                <div class="deep-detail-box" style="margin-bottom:0;">
+                    <span class="stream-badge bcom-badge">ANY DEGREE (GRADUATE) JOBS</span>
+                    <h3>3. ఏదైనా డిగ్రీ అర్హతతో ఉన్నత ఉద్యోగాలు</h3>
+                    <ul>
+                        <li><strong>UPSC Civil Services:</strong> IAS, IPS, IFS, IRS.</li>
+                        <li><strong>SSC CGL:</strong> Income Tax Inspector, CBI SI, GST Inspector, ASO.</li>
+                        <li><strong>Banking & Insurance:</strong> IBPS PO/Clerk, SBI PO/Clerk, RBI Grade-B, LIC AAO.</li>
+                        <li><strong>APPSC / TSPSC:</strong> Group-1, Group-2, Group-3, Group-4, Police SI, Sachivalayam.</li>
+                    </ul>
+                </div>
+
+                <div class="deep-detail-box" style="margin-bottom:0;">
+                    <span class="stream-badge ba-badge">SPECIALIZED DEGREE JOBS</span>
+                    <h3>4. ప్రత్యేక డిగ్రీ (B.Tech / B.Ed / Agri / Law)</h3>
+                    <ul>
+                        <li><strong>Engineering (B.Tech):</strong> ISRO, DRDO, GATE PSUs (ONGC, NTPC, BHEL), State AEE/AE.</li>
+                        <li><strong>Teaching (B.Ed / D.Ed):</strong> TET & DSC ద్వారా ప్రభుత్వ పాఠశాల ఉపాధ్యాయులు (SGT / SA).</li>
+                        <li><strong>Agriculture & Medical:</strong> AEO, AO, IBPS Agri Field Officer, Civil Assistant Surgeon.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- 7. FREE GOVT HOSTELS & COACHING -->
+        <section class="card">
+            <h2 class="card-title">🏫 పేద & గ్రామీణ విద్యార్థులకు ఉచిత గురుకులాలు & ఉచిత కోచింగ్ పథకాలు</h2>
+            <div class="bilingual-grid">
+                <div class="deep-detail-box" style="margin-bottom:0;">
+                    <span class="stream-badge bsc-badge">FREE RESIDENTIAL SCHOOLS & COLLEGES</span>
+                    <h3>1. గురుకుల విద్యాలయాలు (Gurukulam Institutions)</h3>
+                    <p>AP & Telangana Social Welfare, Tribal Welfare, BC Welfare మరియు Minority గురుకుల పాఠశాలలు & జూనియర్ కాలేజీలలో 5వ తరగతి నుండి ఇంటర్మీడియట్ వరకు <strong>ఉచిత విద్య, ఉచిత వసతి (Hostel), పౌష్టికాహారం, పుస్తకాలు మరియు IIT-JEE / NEET ఉచిత కోచింగ్</strong> అందిస్తారు.</p>
+                </div>
+
+                <div class="deep-detail-box" style="margin-bottom:0;">
+                    <span class="stream-badge btech-badge">FREE CIVIL SERVICES & GOVT COACHING</span>
+                    <h3>2. ప్రభుత్వ ఉచిత పోటీ పరీక్షల శిక్షణ (Study Circles)</h3>
+                    <p>డిగ్రీ పూర్తయిన SC, ST, BC, Minority & EWS విద్యార్థులకు <strong>Dr. B.R. Ambedkar Study Circles, BC Study Circles, Tribal Study Circles</strong> ద్వారా UPSC (IAS/IPS), APPSC/TSPSC Groups, SSC, Banking మరియు SI/Constable పరీక్షలకు స్టైపెండ్‌తో కూడిన ఉచిత శిక్షణ ఇస్తారు.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 8. LATEST NEWS & NOTIFICATIONS (FIREBASE LIVE) -->
         <section id="news" class="card posts-section">
-            <h2 class="card-title">📢 తాజా వార్తలు & నోటిఫికేషన్‌లు (Latest Updates)</h2>
-            <input type="text" id="searchInput" placeholder="🔍 ఇక్కడ వెతకండి (Search posts)..." onkeyup="filterPosts()" style="width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box;">
+            <div class="posts-header-flex">
+                <h2 class="card-title" style="border:none; margin:0; padding:0;">📢 తాజా వార్తలు & నోటిఫికేషన్‌లు (Latest Updates)</h2>
+                <button id="savedToggleBtn" class="saved-filter-btn" onclick="toggleSavedView()">🔖 Saved (<span id="savedCount">0</span>)</button>
+            </div>
+            <hr class="section-divider">
+
+            <div class="filter-pills">
+                <button class="pill-btn active" onclick="setCategoryFilter('ALL', this)">All Updates</button>
+                <button class="pill-btn" onclick="setCategoryFilter('Govt Jobs', this)">🏛️ Govt Jobs</button>
+                <button class="pill-btn" onclick="setCategoryFilter('Notifications', this)">📣 Notifications</button>
+                <button class="pill-btn" onclick="setCategoryFilter('Scholarships', this)">🎓 Scholarships</button>
+                <button class="pill-btn" onclick="setCategoryFilter('General Updates', this)">📰 General</button>
+            </div>
+
+            <input type="text" id="searchInput" class="modern-search" placeholder="🔍 ఉద్యోగం, కోర్సు లేదా నోటిఫికేషన్ పేరుతో వెతకండి..." onkeyup="filterPosts()">
 
             <div id="postsContainer">
                 <p style="text-align:center;">డేటా లోడ్ అవుతోంది...</p>
             </div>
         </section>
 
+        <!-- 9. STUDENT FAQS -->
+        <section class="card">
+            <h2 class="card-title">❓ విద్యార్థులు & తల్లిదండ్రులు తరచుగా అడిగే ప్రశ్నలు (FAQs)</h2>
+            
+            <div class="deep-detail-box">
+                <h3>1. తక్కువ ఖర్చుతో త్వరగా ఉద్యోగం పొందాలంటే 10th తర్వాత ఏ కోర్సు మంచిది?</h3>
+                <p><strong>సమాధానం:</strong> 10th తర్వాత <strong>ITI (Electrician / Fitter - 2 Yrs)</strong> లేదా <strong>Polytechnic Diploma (3 Yrs - POLYCET ద్వారా)</strong> లేదా <strong>Paramedical (DMLT - 2 Yrs)</strong> కోర్సులు చేస్తే తక్కువ ఖర్చుతో ప్రభుత్వ (Railways, Electricity, Hospitals) మరియు ప్రైవేట్ రంగాలలో త్వరగా ఉద్యోగం పొందవచ్చు.</p>
+            </div>
+
+            <div class="deep-detail-box">
+                <h3>2. B.Tech చేయడానికి ఆర్థిక స్థోమత లేకపోతే సాఫ్ట్‌వేర్ ఇంజనీర్ కాలేమా?</h3>
+                <p><strong>సమాధానం:</strong> ఖచ్చితంగా కావచ్చు! ఇంటర్ తర్వాత తక్కువ ఫీజుతో <strong>BCA</strong> లేదా <strong>B.Sc (Computer Science / Data Science)</strong> చేసి, సమాంతరంగా Python, Java, Web Development నేర్చుకుంటే TCS, Infosys, Wipro వంటి MNC కంపెనీలలో సాఫ్ట్‌వేర్ ఇంజనీర్‌గా చేరవచ్చు.</p>
+            </div>
+
+            <div class="deep-detail-box" style="margin-bottom: 0;">
+                <h3>3. నాకు వ్యక్తిగత కెరీర్ సందేహం ఉంటే PSO టీమ్‌ను ఎలా సంప్రదించాలి?</h3>
+                <p><strong>సమాధానం:</strong> పైన ఉన్న <strong>"📞 Contact Us"</strong> బటన్ లేదా కింద కుడివైపున ఉన్న <strong>"💬 Career Helpdesk"</strong> బటన్ క్లిక్ చేసి మీ వివరాలు పంపితే, మా PSO టీమ్ నేరుగా మీకు WhatsApp/ఫోన్ ద్వారా ఉచిత గైడెన్స్ అందిస్తుంది.</p>
+            </div>
+        </section>
+
     </div>
 
+    <!-- Modern Footer -->
+    <footer class="modern-footer">
+        <p><strong>PSO - Public Service Organization</strong> | Empowering Rural Youth & Students</p>
+        <p class="footer-sub">Founded by Hon'ble Mr. K. KULLAYAPPA | 📞 Helpdesk: +91 9392962003</p>
+        <div style="margin-top: 10px; font-size: 13px;">
+            <a href="index.html" style="color:#93c5fd; margin: 0 8px;">Home</a> |
+            <a href="roadmap.html" style="color:#93c5fd; margin: 0 8px;">Career Roadmap</a> |
+            <a href="guidance.html" style="color:#93c5fd; margin: 0 8px;">Detailed Guidance</a> |
+            <a href="exams.html" style="color:#93c5fd; margin: 0 8px;">Exams & Scholarships</a> |
+            <a href="materials.html" style="color:#93c5fd; margin: 0 8px;">Materials & IMP</a> |
+            <a href="quiz.html" style="color:#93c5fd; margin: 0 8px;">Career Quiz</a>
+        </div>
+    </footer>
+
     <!-- Contact Us Popup Modal -->
-    <div id="contactModal" class="modal-overlay">
+    <div id="contactModal" class="modal-overlay" onclick="outsideModalClick(event)">
         <div class="modal-content">
-            <span class="modal-close" onclick="closeContactModal()">&times;</span>
-            <h2 class="card-title" style="margin-bottom: 10px;">📞 Contact PSO Team</h2>
-            <p style="font-size: 14px; opacity: 0.8; margin-bottom: 15px;">మీ వివరాలు నమోదు చేయండి. నేరుగా WhatsApp ద్వారా మా టీమ్‌ను సంప్రదించవచ్చు:</p>
-            
+            <span class="modal-close" onclick="closeContactModal()">×</span>
+            <h2 class="card-title" style="margin-bottom: 8px;">📞 Contact PSO Team</h2>
+            <p style="font-size: 14px; opacity: 0.85; margin-bottom: 15px;">మీ వివరాలు నమోదు చేయండి. నేరుగా WhatsApp ద్వారా మా టీమ్‌కు చేరుతుంది:</p>
             <form id="contactForm">
-                <input type="text" id="contactName" placeholder="మీ పేరు (Full Name)" required style="width: 100%; padding: 10px; margin-bottom: 12px; border: 1px solid var(--border-color); border-radius: 6px; box-sizing: border-box; background: var(--card-bg); color: var(--text-color);">
-                <input type="tel" id="contactPhone" placeholder="ఫోన్ నంబర్ (Phone Number)" required style="width: 100%; padding: 10px; margin-bottom: 12px; border: 1px solid var(--border-color); border-radius: 6px; box-sizing: border-box; background: var(--card-bg); color: var(--text-color);">
-                <textarea id="contactMessage" placeholder="మీ సందేశం లేదా సందేహం (Message/Query)" rows="3" required style="width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid var(--border-color); border-radius: 6px; box-sizing: border-box; background: var(--card-bg); color: var(--text-color);"></textarea>
-                
-                <button type="submit" class="submit-btn" style="background: #25D366; display: flex; align-items: center; justify-content: center; gap: 8px;">
-                    💬 Send via WhatsApp
-                </button>
+                <input type="text" id="contactName" class="modal-input" placeholder="మీ పేరు (Full Name)" required>
+                <input type="tel" id="contactPhone" class="modal-input" placeholder="ఫోన్ నంబర్ (Phone Number)" required>
+                <select id="contactTopic" class="modal-input">
+                    <option value="10th/Inter Guidance">10th / Inter కెరీర్ గైడెన్స్</option>
+                    <option value="Degree/B.Tech Guidance">Degree / B.Tech / Jobs గైడెన్స్</option>
+                    <option value="Study Materials / IMP Questions">Study Materials / IMP Questions</option>
+                    <option value="Govt Exams/Scholarships">Govt Jobs / Scholarships సందేహం</option>
+                    <option value="Other">ఇతర విషయాలు (Other)</option>
+                </select>
+                <textarea id="contactMessage" class="modal-input" placeholder="మీ సందేశం లేదా సందేహం" rows="3" required></textarea>
+                <button type="submit" class="submit-btn" style="background: #25D366;">💬 Send via WhatsApp</button>
             </form>
         </div>
     </div>
 
-    <!-- Floating WhatsApp Helpdesk Button (Updated with 9392962003) -->
-    <a href="https://wa.me/9030025364?text=Hello%20PSO%20Team,%20I%20have%20a%20career%20guidance%20query." target="_blank" class="whatsapp-float">
-       💬 Career Helpdesk
-    </a>
+    <button id="backToTop" class="back-to-top" onclick="scrollToTop()" title="Go to top">⬆️</button>
+    <a href="https://wa.me/919392962003?text=Hello%20PSO%20Team,%20I%20have%20a%20career%20guidance%20query." target="_blank" class="whatsapp-float">💬 Career Helpdesk</a>
 
     <script type="module" src="script.js"></script>
 </body>
