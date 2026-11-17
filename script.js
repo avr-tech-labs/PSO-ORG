@@ -668,3 +668,90 @@ document.addEventListener("DOMContentLoaded", () => {
     const materialForm = document.getElementById("materialForm");
     if (materialForm) materialForm.addEventListener("submit", addNewMaterial);
 });
+
+// =========================================================
+// 8. HOME PAGE INTERACTIVE TOOLS (AGE CALC, CGPA & DAILY GK)
+// =========================================================
+window.calculateGovtExamAge = function() {
+    const dobVal = document.getElementById("calcDob").value;
+    const relax = parseInt(document.getElementById("calcCategory").value, 10);
+    const resDiv = document.getElementById("ageCalcResult");
+
+    if (!dobVal) {
+        alert("⚠️ దయచేసి మీ పుట్టిన తేదీని (Date of Birth) ఎంచుకోండి!");
+        return;
+    }
+
+    const dob = new Date(dobVal);
+    const today = new Date();
+    let age = today.getFullYear() - dob.getFullYear();
+    const m = today.getMonth() - dob.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
+        age--;
+    }
+
+    const exams = [
+        { name: "SSC CHSL / MTS / Constable", min: 18, max: 27 + relax },
+        { name: "SSC CGL / Railways NTPC / Bank PO", min: 20, max: 30 + relax },
+        { name: "UPSC Civil Services (IAS/IPS)", min: 21, max: 32 + relax },
+        { name: "APPSC / TSPSC Groups & DSC Teacher", min: 18, max: 42 + relax }
+    ];
+
+    let listHtml = `<p style="margin:0 0 8px 0;"><strong>🎂 మీ ప్రస్తుత వయస్సు:</strong> ${age} సంవత్సరాలు (Category Relaxation: +${relax} Yrs)</p><ul style="margin:0; padding-left:18px;">`;
+    exams.forEach(ex => {
+        const eligible = age >= ex.min && age <= ex.max;
+        listHtml += `<li><strong>${ex.name}</strong> (${ex.min}-${ex.max} Yrs): ${eligible ? '<span style="color:#059669; font-weight:800;">✅ అర్హులు (Eligible)</span>' : '<span style="color:#dc2626; font-weight:700;">❌ వయస్సు పరిమితి దాటింది / తక్కువ</span>'}</li>`;
+    });
+    listHtml += "</ul>";
+
+    resDiv.style.display = "block";
+    resDiv.innerHTML = listHtml;
+};
+
+window.convertCgpaToPercent = function() {
+    const cgpa = parseFloat(document.getElementById("calcCgpa").value);
+    const formula = document.getElementById("calcFormula").value;
+    const resDiv = document.getElementById("cgpaCalcResult");
+
+    if (isNaN(cgpa) || cgpa < 0 || cgpa > 10) {
+        alert("⚠️ దయచేసి 0 నుండి 10 మధ్య సరైన CGPA ఎంటర్ చేయండి!");
+        return;
+    }
+
+    let percent = 0;
+    if (formula === "9.5") percent = cgpa * 9.5;
+    else if (formula === "10") percent = Math.max(0, (cgpa - 0.5) * 10);
+    else percent = cgpa * 10;
+
+    percent = Math.min(100, percent).toFixed(2);
+    const division = percent >= 75 ? "First Class with Distinction 🏆" : percent >= 60 ? "First Class 🥇" : percent >= 50 ? "Second Class 🥈" : "Pass Class";
+
+    resDiv.style.display = "block";
+    resDiv.innerHTML = `
+        <p style="margin:0;"><strong>📊 మీ మార్కుల శాతం (Percentage):</strong> <span style="font-size:18px; color:var(--primary-color); font-weight:800;">${percent}%</span></p>
+        <p style="margin:6px 0 0 0;"><strong>🏅 గ్రేడ్ / డివిజన్:</strong> ${division}</p>
+    `;
+};
+
+window.checkGkAnswer = function(btnEl, isCorrect, feedbackId) {
+    const parent = btnEl.parentElement;
+    parent.querySelectorAll("button").forEach(b => {
+        b.style.background = "";
+        b.style.color = "";
+    });
+
+    const feedbackEl = document.getElementById(feedbackId);
+    feedbackEl.style.display = "block";
+
+    if (isCorrect) {
+        btnEl.style.background = "#10b981";
+        btnEl.style.color = "#ffffff";
+        feedbackEl.style.color = "#059669";
+        feedbackEl.textContent = "✅ సరైన సమాధానం! అభినందనలు.";
+    } else {
+        btnEl.style.background = "#dc2626";
+        btnEl.style.color = "#ffffff";
+        feedbackEl.style.color = "#dc2626";
+        feedbackEl.textContent = "❌ తప్పు సమాధానం! మళ్లీ ప్రయత్నించండి.";
+    }
+};
