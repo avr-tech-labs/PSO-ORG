@@ -670,7 +670,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // =========================================================
-// 8. HOME PAGE INTERACTIVE TOOLS (AGE CALC, CGPA & DAILY GK)
+// 8. HOME PAGE INTERACTIVE TOOLS (AGE CALC, MARKS, CGPA & DAILY GK)
 // =========================================================
 window.calculateGovtExamAge = function() {
     const dobVal = document.getElementById("calcDob").value;
@@ -706,6 +706,28 @@ window.calculateGovtExamAge = function() {
 
     resDiv.style.display = "block";
     resDiv.innerHTML = listHtml;
+};
+
+window.convertMarksToPercent = function() {
+    const obtained = parseFloat(document.getElementById("calcMarksObtained").value);
+    const total = parseFloat(document.getElementById("calcTotalMarks").value);
+    const resDiv = document.getElementById("marksCalcResult");
+
+    if (isNaN(obtained) || isNaN(total) || total <= 0 || obtained < 0 || obtained > total) {
+        alert("⚠️ దయచేసి సరైన వచ్చిన మార్కులు మరియు మొత్తం మార్కులు (Total Marks) ఎంటర్ చేయండి!");
+        return;
+    }
+
+    const percent = ((obtained / total) * 100).toFixed(2);
+    const approxCgpa = Math.min(10, parseFloat(percent) / 9.5).toFixed(2);
+    const division = percent >= 75 ? "First Class with Distinction 🏆" : percent >= 60 ? "First Class 🥇" : percent >= 50 ? "Second Class 🥈" : percent >= 35 ? "Pass Class ✅" : "Below Pass Marks ❌";
+
+    resDiv.style.display = "block";
+    resDiv.innerHTML = `
+        <p style="margin:0;"><strong>🎯 మీ మార్కుల శాతం (Percentage):</strong> <span style="font-size:18px; color:var(--primary-color); font-weight:800;">${percent}%</span> (${obtained}/${total})</p>
+        <p style="margin:5px 0 0 0;"><strong>📈 అంచనా GPA (Approx.):</strong> ${approxCgpa} / 10</p>
+        <p style="margin:5px 0 0 0;"><strong>🏅 గ్రేడ్ / డివిజన్:</strong> ${division}</p>
+    `;
 };
 
 window.convertCgpaToPercent = function() {
