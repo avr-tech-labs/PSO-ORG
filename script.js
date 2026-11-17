@@ -1,862 +1,915 @@
-<!DOCTYPE html>
-<html lang="te">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PSO Career Hub - Public Service Organization</title>
-    <meta name="description" content="PSO Career Hub - Public Service Organization complete 360-degree career guidance, Study Materials, IMP Questions, PYQs, Skills & Govt Jobs portal for rural youth. Founder Hon'ble Mr. K. Kullayappa.">
-    <meta name="keywords" content="PSO org hub, PSO Career Hub, Public Service Organization, Kullayappa, Rural Youth Guidance, Telugu Career Guidance, Govt Jobs, Scholarships, Study Materials, IMP Questions, PYQs">
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Telugu:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-</head>
-<body>
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { 
+    getFirestore, 
+    collection, 
+    addDoc, 
+    getDocs, 
+    deleteDoc,
+    doc,
+    orderBy, 
+    query 
+} from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    <!-- Modern Header -->
-    <header class="header">
-        <div class="header-content">
-            <div class="logo">PSO</div>
-            <div>
-                <h1 class="pso-heading">PSO - పబ్లిక్ సర్వీస్ ఆర్గానైజేషన్</h1>
-                <p>Public Service Organization | Rural Youth, Career & Skill Development Hub</p>
-            </div>
-        </div>
-        <button id="themeToggle" class="theme-btn" onclick="toggleTheme()">🌙 Dark</button>
-    </header>
+const firebaseConfig = {
+    apiKey: "AIzaSyAVFvyuOauxGNNdNoCuZhwdHpPF1xIgGag",
+    authDomain: "pso-career-hub-c083a.firebaseapp.com",
+    projectId: "pso-career-hub-c083a",
+    storageBucket: "pso-career-hub-c083a.firebasestorage.app",
+    messagingSenderId: "145259853379",
+    appId: "1:145259853379:web:41955f7b763e0b873c86f6",
+    measurementId: "G-R98WD2C298"
+};
 
-    <!-- Sticky Glassmorphism Navigation Bar -->
-    <nav class="nav">
-        <a href="index.html" class="active-nav">🏠 Home</a>
-        <a href="#news">📢 Updates</a>
-        <a href="roadmap.html">🛣️ Roadmap</a>
-        <a href="guidance.html">🎯 Guidance</a>
-        <a href="exams.html">📝 Exams & Scholarships</a>
-        <a href="materials.html">📚 Materials & PYQs</a>
-        <a href="quiz.html">🧩 Career Quiz</a>
-        <a href="#skills-hub">💻 Additional Skills</a>
-        <a href="#student-tools">🧮 Calculators</a>
-        <a href="#daily-gk">🧠 Daily GK</a>
-        <a href="#resume-builder">📝 Resume</a>
-        <a href="javascript:void(0)" onclick="openContactModal()" class="nav-contact-btn">📞 Contact</a>
-        <a href="admin.html" class="nav-admin-btn">🔐 Admin</a>
-    </nav>
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 
-    <!-- Live Breaking News Ticker -->
-    <div class="news-ticker-bar">
-        <span class="ticker-label">⚡ LIVE UPDATES</span>
-        <div class="ticker-wrap">
-            <div id="liveTickerText" class="ticker-move">
-                గ్రామీణ విద్యార్థుల భవిష్యత్తుకు బంగారు బాట — PSO Career Hub కు స్వాగతం! 10th, Inter, Degree, B.Tech, PG, IMP Questions, PYQs, Additional Skills, Age & CGPA Calculators, Daily GK & Govt Jobs పూర్తి సమాచారం ఇక్కడ అందుబాటులో ఉంది.
-            </div>
-        </div>
-    </div>
+let allPostsData = [];
+let currentCategory = "ALL";
+let showOnlySaved = false;
+let savedPostIds = JSON.parse(localStorage.getItem("pso_saved_posts") || "[]");
 
-    <div class="container">
-        
-        <!-- 1. FOUNDER & CHAIRMAN SPOTLIGHT -->
-        <section id="founder" class="card founder-card">
-            <div class="founder-badge">👑 Founder & Chairman</div>
-            <div class="founder-content">
-                <div class="founder-avatar">
-                    <img src="kullayappa.jpeg" alt="Hon'ble Mr. K. Kullayappa" class="founder-img">
-                </div>
-                <div class="founder-info">
-                    <h3 class="founder-name">Hon'ble Mr. K. KULLAYAPPA</h3>
-                    <p class="founder-tagline">Founder & Chairman | Public Service Organization (PSO)</p>
-                    <p class="founder-quote">
-                        "గ్రామీణ ప్రాంత విద్యార్థులకు సరైన సమయానికి సరైన దిశానిర్దేశం చేసి, ఆధునిక నైపుణ్యాలతో వారి భవిష్యత్తుకు బలమైన పునాది వేయడమే మా ముఖ్య సంకల్పం."
-                    </p>
-                </div>
-            </div>
-        </section>
+let allMaterialsData = [];
+let currentMaterialLevel = "ALL";
 
-        <!-- 2. LATEST NEWS & NOTIFICATIONS (DIRECTLY BELOW FOUNDER) -->
-        <section id="news" class="card posts-section" style="border-top: 4px solid #2563eb;">
-            <div class="posts-header-flex">
-                <h2 class="card-title" style="border:none; margin:0; padding:0;">📢 తాజా వార్తలు & నోటిఫికేషన్‌లు (Latest Updates)</h2>
-                <button id="savedToggleBtn" class="saved-filter-btn" onclick="toggleSavedView()">🔖 Saved (<span id="savedCount">0</span>)</button>
-            </div>
-            <hr class="section-divider">
+// =========================================================
+// 1. CAREER TABS & THEME TOGGLE
+// =========================================================
+window.openCareerTab = function(tabId, btnElement) {
+    document.querySelectorAll(".career-tab-content").forEach(c => c.style.display = "none");
+    document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
 
-            <div class="filter-pills">
-                <button class="pill-btn active" onclick="setCategoryFilter('ALL', this)">All Updates</button>
-                <button class="pill-btn" onclick="setCategoryFilter('Govt Jobs', this)">🏛️ Govt Jobs</button>
-                <button class="pill-btn" onclick="setCategoryFilter('Notifications', this)">📣 Notifications</button>
-                <button class="pill-btn" onclick="setCategoryFilter('Scholarships', this)">🎓 Scholarships</button>
-                <button class="pill-btn" onclick="setCategoryFilter('General Updates', this)">📰 General</button>
-            </div>
+    const target = document.getElementById(tabId);
+    if (target) target.style.display = "block";
+    if (btnElement) btnElement.classList.add("active");
+};
 
-            <input type="text" id="searchInput" class="modern-search" placeholder="🔍 ఉద్యోగం, కోర్సు లేదా నోటిఫికేషన్ పేరుతో వెతకండి..." onkeyup="filterPosts()">
+window.toggleTheme = function() {
+    document.body.classList.toggle("dark-mode");
+    const isDark = document.body.classList.contains("dark-mode");
+    localStorage.setItem("pso_theme", isDark ? "dark" : "light");
+    const btn = document.getElementById("themeToggle");
+    if (btn) btn.textContent = isDark ? "☀️ Light" : "🌙 Dark";
+};
 
-            <div id="postsContainer">
-                <p style="text-align:center;">డేటా లోడ్ అవుతోంది...</p>
-            </div>
-        </section>
+// =========================================================
+// 2. NEWS POSTS FILTER & BOOKMARKS
+// =========================================================
+window.setCategoryFilter = function(category, btnElement) {
+    currentCategory = category;
+    showOnlySaved = false;
+    const savedBtn = document.getElementById("savedToggleBtn");
+    if (savedBtn) savedBtn.classList.remove("active");
 
-        <!-- 3. HERO MISSION & VISION -->
-        <section id="about" class="card hero-card">
-            <span class="hero-badge">🌟 Empowering Rural Youth & Students</span>
-            <h2>గ్రామీణ ఆణిముత్యాలకు రక్షణ.. భావి భారతానికి మార్గదర్శనం!</h2>
-            <p class="hero-description">
-                గ్రామీణ మరియు మధ్యతరగతి కుటుంబాల విద్యార్థుల్లో దాగి ఉన్న <strong>ప్రతిభను & నైపుణ్యాలను (Skills) వెలికితీయడం</strong>, 10వ తరగతి నుండి డిగ్రీ/PG వరకు సరైన కోర్సులను ఎంచుకునేలా అవగాహన కల్పించి ఉన్నత ఉద్యోగ శిఖరాలకు చేర్చడమే మన <strong>Public Service Organization (PSO)</strong> ప్రధాన లక్ష్యం.
-            </p>
-            <div class="hero-cta-group">
-                <a href="guidance.html" class="btn-primary">A-to-Z కోర్సుల గైడ్ 🎓</a>
-                <a href="materials.html" class="btn-outline" style="text-decoration: none;">📚 IMP Questions & PYQs</a>
-                <a href="quiz.html" class="btn-outline" style="text-decoration: none;">🧩 కెరీర్ క్విజ్ రాయండి</a>
-            </div>
-        </section>
+    document.querySelectorAll(".posts-section .pill-btn").forEach(b => b.classList.remove("active"));
+    if (btnElement) btnElement.classList.add("active");
+    filterPosts();
+};
 
-        <!-- 4. 5 DEDICATED DEEP-DIVE PORTALS -->
-        <section class="card">
-            <h2 class="card-title">🚀 Complete Career & Education Portals (ప్రత్యేక విభాగాలు)</h2>
-            <p style="margin-bottom: 16px; opacity: 0.85;">ప్రతీ కార్డుపై క్లిక్ చేస్తే ఆ విభాగానికి సంబంధించిన పూర్తి లోతైన సమాచారంతో ప్రత్యేక పేజీ ఓపెన్ అవుతుంది:</p>
-            <div class="portal-hub-grid">
-                <a href="roadmap.html" class="portal-tile tile-blue">
-                    <div class="tile-icon">🛣️</div>
-                    <h3>1. A-to-Z Career Roadmap</h3>
-                    <p>10th తరగతి నుండి ఇంటర్, పాలిటెక్నిక్, డిగ్రీ, B.Tech, PG మరియు ప్రభుత్వ/ప్రైవేట్ ఉద్యోగాల వరకు పూర్తి రూట్ మ్యాప్.</p>
-                    <span class="tile-cta">పూర్తి రోడ్‌మ్యాప్ చూడండి ➡️</span>
-                </a>
+window.toggleSavedView = function() {
+    showOnlySaved = !showOnlySaved;
+    const savedBtn = document.getElementById("savedToggleBtn");
+    if (savedBtn) savedBtn.classList.toggle("active", showOnlySaved);
+    filterPosts();
+};
 
-                <a href="guidance.html" class="portal-tile tile-green">
-                    <div class="tile-icon">🎯</div>
-                    <h3>2. Detailed Course Encyclopedia</h3>
-                    <p>After 10th, MPC, BiPC, CEC, MEC, HEC, Polytechnic, ITI, B.Tech, B.Sc, B.Com, BA, PG కోర్సుల పూర్తి లోతైన విశ్లేషణ.</p>
-                    <span class="tile-cta">కోర్సుల వివరాలు చదవండి ➡️</span>
-                </a>
+window.toggleBookmark = function(postId) {
+    if (savedPostIds.includes(postId)) {
+        savedPostIds = savedPostIds.filter(id => id !== postId);
+    } else {
+        savedPostIds.push(postId);
+    }
+    localStorage.setItem("pso_saved_posts", JSON.stringify(savedPostIds));
+    updateSavedCount();
+    filterPosts();
+};
 
-                <a href="exams.html" class="portal-tile tile-amber">
-                    <div class="tile-icon">📝</div>
-                    <h3>3. Exams & Scholarships Hub</h3>
-                    <p>POLYCET, EAPCET, ECET, ICET, JEE, NEET, CUET పరీక్షలు మరియు NSP / State Fee Reimbursement స్కాలర్‌షిప్ వివరాలు.</p>
-                    <span class="tile-cta">పరీక్షలు & స్కాలర్‌షిప్స్ ➡️</span>
-                </a>
+function updateSavedCount() {
+    const countEl = document.getElementById("savedCount");
+    if (countEl) countEl.textContent = savedPostIds.length;
+}
 
-                <a href="materials.html" class="portal-tile tile-blue">
-                    <div class="tile-icon">📚</div>
-                    <h3>4. Materials, IMP & PYQs Hub</h3>
-                    <p>Boards, Graduation, Entrance Exams, State/Central Govt & IT Jobs IMP Questions, PYQs & Official Keys.</p>
-                    <span class="tile-cta">మెటీరియల్స్ డౌన్‌లోడ్ చేయండి ➡️</span>
-                </a>
+window.filterPosts = function() {
+    const searchInput = document.getElementById("searchInput");
+    const searchVal = searchInput ? searchInput.value.toLowerCase() : "";
 
-                <a href="quiz.html" class="portal-tile tile-purple">
-                    <div class="tile-icon">🧩</div>
-                    <h3>5. Smart Career Assessment</h3>
-                    <p>మీ ప్రస్తుత చదువు, ఇష్టమైన సబ్జెక్ట్ మరియు జీవిత లక్ష్యం ఆధారంగా మీకు సరిపోయే కోర్సు & ఉద్యోగ మార్గాన్ని తెలుసుకోండి.</p>
-                    <span class="tile-cta">క్విజ్ ప్రారంభించండి ➡️</span>
-                </a>
-            </div>
-        </section>
+    const filtered = allPostsData.filter(post => {
+        const matchesSearch = post.title.toLowerCase().includes(searchVal) || 
+                              post.desc.toLowerCase().includes(searchVal) ||
+                              post.category.toLowerCase().includes(searchVal);
+        const matchesCategory = currentCategory === "ALL" || post.category === currentCategory;
+        const matchesSaved = !showOnlySaved || savedPostIds.includes(post.id);
+        return matchesSearch && matchesCategory && matchesSaved;
+    });
 
-        <!-- 5. STAGE-BY-STAGE COMPLETE EDUCATION STRUCTURE -->
-        <section class="card">
-            <h2 class="card-title">🧭 విద్యా దశల వారీగా సమగ్ర అవగాహన (Complete Education Stages)</h2>
-            <div class="bilingual-grid">
-                <div class="deep-detail-box" style="margin-bottom:0;">
-                    <span class="stream-badge btech-badge">STAGE 1 • AFTER 10TH (SSC)</span>
-                    <h3>🏫 10వ తరగతి తర్వాత ఉండే 6 మార్గాలు</h3>
-                    <ul>
-                        <li><strong>Intermediate (2 Yrs):</strong> MPC, BiPC, CEC, MEC, HEC గ్రూపులు.</li>
-                        <li><strong>Polytechnic Diploma (3 Yrs):</strong> POLYCET ద్వారా CSE, ECE, EEE, Mech, Civil.</li>
-                        <li><strong>IIIT RGUKT (6 Yrs):</strong> 10th మార్కుల మెరిట్‌తో నేరుగా PUC + B.Tech.</li>
-                        <li><strong>ITI Trades (1-2 Yrs):</strong> Electrician, Fitter, Welder, COPA (రైల్వే ALP & విద్యుత్ శాఖ).</li>
-                        <li><strong>Paramedical (2 Yrs):</strong> DMLT, Dialysis, X-Ray, Ophthalmic టెక్నీషియన్.</li>
-                    </ul>
-                    <a href="guidance.html" style="color:var(--primary-color); font-weight:700; text-decoration:none; font-size:13.5px;">పూర్తి వివరాలు చదవండి ➡️</a>
-                </div>
+    renderPosts(filtered);
+};
 
-                <div class="deep-detail-box" style="margin-bottom:0;">
-                    <span class="stream-badge bsc-badge">STAGE 2 • INTERMEDIATE (10+2)</span>
-                    <h3>📖 ఇంటర్మీడియట్ గ్రూపుల లోతైన ఎంపిక</h3>
-                    <ul>
-                        <li><strong>MPC:</strong> B.Tech, B.Arch, Data Science, NDA Defence, B.Sc.</li>
-                        <li><strong>BiPC:</strong> MBBS, BDS, BAMS, B.Pharm, Pharm.D, B.Sc Agriculture, Nursing.</li>
-                        <li><strong>CEC & MEC:</strong> B.Com, BBA, CA, CMA, CS, Banking & Finance.</li>
-                        <li><strong>HEC:</strong> Civil Services (IAS/IPS), Groups, BA LLB (Law), Journalism.</li>
-                    </ul>
-                    <a href="guidance.html" style="color:var(--primary-color); font-weight:700; text-decoration:none; font-size:13.5px;">గ్రూపుల విశ్లేషణ చూడండి ➡️</a>
-                </div>
+// =========================================================
+// 3. CAREER QUIZ REPORT GENERATOR
+// =========================================================
+window.generateFullCareerReport = function() {
+    const stage = document.getElementById("qStage").value;
+    const interest = document.getElementById("qInterest").value;
+    const goal = document.getElementById("qGoal").value;
+    const reportDiv = document.getElementById("fullQuizReport");
 
-                <div class="deep-detail-box" style="margin-bottom:0;">
-                    <span class="stream-badge bcom-badge">STAGE 3 • UNDER-GRADUATE (UG)</span>
-                    <h3>🎓 అండర్ గ్రాడ్యుయేట్ (Degree & B.Tech)</h3>
-                    <ul>
-                        <li><strong>B.Tech / B.E (4 Yrs):</strong> CSE, AI & ML, Data Science, Cyber Security, ECE, EEE, Mech, Civil.</li>
-                        <li><strong>BCA & B.Sc (3-4 Yrs):</strong> Computer Science, Biotechnology, Microbiology, Chemistry, Agriculture.</li>
-                        <li><strong>B.Com & BBA (3-4 Yrs):</strong> Accounting, Tally, GST, Corporate Management.</li>
-                        <li><strong>B.A & Law (3-5 Yrs):</strong> Public Administration, Political Science, BA LLB.</li>
-                    </ul>
-                    <a href="guidance.html" style="color:var(--primary-color); font-weight:700; text-decoration:none; font-size:13.5px;">UG కోర్సుల వివరాలు ➡️</a>
-                </div>
+    const recommendations = {
+        math: {
+            course: stage === "10th" ? "Intermediate (MPC) లేదా Polytechnic Diploma (CSE/ECE)" : stage === "inter" ? "B.Tech (CSE / AI & ML / ECE) లేదా B.Sc Computer Science" : "Full Stack Software Development / Data Science / GATE M.Tech",
+            exams: "POLYCET, EAPCET, JEE Main, NDA, SSC CGL",
+            jobs: "Software Engineer, AI Developer, Defence Officer, Banking & Central Govt Jobs"
+        },
+        bio: {
+            course: stage === "10th" ? "Intermediate (BiPC) లేదా Paramedical Diploma (DMLT)" : stage === "inter" ? "MBBS, BDS, B.Pharm, B.Sc Agriculture, B.Sc Nursing" : "Clinical Research / Hospital Management / Govt Medical & Agri Officer",
+            exams: "NEET (UG), AP/TS EAPCET (Agri & Pharmacy)",
+            jobs: "Doctor, Pharmacist, Agriculture Officer, Staff Nurse, Lab Technologist"
+        },
+        commerce: {
+            course: stage === "10th" ? "Intermediate (CEC లేదా MEC)" : stage === "inter" ? "B.Com (Computers/General), BBA, CA, CMA, CS" : "MBA (Finance) / Bank PO & SSC CGL Coaching",
+            exams: "CA Foundation, CMA, CUET, ICET, IBPS/SBI PO",
+            jobs: "Chartered Accountant, Bank Manager, Financial Analyst, Tax Consultant"
+        },
+        arts: {
+            course: stage === "10th" ? "Intermediate (HEC)" : stage === "inter" ? "B.A (History, Polity, Economics) లేదా 5-Year Integrated Law (BA LLB)" : "UPSC Civil Services / APPSC-TSPSC Groups / B.Ed",
+            exams: "CLAT, LAWCET, CUET, UPSC CSE, APPSC Group-1 & Group-2",
+            jobs: "IAS/IPS Officer, Group-1/2 Officer, Advocate/Judge, Journalist, Lecturer"
+        },
+        skills: {
+            course: stage === "10th" ? "ITI (Electrician/Fitter) లేదా 3-Year Polytechnic Diploma" : "B.Tech (Lateral Entry via ECET) లేదా Skill Certification Courses",
+            exams: "POLYCET, ECET, RRB ALP & Technician, SSC JE",
+            jobs: "Railway Loco Pilot/Technician, Junior Engineer (JE), Industrial Supervisor"
+        }
+    };
 
-                <div class="deep-detail-box" style="margin-bottom:0;">
-                    <span class="stream-badge ba-badge">STAGE 4 • AFTER GRADUATION (PG & JOBS)</span>
-                    <h3>🚀 డిగ్రీ తర్వాత PG & ఉన్నత ఉద్యోగాలు</h3>
-                    <ul>
-                        <li><strong>Central Govt:</strong> UPSC (IAS/IPS), SSC CGL, IBPS/SBI Bank PO, RRB NTPC, CDS.</li>
-                        <li><strong>State Govt:</strong> APPSC/TSPSC Group-1, Group-2, Police SI, Constable, DSC Teacher (B.Ed).</li>
-                        <li><strong>Post-Graduation (PG):</strong> M.Tech (GATE - ₹12,400 స్టైపెండ్), MBA (CAT/ICET), MCA, M.Sc, UGC NET.</li>
-                        <li><strong>IT & Corporate:</strong> Full Stack Development, AI/Cloud Engineer, Data Analyst.</li>
-                    </ul>
-                    <a href="roadmap.html" style="color:var(--primary-color); font-weight:700; text-decoration:none; font-size:13.5px;">జాబ్ రోడ్‌మ్యాప్ చూడండి ➡️</a>
-                </div>
-            </div>
-        </section>
+    const goalTips = {
+        govt: "ప్రభుత్వ ఉద్యోగం మీ లక్ష్యం కాబట్టి ఇప్పటి నుండే రోజుకు 1 గంట General Knowledge, Current Affairs మరియు Arithmetic ప్రాక్టీస్ ప్రారంభించండి.",
+        private: "కార్పొరేట్/IT ఉద్యోగం కోసం డిగ్రీతో పాటు ప్రాక్టికల్ స్కిల్స్ (Coding, English Communication, Projects) తప్పనిసరిగా నేర్చుకోండి.",
+        quick: "త్వరగా ఉద్యోగం పొందడానికి 1-3 ఏళ్ల వృత్తి విద్యా కోర్సులు (ITI / Polytechnic / Paramedical) ఉత్తమ ఎంపిక.",
+        business: "సొంతంగా ఎదగడానికి మీ రంగంలో ప్రాక్టికల్ అనుభవంతో పాటు ప్రభుత్వ MSME / Mudra లోన్ పథకాలపై అవగాహన పెంచుకోండి."
+    };
 
-        <!-- 6. ADDITIONAL SKILLS & HIGH-INCOME CAREER TRACKS -->
-        <section id="skills-hub" class="card">
-            <h2 class="card-title">💻 చదువుతో పాటు నేర్చుకోవాల్సిన Additional Skills & High-Income Tracks</h2>
-            <p style="margin-bottom: 16px;">కేవలం డిగ్రీ సర్టిఫికెట్ మాత్రమే కాకుండా, నేటి జాబ్ మార్కెట్‌లో వెంటనే ఉద్యోగం సంపాదించడానికి ఈ అదనపు నైపుణ్యాలు (Additional Skills) ఎంతో కీలకం:</p>
-            
-            <div class="bilingual-grid">
-                <div class="deep-detail-box" style="margin-bottom:0;">
-                    <span class="stream-badge btech-badge">TRACK 1 • SOFTWARE & WEB DEV</span>
-                    <h3>🌐 Full Stack Web & App Development</h3>
-                    <p><strong>నేర్చుకోవాల్సినవి:</strong> HTML5, CSS3, JavaScript (ES6+), React.js, Node.js, Express, MongoDB/SQL, React Native (Mobile Apps), Git & GitHub.</p>
-                    <p><strong>ప్రయోజనం:</strong> 3-4 రియల్-టైమ్ ప్రాజెక్టులు నిర్మించుకుంటే ఏ డిగ్రీ వారైనా సాఫ్ట్‌వేర్ కంపెనీలలో లేదా ఫ్రీలాన్సింగ్ ద్వారా నెలకు ₹30,000–₹80,000+ సంపాదించవచ్చు.</p>
-                </div>
+    const rec = recommendations[interest];
+    const tip = goalTips[goal];
 
-                <div class="deep-detail-box" style="margin-bottom:0;">
-                    <span class="stream-badge bsc-badge">TRACK 2 • AI, DATA & CLOUD</span>
-                    <h3>🤖 Python, Data Analytics & Generative AI</h3>
-                    <p><strong>నేర్చుకోవాల్సినవి:</strong> Python Programming, Advanced MS Excel, SQL, Power BI / Tableau, Prompt Engineering & AI Tools.</p>
-                    <p><strong>ప్రయోజనం:</strong> Data Analyst, Business Analyst, AI Operations విభాగాలలో నాన్-కోడింగ్ బ్యాక్‌గ్రౌండ్ విద్యార్థులకు కూడా విస్తృత అవకాశాలు ఉన్నాయి.</p>
-                </div>
+    reportDiv.style.display = "block";
+    reportDiv.innerHTML = `
+        <h3 style="margin-top:0; color:var(--primary-color);">📋 మీ పర్సనలైజ్డ్ PSO కెరీర్ రిపోర్ట్:</h3>
+        <p><strong>🎓 సూచించబడిన కోర్సు:</strong> ${rec.course}</p>
+        <p><strong>📝 రాయవలసిన ముఖ్య పరీక్షలు:</strong> ${rec.exams}</p>
+        <p><strong>💼 భవిష్యత్తు ఉద్యోగ అవకాశాలు:</strong> ${rec.jobs}</p>
+        <p style="background:rgba(16,185,129,0.12); padding:10px; border-radius:8px; border-left:3px solid #10b981;">
+            <strong>💡 ప్రత్యేక సలహా:</strong> ${tip}
+        </p>
+        <a href="https://wa.me/919392962003?text=${encodeURIComponent(`Hello PSO Team, నా Quiz Result ప్రకారం (${rec.course}) గురించి మరింత గైడెన్స్ కావాలి.`)}" 
+           target="_blank" class="submit-btn" style="display:inline-block; text-align:center; text-decoration:none; background:#25D366; margin-top:10px;">
+           💬 ఈ రిపోర్ట్‌పై PSO టీమ్‌తో మాట్లాడండి
+        </a>
+    `;
+};
 
-                <div class="deep-detail-box" style="margin-bottom:0;">
-                    <span class="stream-badge bcom-badge">TRACK 3 • COMMERCE & OFFICE AUTOMATION</span>
-                    <h3>📊 Tally Prime, GST Filing & Digital Marketing</h3>
-                    <p><strong>నేర్చుకోవాల్సినవి:</strong> Tally Prime with GST, Income Tax Return (ITR) Filing, Advanced Excel, SEO, Social Media Marketing & Canva Design.</p>
-                    <p><strong>ప్రయోజనం:</strong> B.Com, BBA, BA విద్యార్థులకు కార్పొరేట్ ఆఫీసులు, CA ఫర్మ్స్ మరియు ఈ-కామర్స్ కంపెనీలలో తక్షణ ఉద్యోగ అవకాశాలు.</p>
-                </div>
+// =========================================================
+// 4. CONTACT MODAL & BACK TO TOP
+// =========================================================
+window.openContactModal = function() {
+    const modal = document.getElementById("contactModal");
+    if (modal) modal.style.display = "flex";
+};
 
-                <div class="deep-detail-box" style="margin-bottom:0;">
-                    <span class="stream-badge ba-badge">TRACK 4 • COMMUNICATION & INTERVIEW</span>
-                    <h3>🗣️ Spoken English, Aptitude & Resume Building</h3>
-                    <p><strong>నేర్చుకోవాల్సినవి:</strong> English Speaking Fluency, Group Discussion (GD), Quantitative Aptitude, Logical Reasoning, LinkedIn Profile & ATS Resume.</p>
-                    <p><strong>ప్రయోజనం:</strong> గ్రామీణ విద్యార్థులు ఇంటర్వ్యూ భయాన్ని అధిగమించి MNC కంపెనీలు మరియు ప్రభుత్వ ఇంటర్వ్యూలలో ఆత్మవిశ్వాసంతో రాణించడానికి.</p>
-                </div>
-            </div>
-        </section>
+window.closeContactModal = function() {
+    const modal = document.getElementById("contactModal");
+    if (modal) modal.style.display = "none";
+};
 
-        <!-- 7. FREE GOVT & CORPORATE CERTIFICATION PORTALS -->
-        <section class="card">
-            <h2 class="card-title">🏅 ఉచిత సర్టిఫికెట్ కోర్సులు & ఇంటర్న్‌షిప్ పోర్టల్స్ (Free Skill Portals)</h2>
-            <p style="margin-bottom: 14px;">రూపాయి ఖర్చు లేకుండా కేంద్ర ప్రభుత్వం & ప్రముఖ ఐటీ కంపెనీలు అందించే సర్టిఫికెట్ కోర్సులు:</p>
-            <div class="table-responsive">
-                <table class="modern-table">
-                    <thead>
-                        <tr>
-                            <th>పోర్టల్ పేరు (Platform)</th>
-                            <th>నిర్వహించే సంస్థ</th>
-                            <th>లభించే కోర్సులు & సర్టిఫికెట్లు</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>SWAYAM / NPTEL</strong></td>
-                            <td>Ministry of Education & IITs</td>
-                            <td>Engineering, Science, Commerce, Management & Coding Courses (IIT సర్టిఫికెట్).</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Skill India Digital (NSDC)</strong></td>
-                            <td>Govt of India</td>
-                            <td>Electrician, Solar Tech, Computer Basics, Retail, Healthcare & AI Skills.</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Infosys Springboard</strong></td>
-                            <td>Infosys</td>
-                            <td>Python, Java, Web Development, Data Science, Spoken English & Soft Skills.</td>
-                        </tr>
-                        <tr>
-                            <td><strong>TCS iON Career Edge</strong></td>
-                            <td>Tata Consultancy Services</td>
-                            <td>15-Day Career Preparedness, Resume Writing, Interview Skills & IT Fundamentals.</td>
-                        </tr>
-                        <tr>
-                            <td><strong>AICTE Internship Portal</strong></td>
-                            <td>AICTE (Govt of India)</td>
-                            <td>డిగ్రీ & B.Tech విద్యార్థులకు ప్రభుత్వ మరియు ప్రైవేట్ సంస్థలలో ఇంటర్న్‌షిప్ అవకాశాలు.</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
+window.outsideModalClick = function(event) {
+    const modal = document.getElementById("contactModal");
+    if (event.target === modal) closeContactModal();
+};
 
-        <!-- 8. INTERACTIVE STUDENT UTILITY CALCULATORS -->
-        <section id="student-tools" class="card" style="border-top: 4px solid #0ea5e9;">
-            <h2 class="card-title">🧮 Smart Student Calculators (వయస్సు అర్హత, మార్కులు & CGPA క్యాలిక్యులేటర్లు)</h2>
-            <p style="margin-bottom: 16px;">ప్రభుత్వ ఉద్యోగ దరఖాస్తులు & కాలేజీ అప్లికేషన్ల కోసం మీ వయస్సు అర్హత, మార్కుల శాతం మరియు CGPA ను క్షణాల్లో తెలుసుకోండి:</p>
+window.scrollToTop = function() {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+};
 
-            <div class="bilingual-grid">
-                <!-- Tool 1: Govt Exam Age Eligibility Calculator -->
-                <div class="deep-detail-box" style="margin-bottom:0;">
-                    <span class="stream-badge btech-badge">TOOL 1 • GOVT JOB ELIGIBILITY</span>
-                    <h3>🎂 Govt Exam Age & Eligibility Checker</h3>
-                    <label style="font-size:13px; font-weight:700;">పుట్టిన తేదీ (Date of Birth):</label>
-                    <input type="date" id="calcDob" class="modal-input" style="margin: 6px 0 12px 0;">
-                    
-                    <label style="font-size:13px; font-weight:700;">రిజర్వేషన్ కేటగిరీ (Category):</label>
-                    <select id="calcCategory" class="modal-input" style="margin: 6px 0 12px 0;">
-                        <option value="0">General / OC / EWS (No Relaxation)</option>
-                        <option value="3">OBC / BC (+3 Years Relaxation)</option>
-                        <option value="5">SC / ST (+5 Years Relaxation)</option>
-                        <option value="10">PwBD / Divyang (+10 Years Relaxation)</option>
-                    </select>
+window.addEventListener("scroll", () => {
+    const btn = document.getElementById("backToTop");
+    if (btn) btn.style.display = window.scrollY > 350 ? "block" : "none";
+});
 
-                    <button onclick="calculateGovtExamAge()" class="submit-btn" style="background: #2563eb;">🔍 Check Eligibility</button>
-                    <div id="ageCalcResult" class="quiz-result-box" style="display:none; margin-top:12px; font-size:13.5px;"></div>
-                </div>
+// =========================================================
+// 5. ADMIN POSTS & MESSAGES
+// =========================================================
+window.deletePost = async function(id) {
+    const pass = prompt("🔑 అడ్మిన్ పాస్‌వర్డ్ ఎంటర్ చేయండి:");
+    if (pass !== "pso123") {
+        alert("❌ తప్పుడు పాస్‌వర్డ్!");
+        return;
+    }
+    if (confirm("మీరు నిజంగా ఈ పోస్ట్‌ను తొలగించాలనుకుంటున్నారా?")) {
+        try {
+            await deleteDoc(doc(db, "pso_posts", id));
+            alert("🗑️ పోస్ట్ విజయవంతంగా తొలగించబడింది!");
+            fetchPosts();
+        } catch (e) {
+            alert("ఎర్రర్: " + e.message);
+        }
+    }
+};
 
-                <!-- Tool 2: Total Marks to Percentage Converter -->
-                <div class="deep-detail-box" style="margin-bottom:0;">
-                    <span class="stream-badge bcom-badge">TOOL 2 • MARKS TO PERCENTAGE</span>
-                    <h3>📝 Marks to Percentage & GPA Calculator</h3>
-                    <label style="font-size:13px; font-weight:700;">వచ్చిన మార్కులు (Marks Obtained):</label>
-                    <input type="number" step="0.01" min="0" id="calcMarksObtained" class="modal-input" placeholder="ఉదా: 540 (10th) లేదా 920 (Inter)" style="margin: 6px 0 12px 0;">
+window.loadAdminMessages = async function() {
+    const pass = prompt("🔑 విద్యార్థుల మెసేజ్‌లు చూడటానికి Admin Password ఎంటర్ చేయండి:");
+    if (pass !== "pso123") {
+        alert("❌ తప్పుడు పాస్‌వర్డ్!");
+        return;
+    }
 
-                    <label style="font-size:13px; font-weight:700;">మొత్తం మార్కులు (Total Max Marks):</label>
-                    <input type="number" step="1" min="1" id="calcTotalMarks" class="modal-input" placeholder="ఉదా: 600 లేదా 1000" style="margin: 6px 0 12px 0;">
+    const container = document.getElementById("adminMessagesContainer");
+    if (!container) return;
+    container.innerHTML = "<p style='text-align:center;'>సందేశాలు లోడ్ అవుతున్నాయి...</p>";
 
-                    <button onclick="convertMarksToPercent()" class="submit-btn" style="background: #d97706;">🎯 Calculate Marks %</button>
-                    <div id="marksCalcResult" class="quiz-result-box" style="display:none; margin-top:12px; font-size:13.5px;"></div>
-                </div>
+    try {
+        const q = query(collection(db, "pso_messages"), orderBy("createdAt", "desc"));
+        const snapshot = await getDocs(q);
 
-                <!-- Tool 3: CGPA to Percentage Converter -->
-                <div class="deep-detail-box" style="margin-bottom:0;">
-                    <span class="stream-badge bsc-badge">TOOL 3 • CGPA CONVERTER</span>
-                    <h3>📊 CGPA / GPA to Percentage Converter</h3>
-                    <label style="font-size:13px; font-weight:700;">మీ CGPA / GPA ఎంటర్ చేయండి (10 పాయింట్లకు):</label>
-                    <input type="number" step="0.01" min="0" max="10" id="calcCgpa" class="modal-input" placeholder="ఉదా: 8.5" style="margin: 6px 0 12px 0;">
+        if (snapshot.empty) {
+            container.innerHTML = "<p style='text-align:center;'>ఇప్పటివరకు ఎలాంటి విద్యార్థుల సందేశాలు లేవు.</p>";
+            return;
+        }
 
-                    <label style="font-size:13px; font-weight:700;">యూనివర్సిటీ / బోర్డు ఫార్ములా:</label>
-                    <select id="calcFormula" class="modal-input" style="margin: 6px 0 12px 0;">
-                        <option value="9.5">CBSE / Standard 10-Point Scale (CGPA × 9.5)</option>
-                        <option value="10">JNTU / State Universities (CGPA - 0.5) × 10</option>
-                        <option value="direct">Direct 10x Scale (CGPA × 10)</option>
-                    </select>
+        container.innerHTML = "";
+        snapshot.forEach(docSnap => {
+            const m = docSnap.data();
+            const cleanPhone = m.phone.replace(/\D/g, "");
+            const waPhone = cleanPhone.length === 10 ? `91${cleanPhone}` : cleanPhone;
+            const replyText = encodeURIComponent(`నమస్కారం ${m.name} గారు! PSO Career Hub నుండి మీ సందేహానికి ("${m.message}") సమాధానం: `);
 
-                    <button onclick="convertCgpaToPercent()" class="submit-btn" style="background: #059669;">📐 Calculate CGPA %</button>
-                    <div id="cgpaCalcResult" class="quiz-result-box" style="display:none; margin-top:12px; font-size:13.5px;"></div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 9. INTERACTIVE DAILY GK & EXAM PRACTICE QUIZ -->
-        <section id="daily-gk" class="card" style="border-top: 4px solid #8b5cf6;">
-            <h2 class="card-title">🧠 Daily GK & Competitive Exam Mini-Quiz (ప్రాక్టీస్ టెస్ట్)</h2>
-            <p style="margin-bottom: 15px;">APPSC, TSPSC, SSC, RRB & Police పరీక్షల కోసం ముఖ్యమైన ప్రశ్నలు — సరైన ఆప్షన్‌పై క్లిక్ చేసి మీ సమాధానం చెక్ చేసుకోండి:</p>
-
-            <div id="dailyGkContainer">
-                <div class="deep-detail-box">
-                    <p style="margin-top:0; font-weight:700;">1. భారత రాజ్యాంగ ముసాయిదా కమిటీ (Drafting Committee) ఛైర్మన్ ఎవరు?</p>
-                    <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                        <button class="pill-btn" onclick="checkGkAnswer(this, false, 'q1-ans')">A) డాక్టర్ రాజేంద్ర ప్రసాద్</button>
-                        <button class="pill-btn" onclick="checkGkAnswer(this, true, 'q1-ans')">B) డాక్టర్ బి.ఆర్. అంబేద్కర్</button>
-                        <button class="pill-btn" onclick="checkGkAnswer(this, false, 'q1-ans')">C) జవహర్‌లాల్ నెహ్రూ</button>
-                        <button class="pill-btn" onclick="checkGkAnswer(this, false, 'q1-ans')">D) సర్దార్ వల్లభాయ్ పటేల్</button>
+            container.innerHTML += `
+                <div style="border:1px solid var(--border-color); padding:15px; margin-bottom:12px; border-radius:10px; background:var(--subcard-bg);">
+                    <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:6px;">
+                        <strong>👤 ${m.name} (${m.phone})</strong>
+                        <span style="font-size:12px; opacity:0.75;">📅 ${m.date || ""}</span>
                     </div>
-                    <p id="q1-ans" style="display:none; margin:8px 0 0 0; font-size:13px; font-weight:700;"></p>
+                    ${m.topic ? `<span style="display:inline-block; margin-top:6px; background:var(--primary-color); color:white; padding:2px 8px; border-radius:4px; font-size:11px;">${m.topic}</span>` : ""}
+                    <p style="margin:8px 0;">💬 ${m.message}</p>
+                    <a href="https://wa.me/${waPhone}?text=${replyText}" target="_blank" style="display:inline-block; background:#25D366; color:white; padding:6px 12px; border-radius:6px; text-decoration:none; font-size:12.5px; font-weight:bold;">
+                        📲 Reply on WhatsApp
+                    </a>
                 </div>
+            `;
+        });
+    } catch (error) {
+        container.innerHTML = `<p style='color:red;'>లోపం: ${error.message}</p>`;
+    }
+};
 
-                <div class="deep-detail-box">
-                    <p style="margin-top:0; font-weight:700;">2. భారత అంతరిక్ష పరిశోధనా సంస్థ (ISRO) ప్రధాన కార్యాలయం ఎక్కడ ఉంది?</p>
-                    <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                        <button class="pill-btn" onclick="checkGkAnswer(this, false, 'q2-ans')">A) శ్రీహరికోట</button>
-                        <button class="pill-btn" onclick="checkGkAnswer(this, false, 'q2-ans')">B) హైదరాబాద్</button>
-                        <button class="pill-btn" onclick="checkGkAnswer(this, true, 'q2-ans')">C) బెంగళూరు</button>
-                        <button class="pill-btn" onclick="checkGkAnswer(this, false, 'q2-ans')">D) తిరువనంతపురం</button>
-                    </div>
-                    <p id="q2-ans" style="display:none; margin:8px 0 0 0; font-size:13px; font-weight:700;"></p>
+async function addNewUpdate(event) {
+    event.preventDefault();
+
+    const adminPass = document.getElementById('adminPass').value;
+    if (adminPass !== "pso123") {
+        alert("❌ తప్పుడు అడ్మిన్ పాస్‌వర్డ్!");
+        return;
+    }
+
+    const category = document.getElementById('postCategory').value;
+    const title = document.getElementById('postTitle').value.trim();
+    const desc = document.getElementById('postDesc').value.trim();
+    const link = document.getElementById('postLink').value.trim();
+
+    try {
+        await addDoc(collection(db, "pso_posts"), {
+            category,
+            title,
+            desc,
+            link: link || "#",
+            date: new Date().toLocaleDateString('te-IN'),
+            createdAt: Date.now()
+        });
+
+        alert('✨ పోస్ట్ విజయవంతంగా అప్‌లోడ్ అయింది!');
+        document.getElementById("postForm").reset();
+        fetchPosts();
+    } catch (error) {
+        alert("పోస్ట్ విఫలమైంది: " + error.message);
+    }
+}
+
+async function sendContactMessage(event) {
+    event.preventDefault();
+
+    const name = document.getElementById('contactName').value.trim();
+    const phone = document.getElementById('contactPhone').value.trim();
+    const topicEl = document.getElementById('contactTopic');
+    const topic = topicEl ? topicEl.value : "General";
+    const message = document.getElementById('contactMessage').value.trim();
+
+    try {
+        await addDoc(collection(db, "pso_messages"), {
+            name,
+            phone,
+            topic,
+            message,
+            date: new Date().toLocaleDateString('te-IN'),
+            createdAt: Date.now()
+        });
+
+        closeContactModal();
+        document.getElementById("contactForm").reset();
+
+        const targetPhone = "919392962003"; 
+        const waMessage = encodeURIComponent(`Hello PSO Team,\n\nName: ${name}\nPhone: ${phone}\nTopic: ${topic}\nQuery: ${message}`);
+        window.open(`https://wa.me/${targetPhone}?text=${waMessage}`, '_blank');
+
+    } catch (error) {
+        alert("సందేశం పంపడంలో లోపం జరిగింది: " + error.message);
+    }
+}
+
+async function fetchPosts() {
+    const postsContainer = document.getElementById("postsContainer");
+    if (!postsContainer) return;
+
+    try {
+        const q = query(collection(db, "pso_posts"), orderBy("createdAt", "desc"));
+        const querySnapshot = await getDocs(q);
+
+        if (querySnapshot.empty) {
+            postsContainer.innerHTML = "<p style='text-align:center;'>ప్రస్తుతానికి ఎలాంటి పోస్ట్‌లు లేవు.</p>";
+            return;
+        }
+
+        allPostsData = [];
+        querySnapshot.forEach((docSnap) => {
+            allPostsData.push({ id: docSnap.id, ...docSnap.data() });
+        });
+
+        const tickerEl = document.getElementById("liveTickerText");
+        if (tickerEl && allPostsData.length > 0) {
+            const headlines = allPostsData.slice(0, 3).map(p => `🔥 [${p.category}] ${p.title}`).join("   |   ");
+            tickerEl.textContent = headlines;
+        }
+
+        renderPosts(allPostsData);
+    } catch (error) {
+        postsContainer.innerHTML = "<p style='text-align:center; color:red;'>డేటా లోడ్ చేయడంలో సమస్య ఏర్పడింది.</p>";
+    }
+}
+
+function renderPosts(posts) {
+    const postsContainer = document.getElementById("postsContainer");
+    if (!postsContainer) return;
+
+    if (posts.length === 0) {
+        postsContainer.innerHTML = "<p style='text-align:center;'>ఎలాంటి పోస్ట్‌లు లభించలేదు.</p>";
+        return;
+    }
+
+    postsContainer.innerHTML = "";
+    posts.forEach((data) => {
+        const isSaved = savedPostIds.includes(data.id);
+        const shareText = encodeURIComponent(`📢 *${data.title}*\n\n${data.desc}\n\nమరిన్ని వివరాలకు చూడండి: https://avr-tech-labs.github.io/PSO-ORG/`);
+        const whatsappUrl = `https://api.whatsapp.com/send?text=${shareText}`;
+
+        const postCard = `
+            <div style="border:1px solid var(--border-color); padding:18px; margin-bottom:15px; border-radius:12px; background:var(--subcard-bg);">
+                <div style="display:flex; justify-content:space-between; align-items:center; gap:8px;">
+                    <span style="background:var(--primary-color); color:#fff; padding:3px 10px; border-radius:6px; font-size:12px; font-weight:700;">${data.category}</span>
+                    <button onclick="toggleBookmark('${data.id}')" style="background:${isSaved ? '#f59e0b' : 'transparent'}; color:${isSaved ? '#000' : 'var(--text-color)'}; border:1px solid var(--border-color); padding:4px 10px; border-radius:6px; cursor:pointer; font-size:12px; font-weight:600;">
+                        ${isSaved ? '🔖 Saved' : '📑 Save'}
+                    </button>
                 </div>
-
-                <div class="deep-detail-box">
-                    <p style="margin-top:0; font-weight:700;">3. భారతదేశంలో జాతీయ విద్యా దినోత్సవం (National Education Day) ఎప్పుడు జరుపుకుంటారు?</p>
-                    <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                        <button class="pill-btn" onclick="checkGkAnswer(this, false, 'q3-ans')">A) సెప్టెంబర్ 5</button>
-                        <button class="pill-btn" onclick="checkGkAnswer(this, true, 'q3-ans')">B) నవంబర్ 11</button>
-                        <button class="pill-btn" onclick="checkGkAnswer(this, false, 'q3-ans')">C) అక్టోబర్ 15</button>
-                        <button class="pill-btn" onclick="checkGkAnswer(this, false, 'q3-ans')">D) జనవరి 12</button>
-                    </div>
-                    <p id="q3-ans" style="display:none; margin:8px 0 0 0; font-size:13px; font-weight:700;"></p>
-                </div>
-
-                <div class="deep-detail-box" style="margin-bottom:0;">
-                    <p style="margin-top:0; font-weight:700;">4. కంప్యూటర్ మెదడు (Brain of the Computer) అని దేనిని పిలుస్తారు?</p>
-                    <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                        <button class="pill-btn" onclick="checkGkAnswer(this, false, 'q4-ans')">A) RAM</button>
-                        <button class="pill-btn" onclick="checkGkAnswer(this, false, 'q4-ans')">B) Hard Disk</button>
-                        <button class="pill-btn" onclick="checkGkAnswer(this, true, 'q4-ans')">C) CPU (Central Processing Unit)</button>
-                        <button class="pill-btn" onclick="checkGkAnswer(this, false, 'q4-ans')">D) Monitor</button>
-                    </div>
-                    <p id="q4-ans" style="display:none; margin:8px 0 0 0; font-size:13px; font-weight:700;"></p>
-                </div>
-            </div>
-        </section>
-
-        <!-- 10. COMPLETE COURSE & SALARY MATRIX -->
-        <section class="card">
-            <h2 class="card-title">📊 ముఖ్య కోర్సులు, కాలపరిమితి & ప్రారంభ జీతాల పట్టిక (Course & Salary Matrix)</h2>
-            <div class="table-responsive">
-                <table class="modern-table">
-                    <thead>
-                        <tr>
-                            <th>కోర్సు పేరు (Course)</th>
-                            <th>అర్హత & కాలపరిమితి</th>
-                            <th>ప్రధాన ఉద్యోగ అవకాశాలు (Job Roles)</th>
-                            <th>సగటు ప్రారంభ జీతం (Approx.)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>ITI (Electrician / Fitter)</strong></td>
-                            <td>10th Pass (1 - 2 Years)</td>
-                            <td>Railway ALP & Technician, Electricity Lineman, Industrial Technician</td>
-                            <td>₹18,000 – ₹35,000 / నెల</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Polytechnic Diploma</strong></td>
-                            <td>10th Pass (3 Years)</td>
-                            <td>Junior Engineer (RRB JE, SSC JE, TRANSCO), Supervisor</td>
-                            <td>₹25,000 – ₹50,000 / నెల</td>
-                        </tr>
-                        <tr>
-                            <td><strong>B.Tech (CSE / AI / ECE)</strong></td>
-                            <td>Inter MPC / Diploma (4 Years)</td>
-                            <td>Software Developer, AI Engineer, Data Scientist, VLSI Engineer</td>
-                            <td>₹35,000 – ₹1,20,000+ / నెల</td>
-                        </tr>
-                        <tr>
-                            <td><strong>BCA / B.Sc Computers</strong></td>
-                            <td>Inter Any / MPC (3 - 4 Years)</td>
-                            <td>Web Developer, App Developer, Cloud Support, IT Analyst</td>
-                            <td>₹25,000 – ₹60,000 / నెల</td>
-                        </tr>
-                        <tr>
-                            <td><strong>MBBS / BDS / B.Pharm</strong></td>
-                            <td>Inter BiPC (4 - 5.5 Years)</td>
-                            <td>Civil Assistant Surgeon, Doctor, Pharmacist, Clinical Researcher</td>
-                            <td>₹40,000 – ₹1,00,000+ / నెల</td>
-                        </tr>
-                        <tr>
-                            <td><strong>B.Sc Agriculture</strong></td>
-                            <td>Inter BiPC (4 Years)</td>
-                            <td>Agriculture Officer (AO), Bank AFO, Seed & Agri Tech Specialist</td>
-                            <td>₹35,000 – ₹65,000 / నెల</td>
-                        </tr>
-                        <tr>
-                            <td><strong>B.Com / CA / CMA</strong></td>
-                            <td>Inter CEC/MEC (3 - 5 Years)</td>
-                            <td>Chartered Accountant, Auditor, Tax Consultant, Bank PO</td>
-                            <td>₹30,000 – ₹90,000+ / నెల</td>
-                        </tr>
-                        <tr>
-                            <td><strong>B.A + UPSC / Groups</strong></td>
-                            <td>Inter Any (3 Years + Prep)</td>
-                            <td>IAS, IPS, Deputy Collector, DSP, MRO, Police SI, DSC Teacher</td>
-                            <td>₹50,000 – ₹1,10,000+ / నెల</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
-
-        <!-- 11. TOP GOVT & PREMIER COLLEGES DIRECTORY -->
-        <section class="card">
-            <h2 class="card-title">🏛️ అత్యుత్తమ ప్రభుత్వ & జాతీయ విద్యా సంస్థల డైరెక్టరీ (Top Colleges Guide)</h2>
-            <p style="margin-bottom: 14px;">తక్కువ ఫీజుతో అత్యుత్తమ నాణ్యమైన విద్య & ప్లేస్‌మెంట్స్ అందించే ప్రముఖ విద్యా సంస్థలు:</p>
-            <div class="table-responsive">
-                <table class="modern-table">
-                    <thead>
-                        <tr>
-                            <th>విద్యా సంస్థ (Institution)</th>
-                            <th>కోర్సులు (Courses)</th>
-                            <th>ప్రవేశ పరీక్ష (Entrance Exam)</th>
-                            <th>ప్రత్యేకత (Highlight)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>IIIT RGUKT (Nuzvid, RK Valley, Basar)</strong></td>
-                            <td>6-Year Integrated B.Tech</td>
-                            <td>10th Class Merit (Rural Quota)</td>
-                            <td>గ్రామీణ విద్యార్థులకు ఉచిత/తక్కువ ఖర్చుతో B.Tech</td>
-                        </tr>
-                        <tr>
-                            <td><strong>IITs & NITs (Tirupati, Warangal, etc.)</strong></td>
-                            <td>B.Tech, Dual Degree, M.Tech</td>
-                            <td>JEE Main & JEE Advanced</td>
-                            <td>దేశంలోనే అత్యుత్తమ ఇంజనీరింగ్ & ₹15-40 LPA ప్యాకేజీలు</td>
-                        </tr>
-                        <tr>
-                            <td><strong>JNTU, AU, OU & SVU University Colleges</strong></td>
-                            <td>B.Tech, B.Pharm, M.Tech, MBA</td>
-                            <td>AP / TS EAPCET & ICET</td>
-                            <td>తక్కువ ఫీజు + పూర్తి ఫీజు రీయింబర్స్‌మెంట్ సదుపాయం</td>
-                        </tr>
-                        <tr>
-                            <td><strong>AIIMS & Govt Medical Colleges</strong></td>
-                            <td>MBBS, B.Sc Nursing, Paramedical</td>
-                            <td>NEET (UG)</td>
-                            <td>అతి తక్కువ ఫీజుతో వైద్య విద్య & 100% ఇంటర్న్‌షిప్</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Central Universities (HCU, DU, BHU, CUAP)</strong></td>
-                            <td>B.Sc, B.A, B.Com, Integrated PG</td>
-                            <td>CUET (UG)</td>
-                            <td>జాతీయ స్థాయి క్యాంపస్ & రీసెర్చ్ అవకాశాలు</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Govt Polytechnic Colleges (AP & TS)</strong></td>
-                            <td>3-Year Engineering Diploma</td>
-                            <td>AP / TS POLYCET</td>
-                            <td>సంవత్సరానికి ₹4,700 లోపు నామమాత్రపు ఫీజు</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
-
-        <!-- 12. COMPLETE GOVT JOBS DIRECTORY BY QUALIFICATION -->
-        <section id="govt-calendar" class="card">
-            <h2 class="card-title">🇮🇳 విద్యార్హతల వారీగా కేంద్ర & రాష్ట్ర ప్రభుత్వ ఉద్యోగాలు (Govt Jobs Directory)</h2>
-            <div class="bilingual-grid">
-                <div class="deep-detail-box" style="margin-bottom:0;">
-                    <span class="stream-badge btech-badge">10TH PASS GOVT JOBS</span>
-                    <h3>1. పదో తరగతి (SSC) అర్హతతో ఉద్యోగాలు</h3>
-                    <ul>
-                        <li><strong>SSC MTS & Havaldar:</strong> కేంద్ర ప్రభుత్వ కార్యాలయాలలో మల్టీ-టాస్కింగ్ స్టాఫ్.</li>
-                        <li><strong>India Post GDS:</strong> గ్రామీణ డాక్ సేవక్ (10th మార్కుల మెరిట్ ద్వారా నేరుగా ఎంపిక).</li>
-                        <li><strong>Defence & Paramilitary:</strong> Indian Army Agniveer, Navy MR, SSC GD Constable.</li>
-                        <li><strong>Railways:</strong> RRB Group-D (ట్రాక్ మెయింటైనర్, పాయింట్స్‌మెన్).</li>
-                    </ul>
-                </div>
-
-                <div class="deep-detail-box" style="margin-bottom:0;">
-                    <span class="stream-badge bsc-badge">12TH / ITI / DIPLOMA JOBS</span>
-                    <h3>2. ఇంటర్ / ITI / డిప్లొమా అర్హతతో ఉద్యోగాలు</h3>
-                    <ul>
-                        <li><strong>UPSC NDA:</strong> ఇంటర్ MPC తో ఆర్మీ, నేవీ, ఎయిర్‌ఫోర్స్ ఆఫీసర్ ఉద్యోగాలు.</li>
-                        <li><strong>SSC CHSL & Stenographer:</strong> కేంద్ర ప్రభుత్వ విభాగాలలో LDC, DEO, PA/SA.</li>
-                        <li><strong>Railways (RRB):</strong> Assistant Loco Pilot (ALP - ITI), Technician, NTPC, JE (Diploma).</li>
-                        <li><strong>State Police & Fire:</strong> పోలీస్ కానిస్టేబుల్, ఫైర్‌మెన్, జైలు వార్డెన్.</li>
-                    </ul>
-                </div>
-
-                <div class="deep-detail-box" style="margin-bottom:0;">
-                    <span class="stream-badge bcom-badge">ANY DEGREE (GRADUATE) JOBS</span>
-                    <h3>3. ఏదైనా డిగ్రీ అర్హతతో ఉన్నత ఉద్యోగాలు</h3>
-                    <ul>
-                        <li><strong>UPSC Civil Services:</strong> IAS, IPS, IFS, IRS.</li>
-                        <li><strong>SSC CGL:</strong> Income Tax Inspector, CBI SI, GST Inspector, ASO.</li>
-                        <li><strong>Banking & Insurance:</strong> IBPS PO/Clerk, SBI PO/Clerk, RBI Grade-B, LIC AAO.</li>
-                        <li><strong>APPSC / TSPSC:</strong> Group-1, Group-2, Group-3, Group-4, Police SI, Sachivalayam.</li>
-                    </ul>
-                </div>
-
-                <div class="deep-detail-box" style="margin-bottom:0;">
-                    <span class="stream-badge ba-badge">SPECIALIZED DEGREE JOBS</span>
-                    <h3>4. ప్రత్యేక డిగ్రీ (B.Tech / B.Ed / Agri / Law)</h3>
-                    <ul>
-                        <li><strong>Engineering (B.Tech):</strong> ISRO, DRDO, GATE PSUs (ONGC, NTPC, BHEL), State AEE/AE.</li>
-                        <li><strong>Teaching (B.Ed / D.Ed):</strong> TET & DSC ద్వారా ప్రభుత్వ పాఠశాల ఉపాధ్యాయులు (SGT / SA).</li>
-                        <li><strong>Agriculture & Medical:</strong> AEO, AO, IBPS Agri Field Officer, Civil Assistant Surgeon.</li>
-                    </ul>
+                <h3 style="margin:10px 0 6px 0;">${data.title}</h3>
+                <p style="margin:0 0 10px 0;">${data.desc}</p>
+                <small style="opacity:0.75;">📅 తేదీ: ${data.date}</small>
+                <div style="margin-top:12px; display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+                    ${data.link && data.link !== '#' ? `<a href="${data.link}" target="_blank" style="color:var(--primary-color); font-weight:700; text-decoration:none;">మరిన్ని వివరాలు 🔗</a>` : ''}
+                    <a href="${whatsappUrl}" target="_blank" style="background:#25D366; color:#fff; padding:6px 12px; border-radius:6px; text-decoration:none; font-size:12.5px; font-weight:bold; margin-left:auto;">
+                        💬 WhatsApp Share
+                    </a>
+                    <button onclick="deletePost('${data.id}')" style="background:#dc2626; color:white; border:none; padding:6px 10px; border-radius:6px; cursor:pointer; font-size:12px;">🗑️ Delete</button>
                 </div>
             </div>
-        </section>
+        `;
+        postsContainer.innerHTML += postCard;
+    });
+}
 
-        <!-- 13. COMPLETE COMPETITIVE EXAMS SYLLABUS & STANDARD BOOKS BLUEPRINT -->
-        <section id="standard-books" class="card" style="border-top: 4px solid #2563eb;">
-            <h2 class="card-title">📖 పోటీ పరీక్షల పూర్తి సిలబస్ & ప్రామాణిక పుస్తకాలు (Complete Syllabus & Standard Books Blueprint)</h2>
-            <p style="margin-bottom: 16px;">UPSC, APPSC/TSPSC Groups (1, 2, 3, 4), SSC (CGL/CHSL/MTS), Railways (RRB), Banking & Police SI/Constable పరీక్షలలో విజయం సాధించడానికి ప్రతి సబ్జెక్టు సిలబస్ & చదవాల్సిన ప్రామాణిక పుస్తకాల పూర్తి జాబితా:</p>
+// =========================================================
+// 6. STUDY MATERIALS, IMP & PYQs (100% FREE FIRESTORE + DRIVE)
+// =========================================================
+window.setMaterialLevel = function(level, btnElement) {
+    currentMaterialLevel = level;
+    document.querySelectorAll(".filter-pills .pill-btn").forEach(b => b.classList.remove("active"));
+    if (btnElement) btnElement.classList.add("active");
+    filterMaterials();
+};
 
-            <div class="bilingual-grid" style="margin-bottom: 20px;">
-                <div class="deep-detail-box" style="margin-bottom:0;">
-                    <span class="stream-badge btech-badge">1. QUANTITATIVE APTITUDE (ARITHMETIC)</span>
-                    <h3>🔢 అంకగణితం (Arithmetic Syllabus & Books)</h3>
-                    <p><strong>ముఖ్య సిలబస్:</strong> Number System, LCM & HCF, Percentages (శాతాలు), Profit & Loss (లాభనష్టాలు), Simple & Compound Interest, Ratio & Proportion, Averages, Time & Work, Time & Distance, Mensuration, Data Interpretation.</p>
-                    <p style="margin-bottom:0;"><strong>📚 ప్రామాణిక పుస్తకాలు:</strong> R.S. Aggarwal (Quantitative Aptitude), Arun Sharma, Kiran's SSC Mathematics PYQs, తెలుగు అకాడమీ 6th–10th గణితం.</p>
+window.quickSelectDomain = function(domainName) {
+    currentMaterialLevel = domainName;
+    document.querySelectorAll("#domainPills .pill-btn").forEach(btn => {
+        btn.classList.toggle("active", btn.textContent.includes(domainName));
+    });
+    filterMaterials();
+    const browserSec = document.getElementById("browserSection");
+    if (browserSec) browserSec.scrollIntoView({ behavior: "smooth" });
+};
+
+window.filterMaterials = function() {
+    const searchEl = document.getElementById("materialSearchInput");
+    const typeEl = document.getElementById("materialTypeFilter");
+    const searchVal = searchEl ? searchEl.value.toLowerCase() : "";
+    const typeVal = typeEl ? typeEl.value : "ALL";
+
+    const filtered = allMaterialsData.filter(item => {
+        const matchesLevel = currentMaterialLevel === "ALL" || item.level === currentMaterialLevel;
+        const matchesType = typeVal === "ALL" || item.type === typeVal;
+        const matchesSearch = item.title.toLowerCase().includes(searchVal) ||
+                              item.subject.toLowerCase().includes(searchVal) ||
+                              item.desc.toLowerCase().includes(searchVal);
+        return matchesLevel && matchesType && matchesSearch;
+    });
+
+    renderMaterials(filtered);
+};
+
+window.deleteMaterial = async function(id) {
+    const pass = prompt("🔑 అడ్మిన్ పాస్‌వర్డ్ ఎంటర్ చేయండి:");
+    if (pass !== "pso123") {
+        alert("❌ తప్పుడు పాస్‌వర్డ్!");
+        return;
+    }
+    if (confirm("మీరు నిజంగా ఈ మెటీరియల్‌ను తొలగించాలనుకుంటున్నారా?")) {
+        try {
+            await deleteDoc(doc(db, "pso_materials", id));
+            alert("🗑️ మెటీరియల్ తొలగించబడింది!");
+            fetchMaterials();
+        } catch (e) {
+            alert("ఎర్రర్: " + e.message);
+        }
+    }
+};
+
+function compressImageFile(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (event) => {
+            const img = new Image();
+            img.src = event.target.result;
+            img.onload = () => {
+                const canvas = document.createElement("canvas");
+                const maxWidth = 1200;
+                const scale = img.width > maxWidth ? maxWidth / img.width : 1;
+                canvas.width = img.width * scale;
+                canvas.height = img.height * scale;
+                const ctx = canvas.getContext("2d");
+                ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+                resolve(canvas.toDataURL("image/jpeg", 0.78));
+            };
+            img.onerror = (err) => reject(err);
+        };
+        reader.onerror = (err) => reject(err);
+    });
+}
+
+function readPdfAsDataUrl(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = () => resolve(reader.result);
+        reader.onerror = (err) => reject(err);
+    });
+}
+
+function formatDriveLinks(url) {
+    const driveMatch = url.match(/\/d\/([a-zA-Z0-9_-]+)/) || url.match(/id=([a-zA-Z0-9_-]+)/);
+    if (driveMatch && driveMatch[1]) {
+        const fileId = driveMatch[1];
+        return {
+            previewUrl: `https://drive.google.com/file/d/${fileId}/preview`,
+            downloadUrl: `https://drive.google.com/uc?export=download&id=${fileId}`
+        };
+    }
+    return { previewUrl: url, downloadUrl: url };
+}
+
+window.openMaterialFile = function(index) {
+    const item = allMaterialsData[index];
+    if (!item || !item.link) return;
+
+    if (item.link.startsWith("data:")) {
+        const win = window.open();
+        if (win) {
+            win.document.write(`<iframe src="${item.link}" frameborder="0" style="border:0; width:100%; height:100%;" allowfullscreen></iframe>`);
+        } else {
+            alert("దయచేసి పాపప్ (Popup) బ్లాకర్ ఆఫ్ చేసి మళ్లీ క్లిక్ చేయండి.");
+        }
+    } else {
+        const { previewUrl } = formatDriveLinks(item.link);
+        window.open(previewUrl, "_blank");
+    }
+};
+
+async function addNewMaterial(event) {
+    event.preventDefault();
+
+    const adminPass = document.getElementById("matAdminPass").value;
+    if (adminPass !== "pso123") {
+        alert("❌ తప్పుడు అడ్మిన్ పాస్‌వర్డ్!");
+        return;
+    }
+
+    const level = document.getElementById("matLevel").value;
+    const type = document.getElementById("matType").value;
+    const subject = document.getElementById("matSubject").value.trim();
+    const title = document.getElementById("matTitle").value.trim();
+    const desc = document.getElementById("matDesc").value.trim();
+    const fileInput = document.getElementById("matFile");
+    const externalLink = document.getElementById("matLink").value.trim();
+
+    const file = fileInput && fileInput.files.length > 0 ? fileInput.files[0] : null;
+
+    if (!file && !externalLink) {
+        alert("⚠️ దయచేసి PDF/Image ఫైల్ సెలెక్ట్ చేయండి లేదా Google Drive లింక్ ఇవ్వండి!");
+        return;
+    }
+
+    const statusBox = document.getElementById("uploadStatusBox");
+    const progressText = document.getElementById("uploadProgressText");
+    const submitBtn = document.getElementById("matSubmitBtn");
+
+    try {
+        submitBtn.disabled = true;
+        let finalFileUrl = externalLink;
+        let fileFormat = "Link";
+        let fileName = "";
+
+        if (file) {
+            if (statusBox) statusBox.style.display = "block";
+            if (progressText) progressText.textContent = "Processing...";
+            fileName = file.name;
+
+            if (file.type.startsWith("image/")) {
+                fileFormat = "Image";
+                finalFileUrl = await compressImageFile(file);
+            } else if (file.type === "application/pdf") {
+                if (file.size > 720 * 1024) {
+                    alert("⚠️ ఫ్రీ డేటాబేస్ పరిమితి ప్రకారం నేరుగా 700 KB లోపు PDF మాత్రమే అప్‌లోడ్ అవుతుంది. పెద్ద PDF ఫైల్స్ (10MB–150MB) కోసం Google Drive లో అప్‌లోడ్ చేసి ఆ లింక్‌ను కింద బాక్స్‌లో పేస్ట్ చేయండి!");
+                    submitBtn.disabled = false;
+                    if (statusBox) statusBox.style.display = "none";
+                    return;
+                }
+                fileFormat = "PDF";
+                finalFileUrl = await readPdfAsDataUrl(file);
+            } else {
+                alert("⚠️ దయచేసి PDF లేదా Image (JPG, PNG) ఫైల్ మాత్రమే ఎంచుకోండి.");
+                submitBtn.disabled = false;
+                if (statusBox) statusBox.style.display = "none";
+                return;
+            }
+        }
+
+        await addDoc(collection(db, "pso_materials"), {
+            level,
+            type,
+            subject,
+            title,
+            desc,
+            link: finalFileUrl,
+            fileFormat,
+            fileName,
+            date: new Date().toLocaleDateString("te-IN"),
+            createdAt: Date.now()
+        });
+
+        alert("📚 Study Material / IMP / PYQ విజయవంతంగా అప్‌లోడ్ అయింది!");
+        document.getElementById("materialForm").reset();
+    } catch (error) {
+        alert("అప్‌లోడ్ విఫలమైంది: " + error.message);
+    } finally {
+        submitBtn.disabled = false;
+        if (statusBox) statusBox.style.display = "none";
+    }
+}
+
+async function fetchMaterials() {
+    const container = document.getElementById("materialsContainer");
+    if (!container) return;
+
+    try {
+        const q = query(collection(db, "pso_materials"), orderBy("createdAt", "desc"));
+        const snapshot = await getDocs(q);
+
+        if (snapshot.empty) {
+            container.innerHTML = "<p style='text-align:center;'>ప్రస్తుతానికి మెటీరియల్స్ ఇంకా అప్‌లోడ్ కాలేదు. త్వరలోనే అప్‌డేట్ అవుతాయి!</p>";
+            return;
+        }
+
+        allMaterialsData = [];
+        snapshot.forEach(docSnap => {
+            allMaterialsData.push({ id: docSnap.id, ...docSnap.data() });
+        });
+
+        renderMaterials(allMaterialsData);
+    } catch (error) {
+        container.innerHTML = "<p style='text-align:center; color:red;'>మెటీరియల్స్ లోడ్ చేయడంలో సమస్య ఏర్పడింది.</p>";
+    }
+}
+
+function renderMaterials(items) {
+    const container = document.getElementById("materialsContainer");
+    if (!container) return;
+
+    if (items.length === 0) {
+        container.innerHTML = "<p style='text-align:center;'>ఈ విభాగంలో మెటీరియల్స్ లభించలేదు.</p>";
+        return;
+    }
+
+    container.innerHTML = "";
+    items.forEach((item) => {
+        const globalIndex = allMaterialsData.findIndex(m => m.id === item.id);
+        const isImage = item.fileFormat === "Image" || item.link.startsWith("data:image/") || /\.(jpg|jpeg|png|webp|gif)(\?|$)/i.test(item.link);
+        const { downloadUrl } = item.link.startsWith("data:") ? { downloadUrl: item.link } : formatDriveLinks(item.link);
+        const shareText = encodeURIComponent(`📚 *${item.title}* (${item.level} - ${item.subject})\n\n${item.desc}\n\nమరిన్ని మెటీరియల్స్ & PYQs కోసం: https://avr-tech-labs.github.io/PSO-ORG/materials.html`);
+        const whatsappUrl = `https://api.whatsapp.com/send?text=${shareText}`;
+
+        const imagePreviewHtml = isImage ? `
+            <div style="margin: 12px 0; text-align: center;">
+                <img src="${item.link}" alt="${item.title}" onclick="openMaterialFile(${globalIndex})" style="cursor:pointer; max-width: 100%; max-height: 360px; border-radius: 10px; border: 1px solid var(--border-color); object-fit: contain; background: #fff;">
+            </div>
+        ` : "";
+
+        container.innerHTML += `
+            <div style="border:1px solid var(--border-color); border-left:4px solid #2563eb; padding:18px; margin-bottom:16px; border-radius:12px; background:var(--subcard-bg);">
+                <div style="display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-bottom:8px;">
+                    <span style="background:#2563eb; color:#fff; padding:3px 10px; border-radius:6px; font-size:12px; font-weight:700;">${item.level}</span>
+                    <span style="background:#059669; color:#fff; padding:3px 10px; border-radius:6px; font-size:12px; font-weight:700;">${item.type}</span>
+                    <span style="background:#7c3aed; color:#fff; padding:3px 9px; border-radius:6px; font-size:11.5px; font-weight:700;">${isImage ? '🖼️ Image' : '📄 PDF / Doc'}</span>
+                    <span style="font-size:12.5px; font-weight:700; color:var(--primary-color);">📘 ${item.subject}</span>
                 </div>
-
-                <div class="deep-detail-box" style="margin-bottom:0;">
-                    <span class="stream-badge bsc-badge">2. LOGICAL REASONING & MENTAL ABILITY</span>
-                    <h3>🧠 రీజనింగ్ & మెంటల్ ఎబిలిటీ (Syllabus & Books)</h3>
-                    <p><strong>ముఖ్య సిలబస్:</strong> Coding-Decoding, Number & Letter Series, Analogy, Blood Relations, Direction Sense, Seating Arrangement, Syllogisms, Clocks & Calendars, Cubes & Dice, Venn Diagrams, Non-Verbal Reasoning.</p>
-                    <p style="margin-bottom:0;"><strong>📚 ప్రామాణిక పుస్తకాలు:</strong> R.S. Aggarwal (Verbal & Non-Verbal Reasoning), M.K. Pandey (Analytical Reasoning), Arihant Reasoning.</p>
-                </div>
-
-                <div class="deep-detail-box" style="margin-bottom:0;">
-                    <span class="stream-badge bcom-badge">3. INDIAN & REGIONAL HISTORY</span>
-                    <h3>🏛️ చరిత్ర & సంస్కృతి (History Syllabus & Books)</h3>
-                    <p><strong>ముఖ్య సిలబస్:</strong> సింధు నాగరికత, వేద కాలం, బౌద్ధ-జైన మతాలు, మౌర్యులు & గుప్తులు (Ancient); ఢిల్లీ సుల్తానులు, మొఘలులు, విజయనగర సామ్రాజ్యం (Medieval); 1857 తిరుగుబాటు, భారత జాతీయోద్యమం (Modern); శాతవాహనులు, కాకతీయులు, ఆంధ్ర/తెలంగాణ ఉద్యమ చరిత్ర.</p>
-                    <p style="margin-bottom:0;"><strong>📚 ప్రామాణిక పుస్తకాలు:</strong> 6th–12th NCERT History, Spectrum (Modern India - Rajiv Ahir), R.S. Sharma, తెలుగు అకాడమీ AP/TS చరిత్ర.</p>
-                </div>
-
-                <div class="deep-detail-box" style="margin-bottom:0;">
-                    <span class="stream-badge ba-badge">4. INDIAN POLITY & GOVERNANCE</span>
-                    <h3>⚖️ భారత రాజ్యాంగం & పాలిటీ (Syllabus & Books)</h3>
-                    <p><strong>ముఖ్య సిలబస్:</strong> రాజ్యాంగ నిర్మాణం, ప్రవేశిక, ప్రాథమిక హక్కులు (Fundamental Rights), ఆదేశిక సూత్రాలు (DPSP), ప్రాథమిక విధులు, రాష్ట్రపతి, ప్రధానమంత్రి, పార్లమెంట్, సుప్రీంకోర్టు & హైకోర్టులు, పంచాయతీ రాజ్ (73 & 74 సవరణలు).</p>
-                    <p style="margin-bottom:0;"><strong>📚 ప్రామాణిక పుస్తకాలు:</strong> M. Laxmikanth (Indian Polity - English/Telugu), D.D. Basu, 11th NCERT Constitution, తెలుగు అకాడమీ పాలిటీ.</p>
-                </div>
-
-                <div class="deep-detail-box" style="margin-bottom:0;">
-                    <span class="stream-badge btech-badge">5. INDIAN, WORLD & REGIONAL GEOGRAPHY</span>
-                    <h3>🌍 భూగోళ శాస్త్రం (Geography Syllabus & Books)</h3>
-                    <p><strong>ముఖ్య సిలబస్:</strong> సౌర కుటుంబం, వాతావరణం, మహాసముద్రాలు (Physical); భారతదేశ నైసర్గిక స్వరూపం, నదులు, రుతుపవనాలు, నేలలు, అడవులు, వ్యవసాయం, ఖనిజాలు, పరిశ్రమలు, జనాభా & AP/TS భౌగోళిక అంశాలు.</p>
-                    <p style="margin-bottom:0;"><strong>📚 ప్రామాణిక పుస్తకాలు:</strong> 6th–12th NCERT Geography, G.C. Leong, Majid Husain, Oxford Student Atlas, తెలుగు అకాడమీ జాగ్రఫీ.</p>
-                </div>
-
-                <div class="deep-detail-box" style="margin-bottom:0;">
-                    <span class="stream-badge bsc-badge">6. INDIAN & STATE ECONOMY</span>
-                    <h3>💰 ఆర్థిక శాస్త్రం (Economy Syllabus & Books)</h3>
-                    <p><strong>ముఖ్య సిలబస్:</strong> జాతీయ ఆదాయం (GDP, GNP), పంచవర్ష ప్రణాళికలు & NITI Aayog, పేదరికం & నిరుద్యోగం, ద్రవ్యోల్బణం (Inflation), RBI ద్రవ్య విధానం, బ్యాంకింగ్ సంస్కరణలు, కేంద్ర & రాష్ట్ర బడ్జెట్, ఆర్థిక సర్వే, GST, సంక్షేమ పథకాలు.</p>
-                    <p style="margin-bottom:0;"><strong>📚 ప్రామాణిక పుస్తకాలు:</strong> Ramesh Singh (Indian Economy), Vivek Singh, 11th & 12th NCERT Economics, కేంద్ర & రాష్ట్ర బడ్జెట్ & Survey.</p>
-                </div>
-
-                <div class="deep-detail-box" style="margin-bottom:0;">
-                    <span class="stream-badge bcom-badge">7. GENERAL SCIENCE & TECHNOLOGY</span>
-                    <h3>🔬 సైన్స్ & టెక్నాలజీ (Syllabus & Books)</h3>
-                    <p><strong>ముఖ్య సిలబస్:</strong> భౌతిక శాస్త్రం (కాంతి, ధ్వని, విద్యుత్, అయస్కాంతత్వం); రసాయన శాస్త్రం (ఆమ్లాలు-క్షారాలు, లోహాలు); జీవశాస్త్రం (మానవ శరీర వ్యవస్థలు, వ్యాధులు, విటమిన్లు); ISRO అంతరిక్ష ప్రయోగాలు, DRDO క్షిపణులు, AI, బయోటెక్నాలజీ & పర్యావరణం.</p>
-                    <p style="margin-bottom:0;"><strong>📚 ప్రామాణిక పుస్తకాలు:</strong> 6th–10th NCERT & SCERT Science, Lucent's General Science, Ravi P. Agrahari (Science & Tech).</p>
-                </div>
-
-                <div class="deep-detail-box" style="margin-bottom:0;">
-                    <span class="stream-badge ba-badge">8. GENERAL ENGLISH & CURRENT AFFAIRS</span>
-                    <h3>📰 ఇంగ్లీష్ & కరెంట్ అఫైర్స్ (Syllabus & Books)</h3>
-                    <p><strong>ముఖ్య సిలబస్:</strong> Tenses, Active-Passive Voice, Direct-Indirect Speech, Articles, Prepositions, Synonyms & Antonyms, Comprehension; జాతీయ & అంతర్జాతీయ వార్తలు, అవార్డులు, క్రీడలు, సదస్సులు & ప్రభుత్వ పథకాలు.</p>
-                    <p style="margin-bottom:0;"><strong>📚 ప్రామాణిక పుస్తకాలు:</strong> Wren & Martin, S.P. Bakshi (Objective General English), ఈనాడు / సాక్షి / The Hindu దినపత్రికలు & Yojana మ్యాగజైన్.</p>
+                <h3 style="margin:6px 0;">${item.title}</h3>
+                <p style="margin:0 0 10px 0;">${item.desc}</p>
+                ${imagePreviewHtml}
+                <small style="opacity:0.75;">📅 అప్‌లోడ్ తేదీ: ${item.date}</small>
+                <div style="margin-top:12px; display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
+                    <button onclick="openMaterialFile(${globalIndex})" style="background:var(--primary-color); color:#fff; border:none; padding:8px 14px; border-radius:6px; cursor:pointer; font-size:13px; font-weight:700;">
+                        ${isImage ? '🖼️ View Full Image' : '📄 View / Open PDF'}
+                    </button>
+                    <a href="${downloadUrl}" target="_blank" download="${item.fileName || 'PSO_Material'}" style="background:#0f172a; color:#fff; padding:7px 13px; border-radius:6px; text-decoration:none; font-size:13px; font-weight:700;">
+                        ⬇️ Download
+                    </a>
+                    <a href="${whatsappUrl}" target="_blank" style="background:#25D366; color:#fff; padding:7px 12px; border-radius:6px; text-decoration:none; font-size:12.5px; font-weight:bold; margin-left:auto;">
+                        💬 Share
+                    </a>
+                    <button onclick="deleteMaterial('${item.id}')" style="background:#dc2626; color:white; border:none; padding:7px 10px; border-radius:6px; cursor:pointer; font-size:12px;">🗑️ Delete</button>
                 </div>
             </div>
-        </section>
+        `;
+    });
+}
 
-        <!-- 14. INSTANT 1-CLICK ATS RESUME BUILDER -->
-        <section id="resume-builder" class="card" style="border-top: 4px solid #10b981;">
-            <h2 class="card-title">📝 Instant Student Resume Generator (ఉచిత రెజ్యూమ్ బిల్డర్)</h2>
-            <p style="margin-bottom: 15px;">కంప్యూటర్ సెంటర్లకు వెళ్లకుండానే మీ వివరాలు నింపి ప్రొఫెషనల్ <strong>1-Page Resume</strong> తయారు చేసుకుని PDF గా సేవ్ చేసుకోండి:</p>
+// =========================================================
+// 7. HOME PAGE INTERACTIVE CALCULATORS & DAILY GK QUIZ
+// =========================================================
+window.calculateGovtExamAge = function() {
+    const dobVal = document.getElementById("calcDob").value;
+    const relax = parseInt(document.getElementById("calcCategory").value, 10);
+    const resDiv = document.getElementById("ageCalcResult");
 
-            <div class="bilingual-grid">
-                <div>
-                    <input type="text" id="resName" class="modal-input" placeholder="పూర్తి పేరు (Full Name)" style="margin-bottom:10px;">
-                    <input type="text" id="resRole" class="modal-input" placeholder="లక్ష్యం / హోదా (ఉదా: B.Tech CSE Graduate / Full Stack Developer)" style="margin-bottom:10px;">
-                    <input type="text" id="resContact" class="modal-input" placeholder="ఫోన్, Email & ఊరు (ఉదా: +91 9876543210 | mail@gmail.com | Anantapur)" style="margin-bottom:10px;">
-                    <textarea id="resEdu" class="modal-input" rows="2" placeholder="విద్యార్హతలు (ఉదా: B.Tech CSE - 8.4 CGPA | Inter MPC - 92% | 10th - 95%)" style="margin-bottom:10px;"></textarea>
-                </div>
-                <div>
-                    <textarea id="resSkills" class="modal-input" rows="2" placeholder="నైపుణ్యాలు (ఉదా: HTML, CSS, JavaScript, React, Python, MS Excel, Communication)" style="margin-bottom:10px;"></textarea>
-                    <textarea id="resProjects" class="modal-input" rows="2" placeholder="ప్రాజెక్ట్స్ / ఇంటర్న్‌షిప్ (ఉదా: Student Career Portal Web App, E-Commerce Website)" style="margin-bottom:10px;"></textarea>
-                    <input type="text" id="resLang" class="modal-input" placeholder="భాషలు (ఉదా: Telugu, English, Hindi)" style="margin-bottom:10px;">
-                    <button onclick="generateInstantResume()" class="submit-btn" style="background:#059669;">📄 Generate & Print PDF Resume</button>
-                </div>
-            </div>
-        </section>
+    if (!dobVal) {
+        alert("⚠️ దయచేసి మీ పుట్టిన తేదీని (Date of Birth) ఎంచుకోండి!");
+        return;
+    }
 
-        <!-- 15. SMART STUDY TIMER & DAILY TARGET PLANNER -->
-        <section id="study-planner" class="card" style="border-top: 4px solid #f59e0b;">
-            <h2 class="card-title">⏱️ Smart Study Focus Timer & Daily Goal Tracker</h2>
-            <div class="bilingual-grid">
-                <div class="deep-detail-box" style="margin-bottom:0; text-align:center;">
-                    <span class="stream-badge bcom-badge">25-MIN FOCUS TIMER</span>
-                    <h3>📚 పరీక్షల ఏకాగ్రత టైమర్ (Pomodoro)</h3>
-                    <div id="pomodoroDisplay" style="font-size: 38px; font-weight: 800; color: var(--primary-color); margin: 12px 0; font-family: monospace;">25:00</div>
-                    <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
-                        <button onclick="startStudyTimer()" class="pill-btn active">▶️ Start</button>
-                        <button onclick="pauseStudyTimer()" class="pill-btn">⏸️ Pause</button>
-                        <button onclick="resetStudyTimer()" class="pill-btn">🔄 Reset</button>
-                    </div>
-                    <p style="font-size:12.5px; opacity:0.8; margin-top:10px;">25 నిమిషాలు ఫోన్ పక్కన పెట్టి చదవండి, ఆ తర్వాత 5 నిమిషాలు విశ్రాంతి తీసుకోండి!</p>
-                </div>
+    const dob = new Date(dobVal);
+    const today = new Date();
+    let age = today.getFullYear() - dob.getFullYear();
+    const m = today.getMonth() - dob.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < dob.getDate())) {
+        age--;
+    }
 
-                <div class="deep-detail-box" style="margin-bottom:0;">
-                    <span class="stream-badge bsc-badge">DAILY HABIT TRACKER</span>
-                    <h3>✅ ఈరోజు మీ చదువు లక్ష్యాలు (Daily Checklist)</h3>
-                    <label style="display:block; margin:8px 0; cursor:pointer;"><input type="checkbox"> 📰 30 నిమిషాలు వార్తాపత్రిక & Current Affairs చదవడం</label>
-                    <label style="display:block; margin:8px 0; cursor:pointer;"><input type="checkbox"> 📘 కనీసం 2 ముఖ్యమైన చాప్టర్లు / IMP Questions రివిజన్</label>
-                    <label style="display:block; margin:8px 0; cursor:pointer;"><input type="checkbox"> 📝 1 పాత ప్రశ్నాపత్రం (PYQ) లేదా మినీ క్విజ్ ప్రాక్టీస్</label>
-                    <label style="display:block; margin:8px 0; cursor:pointer;"><input type="checkbox"> 💻 45 నిమిషాలు Coding / English / Skill ప్రాక్టీస్</label>
-                </div>
-            </div>
-        </section>
+    const exams = [
+        { name: "SSC CHSL / MTS / Constable", min: 18, max: 27 + relax },
+        { name: "SSC CGL / Railways NTPC / Bank PO", min: 20, max: 30 + relax },
+        { name: "UPSC Civil Services (IAS/IPS)", min: 21, max: 32 + relax },
+        { name: "APPSC / TSPSC Groups & DSC Teacher", min: 18, max: 42 + relax }
+    ];
 
-        <!-- 16. SCHOLARSHIP QUICK ELIGIBILITY CHECKER -->
-        <section class="card" style="border-top: 4px solid #6366f1;">
-            <h2 class="card-title">🎓 Scholarship Eligibility Quick-Checker (స్కాలర్‌షిప్ అర్హత తనిఖీ)</h2>
-            <div class="quiz-controls">
-                <select id="schStage" class="modern-select">
-                    <option value="inter">Intermediate / Polytechnic / ITI</option>
-                    <option value="ug">Degree / B.Tech / Pharmacy / Agriculture</option>
-                    <option value="pg">PG (M.Tech / MBA / MCA / M.Sc)</option>
-                </select>
-                <select id="schIncome" class="modern-select">
-                    <option value="low">కుటుంబ వార్షిక ఆదాయం ₹2.5 లక్షల లోపు</option>
-                    <option value="mid">కుటుంబ వార్షిక ఆదాయం ₹2.5 – ₹8 లక్షల మధ్య</option>
-                </select>
-                <select id="schGender" class="modern-select">
-                    <option value="any">అందరూ (All Students)</option>
-                    <option value="girl">బాలికలు (Girl Student - AICTE Pragati)</option>
-                </select>
-                <button onclick="checkScholarshipEligibility()" class="quiz-btn">🔍 స్కాలర్‌షిప్ వివరాలు చూడండి</button>
-            </div>
-            <div id="schResultBox" class="quiz-result-box" style="display:none; margin-top:14px;"></div>
-        </section>
+    let listHtml = `<p style="margin:0 0 8px 0;"><strong>🎂 మీ ప్రస్తుత వయస్సు:</strong> ${age} సంవత్సరాలు (Category Relaxation: +${relax} Yrs)</p><ul style="margin:0; padding-left:18px;">`;
+    exams.forEach(ex => {
+        const eligible = age >= ex.min && age <= ex.max;
+        listHtml += `<li><strong>${ex.name}</strong> (${ex.min}-${ex.max} Yrs): ${eligible ? '<span style="color:#059669; font-weight:800;">✅ అర్హులు (Eligible)</span>' : '<span style="color:#dc2626; font-weight:700;">❌ వయస్సు పరిమితి దాటింది / తక్కువ</span>'}</li>`;
+    });
+    listHtml += "</ul>";
 
-        <!-- 17. FREE GOVT HOSTELS, GURUKULAMS & COACHING -->
-        <section class="card">
-            <h2 class="card-title">🏫 పేద & గ్రామీణ విద్యార్థులకు ఉచిత గురుకులాలు & ఉచిత కోచింగ్ పథకాలు</h2>
-            <div class="bilingual-grid">
-                <div class="deep-detail-box" style="margin-bottom:0;">
-                    <span class="stream-badge bsc-badge">FREE RESIDENTIAL SCHOOLS & COLLEGES</span>
-                    <h3>1. గురుకుల విద్యాలయాలు (Gurukulam Institutions)</h3>
-                    <p>AP & Telangana Social Welfare, Tribal Welfare, BC Welfare మరియు Minority గురుకుల పాఠశాలలు & జూనియర్ కాలేజీలలో 5వ తరగతి నుండి ఇంటర్మీడియట్ వరకు <strong>ఉచిత విద్య, ఉచిత వసతి (Hostel), పౌష్టికాహారం, పుస్తకాలు మరియు IIT-JEE / NEET ఉచిత కోచింగ్</strong> అందిస్తారు.</p>
-                </div>
+    resDiv.style.display = "block";
+    resDiv.innerHTML = listHtml;
+};
 
-                <div class="deep-detail-box" style="margin-bottom:0;">
-                    <span class="stream-badge btech-badge">FREE CIVIL SERVICES & GOVT COACHING</span>
-                    <h3>2. ప్రభుత్వ ఉచిత పోటీ పరీక్షల శిక్షణ (Study Circles)</h3>
-                    <p>డిగ్రీ పూర్తయిన SC, ST, BC, Minority & EWS విద్యార్థులకు <strong>Dr. B.R. Ambedkar Study Circles, BC Study Circles, Tribal Study Circles</strong> ద్వారా UPSC (IAS/IPS), APPSC/TSPSC Groups, SSC, Banking మరియు SI/Constable పరీక్షలకు స్టైపెండ్‌తో కూడిన ఉచిత శిక్షణ ఇస్తారు.</p>
-                </div>
-            </div>
-        </section>
+window.convertMarksToPercent = function() {
+    const obtained = parseFloat(document.getElementById("calcMarksObtained").value);
+    const total = parseFloat(document.getElementById("calcTotalMarks").value);
+    const resDiv = document.getElementById("marksCalcResult");
 
-        <!-- 18. OFFICIAL GOVT PORTALS & HELPLINES -->
-        <section class="card">
-            <h2 class="card-title">🔗 ముఖ్యమైన ప్రభుత్వ వెబ్‌సైట్లు & విద్యార్థి హెల్ప్‌లైన్ పోర్టల్స్</h2>
-            <div class="table-responsive">
-                <table class="modern-table">
-                    <thead>
-                        <tr>
-                            <th>విభాగం (Department)</th>
-                            <th>అధికారిక వెబ్‌సైట్ (Official Portal)</th>
-                            <th>ఉపయోగం (Purpose)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>National Scholarship Portal (NSP)</strong></td>
-                            <td><a href="https://scholarships.gov.in" target="_blank" style="color:var(--primary-color); font-weight:700;">scholarships.gov.in</a></td>
-                            <td>కేంద్ర ప్రభుత్వ స్కాలర్‌షిప్‌లు (NMMS, AICTE, Minority, SC/ST).</td>
-                        </tr>
-                        <tr>
-                            <td><strong>AP Jnanabhumi & ePass</strong></td>
-                            <td><a href="https://jnanabhumi.ap.gov.in" target="_blank" style="color:var(--primary-color); font-weight:700;">jnanabhumi.ap.gov.in</a></td>
-                            <td>ఆంధ్రప్రదేశ్ ఫీజు రీయింబర్స్‌మెంట్ & వసతి దీవెన.</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Telangana ePASS</strong></td>
-                            <td><a href="https://telanganaepass.cgg.gov.in" target="_blank" style="color:var(--primary-color); font-weight:700;">telanganaepass.cgg.gov.in</a></td>
-                            <td>తెలంగాణ పోస్ట్-మెట్రిక్ స్కాలర్‌షిప్ & ఫీజు రీయింబర్స్‌మెంట్.</td>
-                        </tr>
-                        <tr>
-                            <td><strong>SSC (Staff Selection Commission)</strong></td>
-                            <td><a href="https://ssc.gov.in" target="_blank" style="color:var(--primary-color); font-weight:700;">ssc.gov.in</a></td>
-                            <td>SSC CGL, CHSL, MTS, GD Constable నోటిఫికేషన్లు & ఫలితాలు.</td>
-                        </tr>
-                        <tr>
-                            <td><strong>APPSC & TSPSC</strong></td>
-                            <td><a href="https://psc.ap.gov.in" target="_blank" style="color:var(--primary-color); font-weight:700;">psc.ap.gov.in</a> / <a href="https://www.tspsc.gov.in" target="_blank" style="color:var(--primary-color); font-weight:700;">tspsc.gov.in</a></td>
-                            <td>రాష్ట్ర ప్రభుత్వ Group-1, Group-2, Group-3, Group-4 ఉద్యోగాలు.</td>
-                        </tr>
-                        <tr>
-                            <td><strong>National Career Service (NCS)</strong></td>
-                            <td><a href="https://www.ncs.gov.in" target="_blank" style="color:var(--primary-color); font-weight:700;">ncs.gov.in</a></td>
-                            <td>కేంద్ర ప్రభుత్వ ఉచిత జాబ్ పోర్టల్ & కెరీర్ కౌన్సెలింగ్.</td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
+    if (isNaN(obtained) || isNaN(total) || total <= 0 || obtained < 0 || obtained > total) {
+        alert("⚠️ దయచేసి సరైన వచ్చిన మార్కులు మరియు మొత్తం మార్కులు (Total Marks) ఎంటర్ చేయండి!");
+        return;
+    }
 
-        <!-- 19. RURAL YOUTH SUCCESS STORIES WALL -->
-        <section class="card">
-            <h2 class="card-title">🌟 గ్రామీణ విద్యార్థుల విజయ గాథలు (Rural Achievers Inspiration)</h2>
-            <div class="bilingual-grid">
-                <div class="deep-detail-box" style="margin-bottom:0;">
-                    <span class="stream-badge btech-badge">SOFTWARE & IT SUCCESS</span>
-                    <h3>💻 తెలుగు మీడియం నుండి MNC సాఫ్ట్‌వేర్ ఇంజనీర్ వరకు!</h3>
-                    <p>"గ్రామీణ ప్రభుత్వ పాఠశాలలో 10వ తరగతి వరకు తెలుగు మీడియంలో చదివి, డిగ్రీతో పాటు రోజుకు 2 గంటలు Coding & English ప్రాక్టీస్ చేయడం ద్వారా నేడు ప్రముఖ సాఫ్ట్‌వేర్ కంపెనీలో ₹8.5 LPA ప్యాకేజీతో ఉద్యోగం సాధించాను."</p>
-                    <small style="font-weight:700; color:var(--primary-color);">— సందేశం: మీ నేపథ్యం కాదు, మీ నిరంతర సాధనే మీ భవిష్యత్తును నిర్ణయిస్తుంది.</small>
-                </div>
+    const percent = ((obtained / total) * 100).toFixed(2);
+    const approxCgpa = Math.min(10, parseFloat(percent) / 9.5).toFixed(2);
+    const division = percent >= 75 ? "First Class with Distinction 🏆" : percent >= 60 ? "First Class 🥇" : percent >= 50 ? "Second Class 🥈" : percent >= 35 ? "Pass Class ✅" : "Below Pass Marks ❌";
 
-                <div class="deep-detail-box" style="margin-bottom:0;">
-                    <span class="stream-badge bsc-badge">GOVT JOB SUCCESS</span>
-                    <h3>🏛️ రైతు కుటుంబం నుండి ప్రభుత్వ అధికారిగా!</h3>
-                    <p>"ఖరీదైన కోచింగ్ సెంటర్లకు వెళ్లే స్థోమత లేకపోయినా, 6th–12th NCERT/SCERT పుస్తకాలు, డైలీ కరెంట్ అఫైర్స్ మరియు పాత ప్రశ్నాపత్రాలు (PYQs) క్రమం తప్పకుండా సాధన చేసి మొదటి ప్రయత్నంలోనే ప్రభుత్వ ఉద్యోగం సాధించాను."</p>
-                    <small style="font-weight:700; color:var(--primary-color);">— సందేశం: సరైన ప్రణాళిక + స్వీయ క్రమశిక్షణ ఉంటే ఏ లక్ష్యమైనా సాధ్యమే!</small>
-                </div>
-            </div>
-        </section>
+    resDiv.style.display = "block";
+    resDiv.innerHTML = `
+        <p style="margin:0;"><strong>🎯 మీ మార్కుల శాతం (Percentage):</strong> <span style="font-size:18px; color:var(--primary-color); font-weight:800;">${percent}%</span> (${obtained}/${total})</p>
+        <p style="margin:5px 0 0 0;"><strong>📈 అంచనా GPA (Approx.):</strong> ${approxCgpa} / 10</p>
+        <p style="margin:5px 0 0 0;"><strong>🏅 గ్రేడ్ / డివిజన్:</strong> ${division}</p>
+    `;
+};
 
-        <!-- 20. COMPREHENSIVE STUDENT FAQS -->
-        <section class="card">
-            <h2 class="card-title">❓ విద్యార్థులు & తల్లిదండ్రులు తరచుగా అడిగే ప్రశ్నలు (FAQs)</h2>
-            
-            <div class="deep-detail-box">
-                <h3>1. తక్కువ ఖర్చుతో త్వరగా ఉద్యోగం పొందాలంటే 10th తర్వాత ఏ కోర్సు మంచిది?</h3>
-                <p><strong>సమాధానం:</strong> 10th తర్వాత <strong>ITI (Electrician / Fitter - 2 Yrs)</strong> లేదా <strong>Polytechnic Diploma (3 Yrs - POLYCET ద్వారా)</strong> లేదా <strong>Paramedical (DMLT - 2 Yrs)</strong> కోర్సులు చేస్తే తక్కువ ఖర్చుతో ప్రభుత్వ (Railways, Electricity, Hospitals) మరియు ప్రైవేట్ రంగాలలో త్వరగా ఉద్యోగం పొందవచ్చు.</p>
-            </div>
+window.convertCgpaToPercent = function() {
+    const cgpa = parseFloat(document.getElementById("calcCgpa").value);
+    const formula = document.getElementById("calcFormula").value;
+    const resDiv = document.getElementById("cgpaCalcResult");
 
-            <div class="deep-detail-box">
-                <h3>2. B.Tech చేయడానికి ఆర్థిక స్థోమత లేకపోతే సాఫ్ట్‌వేర్ ఇంజనీర్ కాలేమా?</h3>
-                <p><strong>సమాధానం:</strong> ఖచ్చితంగా కావచ్చు! ఇంటర్ తర్వాత తక్కువ ఫీజుతో <strong>BCA</strong> లేదా <strong>B.Sc (Computer Science / Data Science)</strong> చేసి, సమాంతరంగా Python, Java, Web Development నేర్చుకుంటే TCS, Infosys, Wipro వంటి MNC కంపెనీలలో సాఫ్ట్‌వేర్ ఇంజనీర్‌గా చేరవచ్చు.</p>
-            </div>
+    if (isNaN(cgpa) || cgpa < 0 || cgpa > 10) {
+        alert("⚠️ దయచేసి 0 నుండి 10 మధ్య సరైన CGPA ఎంటర్ చేయండి!");
+        return;
+    }
 
-            <div class="deep-detail-box">
-                <h3>3. డిగ్రీ చదువుతూనే ప్రభుత్వ ఉద్యోగాలకు ఎలా సిద్ధమవ్వాలి?</h3>
-                <p><strong>సమాధానం:</strong> డిగ్రీ మొదటి సంవత్సరం నుండే రోజుకు 1-2 గంటలు Arithmetic, Reasoning, English మరియు General Studies (NCERT / SCERT పుస్తకాలు) చదివితే, డిగ్రీ పూర్తయిన వెంటనే <strong>SSC CGL, Bank PO/Clerk, Railways NTPC, APPSC/TSPSC Groups, Police SI</strong> పరీక్షల్లో సులభంగా విజయం సాధించవచ్చు.</p>
-            </div>
+    let percent = 0;
+    if (formula === "9.5") percent = cgpa * 9.5;
+    else if (formula === "10") percent = Math.max(0, (cgpa - 0.5) * 10);
+    else percent = cgpa * 10;
 
-            <div class="deep-detail-box">
-                <h3>4. ముఖ్యమైన IMP Questions, PYQs & Study Materials ఎక్కడ డౌన్‌లోడ్ చేసుకోవాలి?</h3>
-                <p><strong>సమాధానం:</strong> పైన నావిగేషన్ బార్‌లో ఉన్న <strong>"📚 Materials & PYQs"</strong> (`materials.html`) పేజీలోకి వెళ్లి మీ తరగతి లేదా పరీక్షను ఎంచుకుని ఉచితంగా PDF & Image నోట్స్ డౌన్‌లోడ్ చేసుకోవచ్చు.</p>
-            </div>
+    percent = Math.min(100, percent).toFixed(2);
+    const division = percent >= 75 ? "First Class with Distinction 🏆" : percent >= 60 ? "First Class 🥇" : percent >= 50 ? "Second Class 🥈" : "Pass Class";
 
-            <div class="deep-detail-box" style="margin-bottom: 0;">
-                <h3>5. నాకు వ్యక్తిగత కెరీర్ సందేహం ఉంటే PSO టీమ్‌ను ఎలా సంప్రదించాలి?</h3>
-                <p><strong>సమాధానం:</strong> పైన ఉన్న <strong>"📞 Contact"</strong> బటన్ లేదా కింద కుడివైపున ఉన్న <strong>"💬 Career Helpdesk"</strong> బటన్ క్లిక్ చేసి మీ వివరాలు పంపితే, మా PSO టీమ్ నేరుగా మీకు WhatsApp/ఫోన్ ద్వారా ఉచిత గైడెన్స్ అందిస్తుంది.</p>
-            </div>
-        </section>
+    resDiv.style.display = "block";
+    resDiv.innerHTML = `
+        <p style="margin:0;"><strong>📊 మీ మార్కుల శాతం (Percentage):</strong> <span style="font-size:18px; color:var(--primary-color); font-weight:800;">${percent}%</span></p>
+        <p style="margin:6px 0 0 0;"><strong>🏅 గ్రేడ్ / డివిజన్:</strong> ${division}</p>
+    `;
+};
 
-    </div>
+window.checkGkAnswer = function(btnEl, isCorrect, feedbackId) {
+    const parent = btnEl.parentElement;
+    parent.querySelectorAll("button").forEach(b => {
+        b.style.background = "";
+        b.style.color = "";
+    });
 
-    <!-- Modern Footer -->
-    <footer class="modern-footer">
-        <p><strong>PSO - Public Service Organization</strong> | Empowering Rural Youth & Students</p>
-        <p class="footer-sub">Founded by Hon'ble Mr. K. KULLAYAPPA | 📞 Helpdesk: +91 9392962003</p>
-        <div style="margin-top: 10px; font-size: 13px;">
-            <a href="index.html" style="color:#93c5fd; margin: 0 8px;">Home</a> |
-            <a href="roadmap.html" style="color:#93c5fd; margin: 0 8px;">Roadmap</a> |
-            <a href="guidance.html" style="color:#93c5fd; margin: 0 8px;">Guidance</a> |
-            <a href="exams.html" style="color:#93c5fd; margin: 0 8px;">Exams</a> |
-            <a href="materials.html" style="color:#93c5fd; margin: 0 8px;">Materials & PYQs</a> |
-            <a href="quiz.html" style="color:#93c5fd; margin: 0 8px;">Quiz</a>
-        </div>
-    </footer>
+    const feedbackEl = document.getElementById(feedbackId);
+    feedbackEl.style.display = "block";
 
-    <!-- Contact Us Popup Modal -->
-    <div id="contactModal" class="modal-overlay" onclick="outsideModalClick(event)">
-        <div class="modal-content">
-            <span class="modal-close" onclick="closeContactModal()">&times;</span>
-            <h2 class="card-title" style="margin-bottom: 8px;">📞 Contact PSO Team</h2>
-            <p style="font-size: 14px; opacity: 0.85; margin-bottom: 15px;">మీ వివరాలు నమోదు చేయండి. నేరుగా WhatsApp ద్వారా మా టీమ్‌కు చేరుతుంది:</p>
-            <form id="contactForm">
-                <input type="text" id="contactName" class="modal-input" placeholder="మీ పేరు (Full Name)" required>
-                <input type="tel" id="contactPhone" class="modal-input" placeholder="ఫోన్ నంబర్ (Phone Number)" required>
-                <select id="contactTopic" class="modal-input">
-                    <option value="10th/Inter Guidance">10th / Inter కెరీర్ గైడెన్స్</option>
-                    <option value="Degree/B.Tech Guidance">Degree / B.Tech / Jobs గైడెన్స్</option>
-                    <option value="Study Materials / IMP / PYQs">Study Materials / IMP / PYQs</option>
-                    <option value="Additional Skills / IT">Additional Skills / IT / Placements</option>
-                    <option value="Govt Exams/Scholarships">Govt Jobs / Scholarships సందేహం</option>
-                </select>
-                <textarea id="contactMessage" class="modal-input" placeholder="మీ సందేశం లేదా సందేహం" rows="3" required></textarea>
-                <button type="submit" class="submit-btn" style="background: #25D366;">💬 Send via WhatsApp</button>
-            </form>
-        </div>
-    </div>
+    if (isCorrect) {
+        btnEl.style.background = "#10b981";
+        btnEl.style.color = "#ffffff";
+        feedbackEl.style.color = "#059669";
+        feedbackEl.textContent = "✅ సరైన సమాధానం! అభినందనలు.";
+    } else {
+        btnEl.style.background = "#dc2626";
+        btnEl.style.color = "#ffffff";
+        feedbackEl.style.color = "#dc2626";
+        feedbackEl.textContent = "❌ తప్పు సమాధానం! మళ్లీ ప్రయత్నించండి.";
+    }
+};
 
-    <button id="backToTop" class="back-to-top" onclick="scrollToTop()" title="Go to top">⬆️</button>
-    <a href="https://wa.me/919392962003?text=Hello%20PSO%20Team,%20I%20have%20a%20career%20guidance%20query." target="_blank" class="whatsapp-float">💬 Career Helpdesk</a>
+// =========================================================
+// 8. INSTANT RESUME BUILDER, POMODORO TIMER & SCHOLARSHIP CHECKER
+// =========================================================
+window.generateInstantResume = function() {
+    const name = document.getElementById("resName").value.trim();
+    const role = document.getElementById("resRole").value.trim();
+    const contact = document.getElementById("resContact").value.trim();
+    const edu = document.getElementById("resEdu").value.trim();
+    const skills = document.getElementById("resSkills").value.trim();
+    const projects = document.getElementById("resProjects").value.trim();
+    const lang = document.getElementById("resLang").value.trim();
 
-    <script type="module" src="script.js"></script>
-</body>
-</html>
+    if (!name || !contact) {
+        alert("⚠️ దయచేసి కనీసం మీ పేరు మరియు ఫోన్/Email వివరాలను ఎంటర్ చేయండి!");
+        return;
+    }
+
+    const win = window.open("", "_blank");
+    win.document.write(`
+        <html>
+        <head>
+            <title>${name} - Resume</title>
+            <style>
+                body { font-family: Arial, sans-serif; color: #1e293b; max-width: 780px; margin: 30px auto; padding: 30px; border: 1px solid #cbd5e1; line-height: 1.55; }
+                h1 { margin: 0; color: #0f172a; font-size: 26px; text-transform: uppercase; }
+                .role { color: #2563eb; font-weight: bold; font-size: 15px; margin: 4px 0; }
+                .contact { font-size: 13px; color: #475569; border-bottom: 2px solid #0f172a; padding-bottom: 12px; margin-bottom: 18px; }
+                h2 { font-size: 15px; color: #0f172a; background: #f1f5f9; padding: 6px 10px; border-left: 4px solid #2563eb; text-transform: uppercase; margin-top: 18px; }
+                p { margin: 8px 0; font-size: 14px; white-space: pre-line; }
+                @media print { body { border: none; margin: 0; padding: 15px; } }
+            </style>
+        </head>
+        <body>
+            <h1>${name}</h1>
+            <div class="role">${role || "Aspiring Professional"}</div>
+            <div class="contact">${contact}</div>
+            <h2>Career Objective</h2>
+            <p>Dedicated and motivated individual seeking an entry-level opportunity to apply my academic knowledge, technical skills, and problem-solving abilities for organizational growth.</p>
+            <h2>Education</h2>
+            <p>${edu || "Details to be updated"}</p>
+            <h2>Technical & Core Skills</h2>
+            <p>${skills || "MS Office, Communication, Teamwork"}</p>
+            <h2>Projects & Practical Experience</h2>
+            <p>${projects || "Academic & Personal Projects"}</p>
+            <h2>Languages Known</h2>
+            <p>${lang || "Telugu, English"}</p>
+            <script>window.onload = function() { window.print(); }</script>
+        </body>
+        </html>
+    `);
+    win.document.close();
+};
+
+let timerSeconds = 25 * 60;
+let timerInterval = null;
+
+function updateTimerDisplay() {
+    const el = document.getElementById("pomodoroDisplay");
+    if (!el) return;
+    const mins = String(Math.floor(timerSeconds / 60)).padStart(2, "0");
+    const secs = String(timerSeconds % 60).padStart(2, "0");
+    el.textContent = `${mins}:${secs}`;
+}
+
+window.startStudyTimer = function() {
+    if (timerInterval) return;
+    timerInterval = setInterval(() => {
+        if (timerSeconds > 0) {
+            timerSeconds--;
+            updateTimerDisplay();
+        } else {
+            clearInterval(timerInterval);
+            timerInterval = null;
+            alert("🎉 అభినందనలు! 25 నిమిషాల ఫోకస్ స్టడీ పూర్తయింది. ఇప్పుడు 5 నిమిషాలు విశ్రాంతి తీసుకోండి!");
+        }
+    }, 1000);
+};
+
+window.pauseStudyTimer = function() {
+    clearInterval(timerInterval);
+    timerInterval = null;
+};
+
+window.resetStudyTimer = function() {
+    pauseStudyTimer();
+    timerSeconds = 25 * 60;
+    updateTimerDisplay();
+};
+
+window.checkScholarshipEligibility = function() {
+    const stage = document.getElementById("schStage").value;
+    const income = document.getElementById("schIncome").value;
+    const gender = document.getElementById("schGender").value;
+    const box = document.getElementById("schResultBox");
+
+    let schemes = [];
+    if (income === "low") {
+        schemes.push("✅ <strong>AP Jnanabhumi / Telangana ePASS:</strong> 100% పూర్తి ట్యూషన్ ఫీజు రీయింబర్స్‌మెంట్ + హాస్టల్/మెస్ ఖర్చుల కోసం వసతి దీవెన.");
+        schemes.push("✅ <strong>NSP Post-Matric Scholarship:</strong> కేంద్ర ప్రభుత్వ పోస్ట్-మెట్రిక్ స్కాలర్‌షిప్ (SC/ST/BC/Minority/EBC).");
+    } else {
+        schemes.push("ℹ️ <strong>Central Sector & Merit Scholarships:</strong> ఆదాయం ₹2.5 లక్షలు దాటినందున రాష్ట్ర ఫీజు రీయింబర్స్‌మెంట్ వర్తించదు, కానీ ఇంటర్/డిగ్రీలో 80%+ మార్కులు ఉంటే <strong>PM-USP Central Sector Scholarship</strong> కింద ఏటా ₹12,000–₹20,000 పొందవచ్చు.");
+    }
+
+    if (gender === "girl" && (stage === "inter" || stage === "ug")) {
+        schemes.push("🌟 <strong>AICTE Pragati Scholarship (Girls):</strong> టెక్నికల్ డిప్లొమా లేదా B.Tech చదివే బాలికలకు ఏటా <strong>₹50,000</strong> ప్రత్యేక స్కాలర్‌షిప్.");
+    }
+
+    if (stage === "pg") {
+        schemes.push("🎓 <strong>GATE / GPAT PG Stipend:</strong> GATE క్వాలిఫై అయి M.Tech లో చేరితే నెలకు <strong>₹12,400</strong> చొప్పున 24 నెలలు స్టైపెండ్ లభిస్తుంది.");
+    }
+
+    box.style.display = "block";
+    box.innerHTML = `<h4 style="margin:0 0 8px 0; color:var(--primary-color);">📋 మీకు అర్హత ఉన్న స్కాలర్‌షిప్ పథకాలు:</h4><ul style="margin:0; padding-left:18px;">${schemes.map(s => `<li style="margin-bottom:6px;">${s}</li>`).join("")}</ul>`;
+};
+
+// =========================================================
+// 9. INITIALIZE ON PAGE LOAD
+// =========================================================
+document.addEventListener("DOMContentLoaded", () => {
+    if (localStorage.getItem("pso_theme") === "dark") {
+        document.body.classList.add("dark-mode");
+        const btn = document.getElementById("themeToggle");
+        if (btn) btn.textContent = "☀️ Light";
+    }
+
+    updateSavedCount();
+    fetchPosts();
+    fetchMaterials();
+
+    const postForm = document.getElementById("postForm");
+    if (postForm) postForm.addEventListener("submit", addNewUpdate);
+
+    const contactForm = document.getElementById("contactForm");
+    if (contactForm) contactForm.addEventListener("submit", sendContactMessage);
+
+    const materialForm = document.getElementById("materialForm");
+    if (materialForm) materialForm.addEventListener("submit", addNewMaterial);
+});
