@@ -43,46 +43,46 @@
             </form>
         </section>
 
-        <!-- 2. Upload Study Material / IMP Questions (PDF or Image Direct Upload) -->
+        <!-- 2. Upload Study Material / IMP Questions / PYQs -->
         <section class="card form-section" style="border-top: 4px solid #2563eb;">
-            <h2 class="card-title">📚 2. Study Materials & IMP Questions అప్‌లోడ్ చేయండి (PDF / Image)</h2>
+            <h2 class="card-title">📚 2. Study Materials, IMP Questions & PYQs అప్‌లోడ్ చేయండి</h2>
             <form id="materialForm">
                 <input type="password" id="matAdminPass" placeholder="🔑 Admin Password (pso123)" required>
 
-                <label><strong>విద్యా స్థాయి (Education Level):</strong></label>
+                <label><strong>ప్రధాన విభాగం (Domain Category):</strong></label>
                 <select id="matLevel">
-                    <option value="10th Class">10th Class (SSC)</option>
-                    <option value="Intermediate">Intermediate (10+2)</option>
-                    <option value="Polytechnic / ITI">Polytechnic / ITI</option>
-                    <option value="Degree / B.Tech">Degree / B.Tech</option>
-                    <option value="Entrance & Govt Exams">Entrance & Govt Exams</option>
+                    <option value="Boards & Graduation">🏫 Boards & Graduation (10th, Inter, Diploma, B.Tech, Degree, PG)</option>
+                    <option value="Entrance Exams">🎯 Entrance Exams (EAPCET, POLYCET, ECET, ICET, JEE, NEET, GATE)</option>
+                    <option value="State Govt Jobs">🏛️ State Govt Jobs (APPSC/TSPSC Groups, SI/Constable, TET/DSC, Sachivalayam)</option>
+                    <option value="Central Govt Jobs">🇮🇳 Central Govt Jobs (UPSC, SSC, Railways, Banking, Defence, ISRO)</option>
+                    <option value="IT & Software Jobs">💻 IT & Software Jobs (Core CS, DSA, MERN, Python, Placements)</option>
                 </select>
 
-                <label><strong>మెటీరియల్ రకం (Material Type):</strong></label>
+                <label><strong>మెటీరియల్ రకం (Resource Type):</strong></label>
                 <select id="matType">
-                    <option value="IMP Questions">⭐ IMP Questions (ముఖ్య ప్రశ్నలు)</option>
-                    <option value="Study Notes">📘 Study Notes / PDF</option>
-                    <option value="Previous Papers">📝 Previous Year Papers</option>
-                    <option value="Formula / Cheat Sheet">⚡ Formula / Cheat Sheet</option>
+                    <option value="IMP Questions">⭐ Gun-Shot IMP Questions</option>
+                    <option value="Previous Year Papers (PYQs)">📝 Previous Year Papers (PYQs)</option>
+                    <option value="Official Answer Key">✅ Official Answer Key</option>
+                    <option value="Study Notes & Textbooks">📘 Study Notes & Textbooks</option>
+                    <option value="Formula & Cheat Sheet">⚡ Formula & Cheat Sheet</option>
                 </select>
 
-                <input type="text" id="matSubject" placeholder="సబ్జెక్ట్ / గ్రూప్ (ఉదా: Inter 2nd Yr Maths-2B / 10th Physical Science)" required>
-                <input type="text" id="matTitle" placeholder="మెటీరియల్ శీర్షిక (ఉదా: Public Exam 8-Marks Gun-Shot IMP Questions)" required>
-                <textarea id="matDesc" placeholder="చిన్న వివరణ లేదా ముఖ్యమైన చాప్టర్ల వివరాలు" rows="3" required></textarea>
+                <input type="text" id="matSubject" placeholder="కోర్సు / పరీక్ష / సబ్జెక్ట్ (ఉదా: 10th Maths / AP EAPCET 2026 / APPSC Group-2 / MERN Stack)" required>
+                <input type="text" id="matTitle" placeholder="మెటీరియల్ శీర్షిక (ఉదా: Chapter-wise 8-Marks Gun-Shot IMP Questions & Key)" required>
+                <textarea id="matDesc" placeholder="చిన్న వివరణ లేదా ముఖ్యమైన టాపిక్స్ వివరాలు" rows="3" required></textarea>
 
                 <div style="background: var(--subcard-bg); border: 1px dashed var(--primary-color); padding: 14px; border-radius: 8px; margin-bottom: 14px;">
-                    <label style="display:block; margin-bottom:6px;"><strong>📎 PDF లేదా Image ఫైల్ ఎంచుకోండి (PDF, JPG, PNG, WebP):</strong></label>
+                    <label style="display:block; margin-bottom:6px;"><strong>📎 PDF (700KB లోపు) లేదా Image ఫైల్ ఎంచుకోండి (JPG, PNG, WebP):</strong></label>
                     <input type="file" id="matFile" accept=".pdf,image/*" style="margin: 0 0 10px 0;">
-                    <p style="margin: 4px 0; font-size: 12.5px; opacity: 0.8;">— లేదా Google Drive లింక్ ఇవ్వాలనుకుంటే కింద పేస్ట్ చేయండి (Optional): —</p>
+                    <p style="margin: 4px 0; font-size: 12.5px; opacity: 0.8;">— లేదా పెద్ద PDF ఫైల్స్ కోసం Google Drive లింక్ ఇవ్వండి (Optional): —</p>
                     <input type="url" id="matLink" placeholder="Google Drive / External PDF Link (Optional)" style="margin-bottom: 0;">
                 </div>
 
-                <!-- Upload Progress Indicator -->
                 <div id="uploadStatusBox" style="display:none; margin-bottom: 12px; padding: 10px; border-radius: 6px; background: rgba(37, 99, 235, 0.12); color: var(--primary-color); font-weight: 700; text-align: center;">
-                    ⏳ ఫైల్ అప్‌లోడ్ అవుతోంది... <span id="uploadProgressText">0%</span>
+                    ⏳ ఫైల్ ప్రాసెస్ & అప్‌లోడ్ అవుతోంది... <span id="uploadProgressText">Please wait</span>
                 </div>
 
-                <button type="submit" id="matSubmitBtn" class="submit-btn" style="background: #2563eb;">📥 Upload Material / IMP Questions</button>
+                <button type="submit" id="matSubmitBtn" class="submit-btn" style="background: #2563eb;">📥 Publish Material / IMP / PYQ</button>
             </form>
         </section>
 
