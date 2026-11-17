@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="te">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Materials & IMP Questions | PSO Career Hub</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Telugu:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">PSO</div>
+            <div>
+                <h1 class="pso-heading">📚 Study Materials & IMP Questions Hub</h1>
+                <p>10th, Inter, Degree, B.Tech, Entrance & Govt Exams ముఖ్య ప్రశ్నలు & నోట్స్</p>
+            </div>
+        </div>
+        <button id="themeToggle" class="theme-btn" onclick="toggleTheme()">🌙 Dark</button>
+    </header>
+
+    <nav class="nav">
+        <a href="index.html">🏠 Home</a>
+        <a href="roadmap.html">🛣️ Career Roadmap</a>
+        <a href="guidance.html">🎯 Detailed Guidance</a>
+        <a href="exams.html">📝 Exams & Scholarships</a>
+        <a href="materials.html" class="active-nav">📚 Materials & IMP Questions</a>
+        <a href="quiz.html">🧩 Career Quiz</a>
+    </nav>
+
+    <div class="container">
+        <a href="index.html" class="back-link-btn">⬅️ హోమ్ పేజీకి తిరిగి వెళ్ళండి</a>
+
+        <!-- Quick Subject & Exam IMP Strategy Guide -->
+        <section class="card">
+            <h2 class="card-title">🎯 పరీక్షలలో అధిక మార్కులు సాధించడానికి ప్రిపరేషన్ గైడ్</h2>
+            <div class="flow-grid-4">
+                <div class="flow-subcard">
+                    <h4>📘 10th Class (SSC)</h4>
+                    <p>Public Exam IMP</p>
+                    <small>Maths, Physical Science, Biology, Social 4-Marks & 8-Marks ముఖ్య ప్రశ్నలు.</small>
+                </div>
+                <div class="flow-subcard">
+                    <h4>📗 Intermediate (10+2)</h4>
+                    <p>IPE & EAPCET Notes</p>
+                    <small>MPC & BiPC 1st/2nd Year Gun-Shot IMP Questions & Formula Sheets.</small>
+                </div>
+                <div class="flow-subcard">
+                    <h4>🎓 Degree & B.Tech</h4>
+                    <p>Semester IMP & Lab</p>
+                    <small>B.Sc, B.Com, BA, BCA & B.Tech అన్ని సెమిస్టర్ల ముఖ్య ప్రశ్నలు & నోట్స్.</small>
+                </div>
+                <div class="flow-subcard">
+                    <h4>🏛️ Govt & Entrance</h4>
+                    <p>PYQs & Practice Sets</p>
+                    <small>POLYCET, EAPCET, APPSC, SSC, RRB, Police గత ప్రశ్నాపత్రాలు & కీస్.</small>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dynamic Filter & Materials List Section -->
+        <section class="card">
+            <h2 class="card-title">📥 డౌన్‌లోడ్ మెటీరియల్స్ & ముఖ్య ప్రశ్నలు (Browse & Download)</h2>
+            
+            <!-- Level Filter Pills -->
+            <div class="filter-pills">
+                <button class="pill-btn active" onclick="setMaterialLevel('ALL', this)">All Levels</button>
+                <button class="pill-btn" onclick="setMaterialLevel('10th Class', this)">🏫 10th Class (SSC)</button>
+                <button class="pill-btn" onclick="setMaterialLevel('Intermediate', this)">📖 Intermediate</button>
+                <button class="pill-btn" onclick="setMaterialLevel('Polytechnic / ITI', this)">🔧 Polytechnic / ITI</button>
+                <button class="pill-btn" onclick="setMaterialLevel('Degree / B.Tech', this)">🎓 Degree / B.Tech</button>
+                <button class="pill-btn" onclick="setMaterialLevel('Entrance & Govt Exams', this)">🏛️ Entrance & Govt Exams</button>
+            </div>
+
+            <!-- Type Filter & Search -->
+            <div style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:18px;">
+                <select id="materialTypeFilter" class="modern-select" onchange="filterMaterials()" style="max-width: 240px;">
+                    <option value="ALL">📂 అన్ని రకాలు (All Types)</option>
+                    <option value="IMP Questions">⭐ IMP Questions</option>
+                    <option value="Study Notes">📘 Study Notes / PDF</option>
+                    <option value="Previous Papers">📝 Previous Year Papers</option>
+                    <option value="Formula / Cheat Sheet">⚡ Formula / Cheat Sheet</option>
+                </select>
+                <input type="text" id="materialSearchInput" class="modern-search" style="flex:1; margin-bottom:0;" placeholder="🔍 సబ్జెక్ట్ లేదా చాప్టర్ పేరుతో వెతకండి (ఉదా: Maths, Physics, Python, Polity)..." onkeyup="filterMaterials()">
+            </div>
+
+            <div id="materialsContainer">
+                <p style="text-align:center;">మెటీరియల్స్ లోడ్ అవుతున్నాయి...</p>
+            </div>
+        </section>
+    </div>
+
+    <footer class="modern-footer">
+        <p><strong>PSO - Public Service Organization</strong> | Empowering Rural Youth & Students</p>
+        <p class="footer-sub">Founded by Hon'ble Mr. K. KULLAYAPPA | 📞 Helpdesk: +91 9392962003</p>
+    </footer>
+
+    <script type="module" src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="te">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Career Assessment Quiz | PSO Career Hub</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Telugu:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">PSO</div>
+            <div>
+                <h1 class="pso-heading">🧩 Smart Career Decision Quiz</h1>
+                <p>4 చిన్న ప్రశ్నలకు సమాధానం ఇచ్చి మీ భవిష్యత్తు మార్గాన్ని తెలుసుకోండి</p>
+            </div>
+        </div>
+        <button id="themeToggle" class="theme-btn" onclick="toggleTheme()">🌙 Dark</button>
+    </header>
+
+    <nav class="nav">
+        <a href="index.html">🏠 Home</a>
+        <a href="roadmap.html">🛣️ Career Roadmap</a>
+        <a href="guidance.html">🎯 Detailed Guidance</a>
+        <a href="exams.html">📝 Exams & Scholarships</a>
+        <a href="quiz.html" class="active-nav">🧩 Career Quiz</a>
+    </nav>
+
+    <div class="container" style="max-width: 760px;">
+        <a href="index.html" class="back-link-btn">⬅️ హోమ్ పేజీకి తిరిగి వెళ్ళండి</a>
+
+        <section class="card quiz-highlight-card">
+            <h2 class="card-title">🎯 మీ వ్యక్తిగత కెరీర్ రిపోర్ట్ పొందండి</h2>
+            
+            <div class="quiz-form-group">
+                <label><strong>1. మీరు ప్రస్తుతం ఏ తరగతి పూర్తి చేశారు / చదువుతున్నారు?</strong></label>
+                <select id="qStage" class="modern-select" style="width:100%; margin: 8px 0 18px 0;">
+                    <option value="10th">10వ తరగతి (SSC)</option>
+                    <option value="inter">ఇంటర్మీడియట్ (12th Class)</option>
+                    <option value="degree">డిగ్రీ / B.Tech / డిప్లొమా</option>
+                </select>
+
+                <label><strong>2. మీకు ఏ సబ్జెక్ట్ లేదా పని అంటే ఎక్కువ ఇష్టం?</strong></label>
+                <select id="qInterest" class="modern-select" style="width:100%; margin: 8px 0 18px 0;">
+                    <option value="math">💻 లెక్కలు, కంప్యూటర్లు, కోడింగ్ & కొత్త టెక్నాలజీ</option>
+                    <option value="bio">🩺 బయాలజీ, వైద్యం, ఆసుపత్రి సేవలు & వ్యవసాయం</option>
+                    <option value="commerce">📊 బిజినెస్, అకౌంటింగ్, డబ్బు నిర్వహణ & బ్యాంకింగ్</option>
+                    <option value="arts">🏛️ చరిత్ర, సమాజం, పరిపాలన, న్యాయశాస్త్రం & రాజకీయాలు</option>
+                    <option value="skills">🔧 యంత్రాలు, ఎలక్ట్రికల్, ప్రాక్టికల్ వర్క్ & త్వరగా ఉద్యోగం</option>
+                </select>
+
+                <label><strong>3. మీ ప్రధాన జీవిత లక్ష్యం (Main Goal) ఏమిటి?</strong></label>
+                <select id="qGoal" class="modern-select" style="width:100%; margin: 8px 0 18px 0;">
+                    <option value="govt">🏛️ స్థిరమైన ప్రభుత్వ ఉద్యోగం (Govt Job / IAS / Police / Bank)</option>
+                    <option value="private">💼 అధిక జీతంతో సాఫ్ట్‌వేర్ / కార్పొరేట్ ఉద్యోగం (MNC Job)</option>
+                    <option value="quick">⚡ తక్కువ సమయంలో చదువు పూర్తి చేసి వెంటనే సంపాదించడం</option>
+                    <option value="business">🚀 సొంత వ్యాపారం / స్టార్టప్ / ప్రొఫెషనల్ ప్రాక్టీస్ (Doctor/CA/Lawyer)</option>
+                </select>
+
+                <button onclick="generateFullCareerReport()" class="submit-btn">✨ నా కెరీర్ రిపోర్ట్ చూపించు</button>
+            </div>
+
+            <!-- Detailed Result Report -->
+            <div id="fullQuizReport" class="quiz-result-box" style="display: none; margin-top: 24px;"></div>
+        </section>
+    </div>
+
+    <footer class="modern-footer">
+        <p><strong>PSO - Public Service Organization</strong> | Empowering Rural Youth</p>
+        <p class="footer-sub">Founded by Hon'ble Mr. K. KULLAYAPPA | 📞 Helpdesk: +91 9392962003</p>
+    </footer>
+
+    <script type="module" src="script.js"></script>
+</body>
+</html>
