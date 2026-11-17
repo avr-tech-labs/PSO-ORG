@@ -26,6 +26,7 @@
     <!-- Sticky Glassmorphism Navigation Bar -->
     <nav class="nav">
         <a href="index.html" class="active-nav">🏠 Home</a>
+        <a href="#news">📢 Updates</a>
         <a href="roadmap.html">🛣️ Roadmap</a>
         <a href="guidance.html">🎯 Guidance</a>
         <a href="exams.html">📝 Exams & Scholarships</a>
@@ -34,7 +35,7 @@
         <a href="#skills-hub">💻 Additional Skills</a>
         <a href="#student-tools">🧮 Calculators</a>
         <a href="#daily-gk">🧠 Daily GK</a>
-        <a href="#news">📢 Updates</a>
+        <a href="#resume-builder">📝 Resume</a>
         <a href="javascript:void(0)" onclick="openContactModal()" class="nav-contact-btn">📞 Contact</a>
         <a href="admin.html" class="nav-admin-btn">🔐 Admin</a>
     </nav>
@@ -68,7 +69,30 @@
             </div>
         </section>
 
-        <!-- 2. HERO MISSION & VISION -->
+        <!-- 2. LATEST NEWS & NOTIFICATIONS (DIRECTLY BELOW FOUNDER) -->
+        <section id="news" class="card posts-section" style="border-top: 4px solid #2563eb;">
+            <div class="posts-header-flex">
+                <h2 class="card-title" style="border:none; margin:0; padding:0;">📢 తాజా వార్తలు & నోటిఫికేషన్‌లు (Latest Updates)</h2>
+                <button id="savedToggleBtn" class="saved-filter-btn" onclick="toggleSavedView()">🔖 Saved (<span id="savedCount">0</span>)</button>
+            </div>
+            <hr class="section-divider">
+
+            <div class="filter-pills">
+                <button class="pill-btn active" onclick="setCategoryFilter('ALL', this)">All Updates</button>
+                <button class="pill-btn" onclick="setCategoryFilter('Govt Jobs', this)">🏛️ Govt Jobs</button>
+                <button class="pill-btn" onclick="setCategoryFilter('Notifications', this)">📣 Notifications</button>
+                <button class="pill-btn" onclick="setCategoryFilter('Scholarships', this)">🎓 Scholarships</button>
+                <button class="pill-btn" onclick="setCategoryFilter('General Updates', this)">📰 General</button>
+            </div>
+
+            <input type="text" id="searchInput" class="modern-search" placeholder="🔍 ఉద్యోగం, కోర్సు లేదా నోటిఫికేషన్ పేరుతో వెతకండి..." onkeyup="filterPosts()">
+
+            <div id="postsContainer">
+                <p style="text-align:center;">డేటా లోడ్ అవుతోంది...</p>
+            </div>
+        </section>
+
+        <!-- 3. HERO MISSION & VISION -->
         <section id="about" class="card hero-card">
             <span class="hero-badge">🌟 Empowering Rural Youth & Students</span>
             <h2>గ్రామీణ ఆణిముత్యాలకు రక్షణ.. భావి భారతానికి మార్గదర్శనం!</h2>
@@ -82,7 +106,7 @@
             </div>
         </section>
 
-        <!-- 3. 5 DEDICATED DEEP-DIVE PORTALS -->
+        <!-- 4. 5 DEDICATED DEEP-DIVE PORTALS -->
         <section class="card">
             <h2 class="card-title">🚀 Complete Career & Education Portals (ప్రత్యేక విభాగాలు)</h2>
             <p style="margin-bottom: 16px; opacity: 0.85;">ప్రతీ కార్డుపై క్లిక్ చేస్తే ఆ విభాగానికి సంబంధించిన పూర్తి లోతైన సమాచారంతో ప్రత్యేక పేజీ ఓపెన్ అవుతుంది:</p>
@@ -124,7 +148,7 @@
             </div>
         </section>
 
-        <!-- 4. STAGE-BY-STAGE COMPLETE EDUCATION STRUCTURE -->
+        <!-- 5. STAGE-BY-STAGE COMPLETE EDUCATION STRUCTURE -->
         <section class="card">
             <h2 class="card-title">🧭 విద్యా దశల వారీగా సమగ్ర అవగాహన (Complete Education Stages)</h2>
             <div class="bilingual-grid">
@@ -179,7 +203,7 @@
             </div>
         </section>
 
-        <!-- 5. ADDITIONAL SKILLS & HIGH-INCOME CAREER TRACKS -->
+        <!-- 6. ADDITIONAL SKILLS & HIGH-INCOME CAREER TRACKS -->
         <section id="skills-hub" class="card">
             <h2 class="card-title">💻 చదువుతో పాటు నేర్చుకోవాల్సిన Additional Skills & High-Income Tracks</h2>
             <p style="margin-bottom: 16px;">కేవలం డిగ్రీ సర్టిఫికెట్ మాత్రమే కాకుండా, నేటి జాబ్ మార్కెట్‌లో వెంటనే ఉద్యోగం సంపాదించడానికి ఈ అదనపు నైపుణ్యాలు (Additional Skills) ఎంతో కీలకం:</p>
@@ -215,7 +239,7 @@
             </div>
         </section>
 
-        <!-- 6. FREE GOVT & CORPORATE CERTIFICATION PORTALS -->
+        <!-- 7. FREE GOVT & CORPORATE CERTIFICATION PORTALS -->
         <section class="card">
             <h2 class="card-title">🏅 ఉచిత సర్టిఫికెట్ కోర్సులు & ఇంటర్న్‌షిప్ పోర్టల్స్ (Free Skill Portals)</h2>
             <p style="margin-bottom: 14px;">రూపాయి ఖర్చు లేకుండా కేంద్ర ప్రభుత్వం & ప్రముఖ ఐటీ కంపెనీలు అందించే సర్టిఫికెట్ కోర్సులు:</p>
@@ -259,8 +283,7 @@
             </div>
         </section>
 
-        
-        <!-- 7. INTERACTIVE STUDENT UTILITY CALCULATORS -->
+        <!-- 8. INTERACTIVE STUDENT UTILITY CALCULATORS -->
         <section id="student-tools" class="card" style="border-top: 4px solid #0ea5e9;">
             <h2 class="card-title">🧮 Smart Student Calculators (వయస్సు అర్హత, మార్కులు & CGPA క్యాలిక్యులేటర్లు)</h2>
             <p style="margin-bottom: 16px;">ప్రభుత్వ ఉద్యోగ దరఖాస్తులు & కాలేజీ అప్లికేషన్ల కోసం మీ వయస్సు అర్హత, మార్కుల శాతం మరియు CGPA ను క్షణాల్లో తెలుసుకోండి:</p>
@@ -319,7 +342,7 @@
             </div>
         </section>
 
-        <!-- 8. INTERACTIVE DAILY GK & EXAM PRACTICE QUIZ -->
+        <!-- 9. INTERACTIVE DAILY GK & EXAM PRACTICE QUIZ -->
         <section id="daily-gk" class="card" style="border-top: 4px solid #8b5cf6;">
             <h2 class="card-title">🧠 Daily GK & Competitive Exam Mini-Quiz (ప్రాక్టీస్ టెస్ట్)</h2>
             <p style="margin-bottom: 15px;">APPSC, TSPSC, SSC, RRB & Police పరీక్షల కోసం ముఖ్యమైన ప్రశ్నలు — సరైన ఆప్షన్‌పై క్లిక్ చేసి మీ సమాధానం చెక్ చేసుకోండి:</p>
@@ -371,7 +394,7 @@
             </div>
         </section>
 
-        <!-- 9. COMPLETE COURSE & SALARY MATRIX -->
+        <!-- 10. COMPLETE COURSE & SALARY MATRIX -->
         <section class="card">
             <h2 class="card-title">📊 ముఖ్య కోర్సులు, కాలపరిమితి & ప్రారంభ జీతాల పట్టిక (Course & Salary Matrix)</h2>
             <div class="table-responsive">
@@ -438,7 +461,7 @@
             </div>
         </section>
 
-        <!-- 10. TOP GOVT & PREMIER COLLEGES DIRECTORY -->
+        <!-- 11. TOP GOVT & PREMIER COLLEGES DIRECTORY -->
         <section class="card">
             <h2 class="card-title">🏛️ అత్యుత్తమ ప్రభుత్వ & జాతీయ విద్యా సంస్థల డైరెక్టరీ (Top Colleges Guide)</h2>
             <p style="margin-bottom: 14px;">తక్కువ ఫీజుతో అత్యుత్తమ నాణ్యమైన విద్య & ప్లేస్‌మెంట్స్ అందించే ప్రముఖ విద్యా సంస్థలు:</p>
@@ -494,7 +517,7 @@
             </div>
         </section>
 
-        <!-- 11. COMPLETE GOVT JOBS DIRECTORY BY QUALIFICATION -->
+        <!-- 12. COMPLETE GOVT JOBS DIRECTORY BY QUALIFICATION -->
         <section id="govt-calendar" class="card">
             <h2 class="card-title">🇮🇳 విద్యార్హతల వారీగా కేంద్ర & రాష్ట్ర ప్రభుత్వ ఉద్యోగాలు (Govt Jobs Directory)</h2>
             <div class="bilingual-grid">
@@ -543,157 +566,141 @@
             </div>
         </section>
 
-            <!-- 12. COMPLETE COMPETITIVE EXAMS SYLLABUS & STANDARD BOOKS BLUEPRINT -->
+        <!-- 13. COMPLETE COMPETITIVE EXAMS SYLLABUS & STANDARD BOOKS BLUEPRINT -->
         <section id="standard-books" class="card" style="border-top: 4px solid #2563eb;">
             <h2 class="card-title">📖 పోటీ పరీక్షల పూర్తి సిలబస్ & ప్రామాణిక పుస్తకాలు (Complete Syllabus & Standard Books Blueprint)</h2>
             <p style="margin-bottom: 16px;">UPSC, APPSC/TSPSC Groups (1, 2, 3, 4), SSC (CGL/CHSL/MTS), Railways (RRB), Banking & Police SI/Constable పరీక్షలలో విజయం సాధించడానికి ప్రతి సబ్జెక్టు సిలబస్ & చదవాల్సిన ప్రామాణిక పుస్తకాల పూర్తి జాబితా:</p>
 
-            <!-- 8 Subject Detailed Cards -->
             <div class="bilingual-grid" style="margin-bottom: 20px;">
-                
-                <!-- 1. Arithmetic -->
                 <div class="deep-detail-box" style="margin-bottom:0;">
                     <span class="stream-badge btech-badge">1. QUANTITATIVE APTITUDE (ARITHMETIC)</span>
                     <h3>🔢 అంకగణితం (Arithmetic Syllabus & Books)</h3>
-                    <p><strong>ముఖ్య సిలబస్:</strong> Number System, LCM & HCF, Percentages (శాతాలు), Profit & Loss (లాభనష్టాలు), Simple & Compound Interest (బారువడ్డీ & చక్రవడ్డీ), Ratio & Proportion, Averages, Time & Work, Time & Distance, Mensuration (క్షేత్రమితి), Data Interpretation.</p>
+                    <p><strong>ముఖ్య సిలబస్:</strong> Number System, LCM & HCF, Percentages (శాతాలు), Profit & Loss (లాభనష్టాలు), Simple & Compound Interest, Ratio & Proportion, Averages, Time & Work, Time & Distance, Mensuration, Data Interpretation.</p>
                     <p style="margin-bottom:0;"><strong>📚 ప్రామాణిక పుస్తకాలు:</strong> R.S. Aggarwal (Quantitative Aptitude), Arun Sharma, Kiran's SSC Mathematics PYQs, తెలుగు అకాడమీ 6th–10th గణితం.</p>
                 </div>
 
-                <!-- 2. Reasoning -->
                 <div class="deep-detail-box" style="margin-bottom:0;">
                     <span class="stream-badge bsc-badge">2. LOGICAL REASONING & MENTAL ABILITY</span>
                     <h3>🧠 రీజనింగ్ & మెంటల్ ఎబిలిటీ (Syllabus & Books)</h3>
-                    <p><strong>ముఖ్య సిలబస్:</strong> Coding-Decoding, Number & Letter Series, Analogy, Blood Relations (రక్త సంబంధాలు), Direction Sense, Seating Arrangement, Syllogisms, Clocks & Calendars, Cubes & Dice, Venn Diagrams, Non-Verbal Reasoning (Mirror & Water Images).</p>
-                    <p style="margin-bottom:0;"><strong>📚 ప్రామాణిక పుస్తకాలు:</strong> R.S. Aggarwal (A Modern Approach to Verbal & Non-Verbal Reasoning), M.K. Pandey (Analytical Reasoning), Arihant Reasoning.</p>
+                    <p><strong>ముఖ్య సిలబస్:</strong> Coding-Decoding, Number & Letter Series, Analogy, Blood Relations, Direction Sense, Seating Arrangement, Syllogisms, Clocks & Calendars, Cubes & Dice, Venn Diagrams, Non-Verbal Reasoning.</p>
+                    <p style="margin-bottom:0;"><strong>📚 ప్రామాణిక పుస్తకాలు:</strong> R.S. Aggarwal (Verbal & Non-Verbal Reasoning), M.K. Pandey (Analytical Reasoning), Arihant Reasoning.</p>
                 </div>
 
-                <!-- 3. History -->
                 <div class="deep-detail-box" style="margin-bottom:0;">
                     <span class="stream-badge bcom-badge">3. INDIAN & REGIONAL HISTORY</span>
                     <h3>🏛️ చరిత్ర & సంస్కృతి (History Syllabus & Books)</h3>
-                    <p><strong>ముఖ్య సిలబస్:</strong> సింధు నాగరికత, వేద కాలం, బౌద్ధ-జైన మతాలు, మౌర్యులు & గుప్తులు (Ancient); ఢిల్లీ సుల్తానులు, మొఘలులు, విజయనగర సామ్రాజ్యం (Medieval); 1857 తిరుగుబాటు, భారత జాతీయోద్యమం, గాంధీ యుగం (Modern); శాతవాహనులు, కాకతీయులు, ఆంధ్ర/తెలంగాణ ఉద్యమ చరిత్ర.</p>
-                    <p style="margin-bottom:0;"><strong>📚 ప్రామాణిక పుస్తకాలు:</strong> 6th–12th NCERT History, Spectrum (Modern India - Rajiv Ahir), R.S. Sharma, తెలుగు అకాడమీ AP/TS చరిత్ర పుస్తకాలు.</p>
+                    <p><strong>ముఖ్య సిలబస్:</strong> సింధు నాగరికత, వేద కాలం, బౌద్ధ-జైన మతాలు, మౌర్యులు & గుప్తులు (Ancient); ఢిల్లీ సుల్తానులు, మొఘలులు, విజయనగర సామ్రాజ్యం (Medieval); 1857 తిరుగుబాటు, భారత జాతీయోద్యమం (Modern); శాతవాహనులు, కాకతీయులు, ఆంధ్ర/తెలంగాణ ఉద్యమ చరిత్ర.</p>
+                    <p style="margin-bottom:0;"><strong>📚 ప్రామాణిక పుస్తకాలు:</strong> 6th–12th NCERT History, Spectrum (Modern India - Rajiv Ahir), R.S. Sharma, తెలుగు అకాడమీ AP/TS చరిత్ర.</p>
                 </div>
 
-                <!-- 4. Indian Polity -->
                 <div class="deep-detail-box" style="margin-bottom:0;">
                     <span class="stream-badge ba-badge">4. INDIAN POLITY & GOVERNANCE</span>
                     <h3>⚖️ భారత రాజ్యాంగం & పాలిటీ (Syllabus & Books)</h3>
-                    <p><strong>ముఖ్య సిలబస్:</strong> రాజ్యాంగ నిర్మాణం, ప్రవేశిక (Preamble), ప్రాథమిక హక్కులు (Fundamental Rights), ఆదేశిక సూత్రాలు (DPSP), ప్రాథమిక విధులు, రాష్ట్రపతి, ప్రధానమంత్రి, పార్లమెంట్, సుప్రీంకోర్టు & హైకోర్టులు, స్థానిక సంస్థలు (73 & 74 సవరణలు - పంచాయతీ రాజ్).</p>
-                    <p style="margin-bottom:0;"><strong>📚 ప్రామాణిక పుస్తకాలు:</strong> M. Laxmikanth (Indian Polity - English/Telugu), D.D. Basu, 11th NCERT (Indian Constitution at Work), తెలుగు అకాడమీ పాలిటీ.</p>
+                    <p><strong>ముఖ్య సిలబస్:</strong> రాజ్యాంగ నిర్మాణం, ప్రవేశిక, ప్రాథమిక హక్కులు (Fundamental Rights), ఆదేశిక సూత్రాలు (DPSP), ప్రాథమిక విధులు, రాష్ట్రపతి, ప్రధానమంత్రి, పార్లమెంట్, సుప్రీంకోర్టు & హైకోర్టులు, పంచాయతీ రాజ్ (73 & 74 సవరణలు).</p>
+                    <p style="margin-bottom:0;"><strong>📚 ప్రామాణిక పుస్తకాలు:</strong> M. Laxmikanth (Indian Polity - English/Telugu), D.D. Basu, 11th NCERT Constitution, తెలుగు అకాడమీ పాలిటీ.</p>
                 </div>
 
-                <!-- 5. Geography -->
                 <div class="deep-detail-box" style="margin-bottom:0;">
                     <span class="stream-badge btech-badge">5. INDIAN, WORLD & REGIONAL GEOGRAPHY</span>
                     <h3>🌍 భూగోళ శాస్త్రం (Geography Syllabus & Books)</h3>
-                    <p><strong>ముఖ్య సిలబస్:</strong> సౌర కుటుంబం, భూమి చలనాలు, వాతావరణం, మహాసముద్రాలు (Physical); భారతదేశ నైసర్గిక స్వరూపం, నదులు, రుతుపవనాలు, నేలలు, అడవులు, వ్యవసాయం, ఖనిజాలు, పరిశ్రమలు, జనాభా, రవాణా మార్గాలు & AP/TS భౌగోళిక అంశాలు.</p>
+                    <p><strong>ముఖ్య సిలబస్:</strong> సౌర కుటుంబం, వాతావరణం, మహాసముద్రాలు (Physical); భారతదేశ నైసర్గిక స్వరూపం, నదులు, రుతుపవనాలు, నేలలు, అడవులు, వ్యవసాయం, ఖనిజాలు, పరిశ్రమలు, జనాభా & AP/TS భౌగోళిక అంశాలు.</p>
                     <p style="margin-bottom:0;"><strong>📚 ప్రామాణిక పుస్తకాలు:</strong> 6th–12th NCERT Geography, G.C. Leong, Majid Husain, Oxford Student Atlas, తెలుగు అకాడమీ జాగ్రఫీ.</p>
                 </div>
 
-                <!-- 6. Economy -->
                 <div class="deep-detail-box" style="margin-bottom:0;">
                     <span class="stream-badge bsc-badge">6. INDIAN & STATE ECONOMY</span>
                     <h3>💰 ఆర్థిక శాస్త్రం (Economy Syllabus & Books)</h3>
-                    <p><strong>ముఖ్య సిలబస్:</strong> జాతీయ ఆదాయం (GDP, GNP), పంచవర్ష ప్రణాళికలు & NITI Aayog, పేదరికం & నిరుద్యోగం, ద్రవ్యోల్బణం (Inflation), RBI ద్రవ్య విధానం, బ్యాంకింగ్ సంస్కరణలు, కేంద్ర & రాష్ట్ర బడ్జెట్, ఆర్థిక సర్వే, GST, ప్రభుత్వ సంక్షేమ పథకాలు.</p>
-                    <p style="margin-bottom:0;"><strong>📚 ప్రామాణిక పుస్తకాలు:</strong> Ramesh Singh (Indian Economy), Vivek Singh, 11th & 12th NCERT Economics, కేంద్ర & రాష్ట్ర బడ్జెట్ & Socio-Economic Survey.</p>
+                    <p><strong>ముఖ్య సిలబస్:</strong> జాతీయ ఆదాయం (GDP, GNP), పంచవర్ష ప్రణాళికలు & NITI Aayog, పేదరికం & నిరుద్యోగం, ద్రవ్యోల్బణం (Inflation), RBI ద్రవ్య విధానం, బ్యాంకింగ్ సంస్కరణలు, కేంద్ర & రాష్ట్ర బడ్జెట్, ఆర్థిక సర్వే, GST, సంక్షేమ పథకాలు.</p>
+                    <p style="margin-bottom:0;"><strong>📚 ప్రామాణిక పుస్తకాలు:</strong> Ramesh Singh (Indian Economy), Vivek Singh, 11th & 12th NCERT Economics, కేంద్ర & రాష్ట్ర బడ్జెట్ & Survey.</p>
                 </div>
 
-                <!-- 7. Science & Technology -->
                 <div class="deep-detail-box" style="margin-bottom:0;">
                     <span class="stream-badge bcom-badge">7. GENERAL SCIENCE & TECHNOLOGY</span>
                     <h3>🔬 సైన్స్ & టెక్నాలజీ (Syllabus & Books)</h3>
-                    <p><strong>ముఖ్య సిలబస్:</strong> భౌతిక శాస్త్రం (కాంతి, ధ్వని, విద్యుత్, అయస్కాంతత్వం); రసాయన శాస్త్రం (ఆమ్లాలు-క్షారాలు, లోహాలు); జీవశాస్త్రం (మానవ శరీర వ్యవస్థలు, వ్యాధులు, విటమిన్లు); ISRO అంతరిక్ష ప్రయోగాలు, DRDO రక్షణ క్షిపణులు, AI, బయోటెక్నాలజీ & పర్యావరణం.</p>
-                    <p style="margin-bottom:0;"><strong>📚 ప్రామాణిక పుస్తకాలు:</strong> 6th–10th NCERT & SCERT Science, Lucent's General Science, Ravi P. Agrahari (Science & Tech), ISRO/PIB సైన్స్ అప్‌డేట్స్.</p>
+                    <p><strong>ముఖ్య సిలబస్:</strong> భౌతిక శాస్త్రం (కాంతి, ధ్వని, విద్యుత్, అయస్కాంతత్వం); రసాయన శాస్త్రం (ఆమ్లాలు-క్షారాలు, లోహాలు); జీవశాస్త్రం (మానవ శరీర వ్యవస్థలు, వ్యాధులు, విటమిన్లు); ISRO అంతరిక్ష ప్రయోగాలు, DRDO క్షిపణులు, AI, బయోటెక్నాలజీ & పర్యావరణం.</p>
+                    <p style="margin-bottom:0;"><strong>📚 ప్రామాణిక పుస్తకాలు:</strong> 6th–10th NCERT & SCERT Science, Lucent's General Science, Ravi P. Agrahari (Science & Tech).</p>
                 </div>
 
-                <!-- 8. English & Current Affairs -->
                 <div class="deep-detail-box" style="margin-bottom:0;">
                     <span class="stream-badge ba-badge">8. GENERAL ENGLISH & CURRENT AFFAIRS</span>
                     <h3>📰 ఇంగ్లీష్ & కరెంట్ అఫైర్స్ (Syllabus & Books)</h3>
-                    <p><strong>ముఖ్య సిలబస్:</strong> Tenses, Active-Passive Voice, Direct-Indirect Speech, Articles, Prepositions, Synonyms & Antonyms, One-Word Substitutions, Reading Comprehension; జాతీయ & అంతర్జాతీయ వార్తలు, అవార్డులు, క్రీడలు, సదస్సులు & ప్రభుత్వ పథకాలు.</p>
+                    <p><strong>ముఖ్య సిలబస్:</strong> Tenses, Active-Passive Voice, Direct-Indirect Speech, Articles, Prepositions, Synonyms & Antonyms, Comprehension; జాతీయ & అంతర్జాతీయ వార్తలు, అవార్డులు, క్రీడలు, సదస్సులు & ప్రభుత్వ పథకాలు.</p>
                     <p style="margin-bottom:0;"><strong>📚 ప్రామాణిక పుస్తకాలు:</strong> Wren & Martin, S.P. Bakshi (Objective General English), ఈనాడు / సాక్షి / The Hindu దినపత్రికలు & Yojana మ్యాగజైన్.</p>
                 </div>
-
-            </div>
-
-            <!-- Quick Master Reference Table -->
-            <div class="table-responsive">
-                <table class="modern-table">
-                    <thead>
-                        <tr>
-                            <th>సబ్జెక్ట్ (Subject)</th>
-                            <th>బేసిక్స్ కోసం (Foundation)</th>
-                            <th>అడ్వాన్స్‌డ్ ప్రామాణిక పుస్తకం (Standard Book)</th>
-                            <th>ముఖ్యమైన పరీక్షలు (Target Exams)</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td><strong>Arithmetic & Reasoning</strong></td>
-                            <td>6th–10th SCERT / NCERT Maths</td>
-                            <td>R.S. Aggarwal & Kiran PYQs</td>
-                            <td>SSC, Banking, RRB, Police SI/PC, Groups</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Indian Polity</strong></td>
-                            <td>11th NCERT Constitution</td>
-                            <td>M. Laxmikanth (Indian Polity)</td>
-                            <td>UPSC, APPSC/TSPSC Group-1, 2, SI</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Indian & State History</strong></td>
-                            <td>6th–12th NCERT History</td>
-                            <td>Spectrum (Modern) & Telugu Akademi</td>
-                            <td>UPSC, Groups, DSC, Police Exams</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Geography & Economy</strong></td>
-                            <td>6th–12th NCERT + Atlas</td>
-                            <td>Majid Husain & Ramesh Singh + Survey</td>
-                            <td>UPSC, APPSC/TSPSC Groups, SSC CGL</td>
-                        </tr>
-                        <tr>
-                            <td><strong>Science & Technology</strong></td>
-                            <td>6th–10th NCERT Science</td>
-                            <td>Lucent Science & Ravi Agrahari (S&T)</td>
-                            <td>RRB NTPC/ALP, SSC, Group-1 & Group-2</td>
-                        </tr>
-                    </tbody>
-                </table>
             </div>
         </section>
 
+        <!-- 14. INSTANT 1-CLICK ATS RESUME BUILDER -->
+        <section id="resume-builder" class="card" style="border-top: 4px solid #10b981;">
+            <h2 class="card-title">📝 Instant Student Resume Generator (ఉచిత రెజ్యూమ్ బిల్డర్)</h2>
+            <p style="margin-bottom: 15px;">కంప్యూటర్ సెంటర్లకు వెళ్లకుండానే మీ వివరాలు నింపి ప్రొఫెషనల్ <strong>1-Page Resume</strong> తయారు చేసుకుని PDF గా సేవ్ చేసుకోండి:</p>
 
-        <!-- 13. RESUME & INTERVIEW READINESS BLUEPRINT -->
-        <section class="card">
-            <h2 class="card-title">📄 ఉద్యోగ ఇంటర్వ్యూ & ప్రొఫెషనల్ రెజ్యూమ్ గైడ్ (Job Readiness Kit)</h2>
             <div class="bilingual-grid">
-                <div class="deep-detail-box" style="margin-bottom:0;">
-                    <span class="stream-badge btech-badge">ATS RESUME CHECKLIST</span>
-                    <h3>1. 1-Page ప్రొఫెషనల్ రెజ్యూమ్‌లో ఉండాల్సినవి</h3>
-                    <ul>
-                        <li><strong>Header:</strong> పూర్తి పేరు, ఫోన్ నంబర్, ప్రొఫెషనల్ Gmail, LinkedIn & GitHub లింకులు.</li>
-                        <li><strong>Career Objective:</strong> మీ నైపుణ్యాలు & లక్ష్యాన్ని తెలిపే 2-3 పంక్తుల సారాంశం.</li>
-                        <li><strong>Projects & Internships:</strong> మీరు చేసిన ప్రాజెక్టులు & నేర్చుకున్న టెక్నాలజీల వివరాలు.</li>
-                        <li><strong>Skills & Certifications:</strong> Technical Skills, Soft Skills & సర్టిఫికెట్లు.</li>
-                    </ul>
+                <div>
+                    <input type="text" id="resName" class="modal-input" placeholder="పూర్తి పేరు (Full Name)" style="margin-bottom:10px;">
+                    <input type="text" id="resRole" class="modal-input" placeholder="లక్ష్యం / హోదా (ఉదా: B.Tech CSE Graduate / Full Stack Developer)" style="margin-bottom:10px;">
+                    <input type="text" id="resContact" class="modal-input" placeholder="ఫోన్, Email & ఊరు (ఉదా: +91 9876543210 | mail@gmail.com | Anantapur)" style="margin-bottom:10px;">
+                    <textarea id="resEdu" class="modal-input" rows="2" placeholder="విద్యార్హతలు (ఉదా: B.Tech CSE - 8.4 CGPA | Inter MPC - 92% | 10th - 95%)" style="margin-bottom:10px;"></textarea>
                 </div>
-
-                <div class="deep-detail-box" style="margin-bottom:0;">
-                    <span class="stream-badge bsc-badge">INTERVIEW SUCCESS TIPS</span>
-                    <h3>2. ఇంటర్వ్యూలో విజయం సాధించడానికి 4 సూత్రాలు</h3>
-                    <ul>
-                        <li><strong>"Tell me about yourself":</strong> 60 సెకన్లలో మీ చదువు, స్కిల్స్ & ప్రాజెక్టులను స్పష్టంగా పరిచయం చేసుకోండి.</li>
-                        <li><strong>Company Research:</strong> ఇంటర్వ్యూకు వెళ్లే ముందు ఆ కంపెనీ లేదా ప్రభుత్వ శాఖ గురించి కనీస సమాచారం తెలుసుకోండి.</li>
-                        <li><strong>Body Language:</strong> చిరునవ్వుతో, ఆత్మవిశ్వాసంతో కళ్ళలోకి చూస్తూ సమాధానం చెప్పండి.</li>
-                        <li><strong>Honesty:</strong> తెలియని ప్రశ్నకు తప్పుడు సమాధానం చెప్పకుండా "నేర్చుకుంటాను" అని నిజాయితీగా చెప్పండి.</li>
-                    </ul>
+                <div>
+                    <textarea id="resSkills" class="modal-input" rows="2" placeholder="నైపుణ్యాలు (ఉదా: HTML, CSS, JavaScript, React, Python, MS Excel, Communication)" style="margin-bottom:10px;"></textarea>
+                    <textarea id="resProjects" class="modal-input" rows="2" placeholder="ప్రాజెక్ట్స్ / ఇంటర్న్‌షిప్ (ఉదా: Student Career Portal Web App, E-Commerce Website)" style="margin-bottom:10px;"></textarea>
+                    <input type="text" id="resLang" class="modal-input" placeholder="భాషలు (ఉదా: Telugu, English, Hindi)" style="margin-bottom:10px;">
+                    <button onclick="generateInstantResume()" class="submit-btn" style="background:#059669;">📄 Generate & Print PDF Resume</button>
                 </div>
             </div>
         </section>
 
-        <!-- 14. FREE GOVT HOSTELS, GURUKULAMS & COACHING -->
+        <!-- 15. SMART STUDY TIMER & DAILY TARGET PLANNER -->
+        <section id="study-planner" class="card" style="border-top: 4px solid #f59e0b;">
+            <h2 class="card-title">⏱️ Smart Study Focus Timer & Daily Goal Tracker</h2>
+            <div class="bilingual-grid">
+                <div class="deep-detail-box" style="margin-bottom:0; text-align:center;">
+                    <span class="stream-badge bcom-badge">25-MIN FOCUS TIMER</span>
+                    <h3>📚 పరీక్షల ఏకాగ్రత టైమర్ (Pomodoro)</h3>
+                    <div id="pomodoroDisplay" style="font-size: 38px; font-weight: 800; color: var(--primary-color); margin: 12px 0; font-family: monospace;">25:00</div>
+                    <div style="display:flex; gap:8px; justify-content:center; flex-wrap:wrap;">
+                        <button onclick="startStudyTimer()" class="pill-btn active">▶️ Start</button>
+                        <button onclick="pauseStudyTimer()" class="pill-btn">⏸️ Pause</button>
+                        <button onclick="resetStudyTimer()" class="pill-btn">🔄 Reset</button>
+                    </div>
+                    <p style="font-size:12.5px; opacity:0.8; margin-top:10px;">25 నిమిషాలు ఫోన్ పక్కన పెట్టి చదవండి, ఆ తర్వాత 5 నిమిషాలు విశ్రాంతి తీసుకోండి!</p>
+                </div>
+
+                <div class="deep-detail-box" style="margin-bottom:0;">
+                    <span class="stream-badge bsc-badge">DAILY HABIT TRACKER</span>
+                    <h3>✅ ఈరోజు మీ చదువు లక్ష్యాలు (Daily Checklist)</h3>
+                    <label style="display:block; margin:8px 0; cursor:pointer;"><input type="checkbox"> 📰 30 నిమిషాలు వార్తాపత్రిక & Current Affairs చదవడం</label>
+                    <label style="display:block; margin:8px 0; cursor:pointer;"><input type="checkbox"> 📘 కనీసం 2 ముఖ్యమైన చాప్టర్లు / IMP Questions రివిజన్</label>
+                    <label style="display:block; margin:8px 0; cursor:pointer;"><input type="checkbox"> 📝 1 పాత ప్రశ్నాపత్రం (PYQ) లేదా మినీ క్విజ్ ప్రాక్టీస్</label>
+                    <label style="display:block; margin:8px 0; cursor:pointer;"><input type="checkbox"> 💻 45 నిమిషాలు Coding / English / Skill ప్రాక్టీస్</label>
+                </div>
+            </div>
+        </section>
+
+        <!-- 16. SCHOLARSHIP QUICK ELIGIBILITY CHECKER -->
+        <section class="card" style="border-top: 4px solid #6366f1;">
+            <h2 class="card-title">🎓 Scholarship Eligibility Quick-Checker (స్కాలర్‌షిప్ అర్హత తనిఖీ)</h2>
+            <div class="quiz-controls">
+                <select id="schStage" class="modern-select">
+                    <option value="inter">Intermediate / Polytechnic / ITI</option>
+                    <option value="ug">Degree / B.Tech / Pharmacy / Agriculture</option>
+                    <option value="pg">PG (M.Tech / MBA / MCA / M.Sc)</option>
+                </select>
+                <select id="schIncome" class="modern-select">
+                    <option value="low">కుటుంబ వార్షిక ఆదాయం ₹2.5 లక్షల లోపు</option>
+                    <option value="mid">కుటుంబ వార్షిక ఆదాయం ₹2.5 – ₹8 లక్షల మధ్య</option>
+                </select>
+                <select id="schGender" class="modern-select">
+                    <option value="any">అందరూ (All Students)</option>
+                    <option value="girl">బాలికలు (Girl Student - AICTE Pragati)</option>
+                </select>
+                <button onclick="checkScholarshipEligibility()" class="quiz-btn">🔍 స్కాలర్‌షిప్ వివరాలు చూడండి</button>
+            </div>
+            <div id="schResultBox" class="quiz-result-box" style="display:none; margin-top:14px;"></div>
+        </section>
+
+        <!-- 17. FREE GOVT HOSTELS, GURUKULAMS & COACHING -->
         <section class="card">
             <h2 class="card-title">🏫 పేద & గ్రామీణ విద్యార్థులకు ఉచిత గురుకులాలు & ఉచిత కోచింగ్ పథకాలు</h2>
             <div class="bilingual-grid">
@@ -711,71 +718,75 @@
             </div>
         </section>
 
-        <!-- 15. ABROAD EDUCATION & SELF-EMPLOYMENT SCHEMES -->
+        <!-- 18. OFFICIAL GOVT PORTALS & HELPLINES -->
         <section class="card">
-            <h2 class="card-title">🌍 విదేశీ విద్య & స్వయం ఉపాధి పథకాలు (Global & Startup Opportunities)</h2>
+            <h2 class="card-title">🔗 ముఖ్యమైన ప్రభుత్వ వెబ్‌సైట్లు & విద్యార్థి హెల్ప్‌లైన్ పోర్టల్స్</h2>
+            <div class="table-responsive">
+                <table class="modern-table">
+                    <thead>
+                        <tr>
+                            <th>విభాగం (Department)</th>
+                            <th>అధికారిక వెబ్‌సైట్ (Official Portal)</th>
+                            <th>ఉపయోగం (Purpose)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>National Scholarship Portal (NSP)</strong></td>
+                            <td><a href="https://scholarships.gov.in" target="_blank" style="color:var(--primary-color); font-weight:700;">scholarships.gov.in</a></td>
+                            <td>కేంద్ర ప్రభుత్వ స్కాలర్‌షిప్‌లు (NMMS, AICTE, Minority, SC/ST).</td>
+                        </tr>
+                        <tr>
+                            <td><strong>AP Jnanabhumi & ePass</strong></td>
+                            <td><a href="https://jnanabhumi.ap.gov.in" target="_blank" style="color:var(--primary-color); font-weight:700;">jnanabhumi.ap.gov.in</a></td>
+                            <td>ఆంధ్రప్రదేశ్ ఫీజు రీయింబర్స్‌మెంట్ & వసతి దీవెన.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Telangana ePASS</strong></td>
+                            <td><a href="https://telanganaepass.cgg.gov.in" target="_blank" style="color:var(--primary-color); font-weight:700;">telanganaepass.cgg.gov.in</a></td>
+                            <td>తెలంగాణ పోస్ట్-మెట్రిక్ స్కాలర్‌షిప్ & ఫీజు రీయింబర్స్‌మెంట్.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>SSC (Staff Selection Commission)</strong></td>
+                            <td><a href="https://ssc.gov.in" target="_blank" style="color:var(--primary-color); font-weight:700;">ssc.gov.in</a></td>
+                            <td>SSC CGL, CHSL, MTS, GD Constable నోటిఫికేషన్లు & ఫలితాలు.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>APPSC & TSPSC</strong></td>
+                            <td><a href="https://psc.ap.gov.in" target="_blank" style="color:var(--primary-color); font-weight:700;">psc.ap.gov.in</a> / <a href="https://www.tspsc.gov.in" target="_blank" style="color:var(--primary-color); font-weight:700;">tspsc.gov.in</a></td>
+                            <td>రాష్ట్ర ప్రభుత్వ Group-1, Group-2, Group-3, Group-4 ఉద్యోగాలు.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>National Career Service (NCS)</strong></td>
+                            <td><a href="https://www.ncs.gov.in" target="_blank" style="color:var(--primary-color); font-weight:700;">ncs.gov.in</a></td>
+                            <td>కేంద్ర ప్రభుత్వ ఉచిత జాబ్ పోర్టల్ & కెరీర్ కౌన్సెలింగ్.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- 19. RURAL YOUTH SUCCESS STORIES WALL -->
+        <section class="card">
+            <h2 class="card-title">🌟 గ్రామీణ విద్యార్థుల విజయ గాథలు (Rural Achievers Inspiration)</h2>
             <div class="bilingual-grid">
                 <div class="deep-detail-box" style="margin-bottom:0;">
-                    <span class="stream-badge ba-badge">STUDY ABROAD</span>
-                    <h3>✈️ విదేశీ ఉన్నత విద్య (MS / MBA Abroad)</h3>
-                    <p>B.Tech లేదా Degree తర్వాత USA, UK, Canada, Germany, Australia దేశాలలో MS చేయాలనుకునే విద్యార్థులు <strong>IELTS / TOEFL / GRE</strong> పరీక్షలు రాయాలి. అర్హులైన పేద విద్యార్థులకు రాష్ట్ర ప్రభుత్వాలు <strong>విదేశీ విద్యా దీవెన / Ambedkar Overseas Vidya Nidhi</strong> ద్వారా ₹10 నుండి ₹15 లక్షల వరకు ఆర్థిక సాయం అందిస్తాయి.</p>
+                    <span class="stream-badge btech-badge">SOFTWARE & IT SUCCESS</span>
+                    <h3>💻 తెలుగు మీడియం నుండి MNC సాఫ్ట్‌వేర్ ఇంజనీర్ వరకు!</h3>
+                    <p>"గ్రామీణ ప్రభుత్వ పాఠశాలలో 10వ తరగతి వరకు తెలుగు మీడియంలో చదివి, డిగ్రీతో పాటు రోజుకు 2 గంటలు Coding & English ప్రాక్టీస్ చేయడం ద్వారా నేడు ప్రముఖ సాఫ్ట్‌వేర్ కంపెనీలో ₹8.5 LPA ప్యాకేజీతో ఉద్యోగం సాధించాను."</p>
+                    <small style="font-weight:700; color:var(--primary-color);">— సందేశం: మీ నేపథ్యం కాదు, మీ నిరంతర సాధనే మీ భవిష్యత్తును నిర్ణయిస్తుంది.</small>
                 </div>
 
                 <div class="deep-detail-box" style="margin-bottom:0;">
-                    <span class="stream-badge bcom-badge">SELF-EMPLOYMENT & STARTUPS</span>
-                    <h3>🚀 స్వయం ఉపాధి & వ్యాపార లోన్ పథకాలు</h3>
-                    <p>ఉద్యోగం కోసం ఎదురుచూడకుండా ఇతరులకు ఉపాధి కల్పించాలనుకునే యువతకు కేంద్ర ప్రభుత్వ <strong>PM Mudra Yojana (₹10 లక్షల వరకు లోన్), PMEGP (35% వరకు సబ్సిడీ), Stand-Up India</strong> పథకాల ద్వారా బ్యాంకు రుణాలు లభిస్తాయి.</p>
+                    <span class="stream-badge bsc-badge">GOVT JOB SUCCESS</span>
+                    <h3>🏛️ రైతు కుటుంబం నుండి ప్రభుత్వ అధికారిగా!</h3>
+                    <p>"ఖరీదైన కోచింగ్ సెంటర్లకు వెళ్లే స్థోమత లేకపోయినా, 6th–12th NCERT/SCERT పుస్తకాలు, డైలీ కరెంట్ అఫైర్స్ మరియు పాత ప్రశ్నాపత్రాలు (PYQs) క్రమం తప్పకుండా సాధన చేసి మొదటి ప్రయత్నంలోనే ప్రభుత్వ ఉద్యోగం సాధించాను."</p>
+                    <small style="font-weight:700; color:var(--primary-color);">— సందేశం: సరైన ప్రణాళిక + స్వీయ క్రమశిక్షణ ఉంటే ఏ లక్ష్యమైనా సాధ్యమే!</small>
                 </div>
             </div>
         </section>
 
-        <!-- 16. COMMON CAREER MISTAKES STUDENTS MUST AVOID -->
-        <section class="card">
-            <h2 class="card-title">⚠️ విద్యార్థులు చేసే సాధారణ తప్పులు — వాటికి సరైన పరిష్కారాలు</h2>
-            <div class="bilingual-grid">
-                <div class="deep-detail-box" style="margin-bottom:0;">
-                    <h3>❌ తప్పు 1: స్నేహితులు చేరారని ఒకే గ్రూప్ తీసుకోవడం</h3>
-                    <p><strong>✅ పరిష్కారం:</strong> మీ స్నేహితుల ఆసక్తి వేరు, మీ సామర్థ్యం వేరు. మీకు ఏ సబ్జెక్ట్ ఇష్టమో తెలుసుకుని ఆ గ్రూప్ ఎంచుకోండి.</p>
-                </div>
-                <div class="deep-detail-box" style="margin-bottom:0;">
-                    <h3>❌ తప్పు 2: ఇంగ్లీష్ రాదని భయపడి వెనకడుగు వేయడం</h3>
-                    <p><strong>✅ పరిష్కారం:</strong> ఇంగ్లీష్ అనేది కేవలం ఒక భాష మాత్రమే, తెలివితేటలకు కొలమానం కాదు. రోజూ 20 నిమిషాలు సాధన చేస్తే 6 నెలల్లో సులభంగా మాట్లాడవచ్చు.</p>
-                </div>
-                <div class="deep-detail-box" style="margin-bottom:0;">
-                    <h3>❌ తప్పు 3: డిగ్రీ పూర్తయ్యే వరకు పోటీ పరీక్షల గురించి ఆలోచించకపోవడం</h3>
-                    <p><strong>✅ పరిష్కారం:</strong> డిగ్రీ 1st Year నుండే NCERT/SCERT పుస్తకాలు & కరెంట్ అఫైర్స్ చదవడం మొదలుపెడితే మొదటి ప్రయత్నంలోనే ఉద్యోగం వస్తుంది.</p>
-                </div>
-                <div class="deep-detail-box" style="margin-bottom:0;">
-                    <h3>❌ తప్పు 4: పాత ప్రశ్నాపత్రాలు (PYQs) ప్రాక్టీస్ చేయకపోవడం</h3>
-                    <p><strong>✅ పరిష్కారం:</strong> ఏ పరీక్షకైనా గత 5 సంవత్సరాల PYQs మరియు IMP Questions సాధన చేస్తే 70% ప్రశ్నల సరళి అర్థమవుతుంది.</p>
-                </div>
-            </div>
-        </section>
-
-        <!-- 17. LATEST NEWS & NOTIFICATIONS (FIREBASE LIVE) -->
-        <section id="news" class="card posts-section">
-            <div class="posts-header-flex">
-                <h2 class="card-title" style="border:none; margin:0; padding:0;">📢 తాజా వార్తలు & నోటిఫికేషన్‌లు (Latest Updates)</h2>
-                <button id="savedToggleBtn" class="saved-filter-btn" onclick="toggleSavedView()">🔖 Saved (<span id="savedCount">0</span>)</button>
-            </div>
-            <hr class="section-divider">
-
-            <div class="filter-pills">
-                <button class="pill-btn active" onclick="setCategoryFilter('ALL', this)">All Updates</button>
-                <button class="pill-btn" onclick="setCategoryFilter('Govt Jobs', this)">🏛️ Govt Jobs</button>
-                <button class="pill-btn" onclick="setCategoryFilter('Notifications', this)">📣 Notifications</button>
-                <button class="pill-btn" onclick="setCategoryFilter('Scholarships', this)">🎓 Scholarships</button>
-                <button class="pill-btn" onclick="setCategoryFilter('General Updates', this)">📰 General</button>
-            </div>
-
-            <input type="text" id="searchInput" class="modern-search" placeholder="🔍 ఉద్యోగం, కోర్సు లేదా నోటిఫికేషన్ పేరుతో వెతకండి..." onkeyup="filterPosts()">
-
-            <div id="postsContainer">
-                <p style="text-align:center;">డేటా లోడ్ అవుతోంది...</p>
-            </div>
-        </section>
-
-        <!-- 18. COMPREHENSIVE STUDENT FAQS -->
+        <!-- 20. COMPREHENSIVE STUDENT FAQS -->
         <section class="card">
             <h2 class="card-title">❓ విద్యార్థులు & తల్లిదండ్రులు తరచుగా అడిగే ప్రశ్నలు (FAQs)</h2>
             
