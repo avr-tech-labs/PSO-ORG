@@ -752,28 +752,6 @@ window.convertCgpaToPercent = function() {
     `;
 };
 
-window.checkGkAnswer = function(btnEl, isCorrect, feedbackId) {
-    const parent = btnEl.parentElement;
-    parent.querySelectorAll("button").forEach(b => {
-        b.style.background = "";
-        b.style.color = "";
-    });
-
-    const feedbackEl = document.getElementById(feedbackId);
-    feedbackEl.style.display = "block";
-
-    if (isCorrect) {
-        btnEl.style.background = "#10b981";
-        btnEl.style.color = "#ffffff";
-        feedbackEl.style.color = "#059669";
-        feedbackEl.textContent = "✅ సరైన సమాధానం! అభినందనలు.";
-    } else {
-        btnEl.style.background = "#dc2626";
-        btnEl.style.color = "#ffffff";
-        feedbackEl.style.color = "#dc2626";
-        feedbackEl.textContent = "❌ తప్పు సమాధానం! మళ్లీ ప్రయత్నించండి.";
-    }
-};
 
 // =========================================================
 // 8. INSTANT RESUME BUILDER, POMODORO TIMER & SCHOLARSHIP CHECKER
