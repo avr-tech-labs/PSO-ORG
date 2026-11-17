@@ -13,31 +13,89 @@
             <div class="logo">PSO</div>
             <div>
                 <h1 class="pso-heading">PSO - అడ్మిన్ డాష్‌బోర్డ్</h1>
-                <p>Public Service Organization | Admin Panel</p>
+                <p>Public Service Organization | Control Panel, Materials & Student Inbox</p>
             </div>
         </div>
-        <a href="index.html" style="color: white; text-decoration: underline; font-weight: bold;">🏠 Main Website</a>
+        <a href="index.html" class="theme-btn" style="text-decoration: none;">🏠 Main Website</a>
     </header>
 
-    <div class="container" style="max-width: 600px;">
+    <div class="container" style="max-width: 780px;">
+        
+        <!-- 1. Post New News / Job Update -->
         <section class="card form-section">
-            <h2 class="card-title">🔒 అడ్మిన్ పోస్ట్ అప్‌డేట్ (Admin Panel)</h2>
+            <h2 class="card-title">📢 1. కొత్త నోటిఫికేషన్ / ఉద్యోగ వార్త అప్‌డేట్ చేయండి</h2>
             <form id="postForm">
                 <input type="password" id="adminPass" placeholder="🔑 Admin Password (pso123)" required>
                 
-                <label>క్యాటగిరీ ఎంచుకోండి:</label>
+                <label><strong>క్యాటగిరీ ఎంచుకోండి:</strong></label>
                 <select id="postCategory">
                     <option value="Govt Jobs">Govt Jobs</option>
                     <option value="Notifications">Notifications</option>
+                    <option value="Scholarships">Scholarships</option>
                     <option value="General Updates">General Updates</option>
                 </select>
                 
                 <input type="text" id="postTitle" placeholder="శీర్షిక (Title)" required>
-                <textarea id="postDesc" placeholder="వివరాలు (Description)" rows="5" required></textarea>
-                <input type="url" id="postLink" placeholder="నోటిఫికేషన్ లింక్ (Optional)">
+                <textarea id="postDesc" placeholder="వివరాలు (Description)" rows="4" required></textarea>
+                <input type="url" id="postLink" placeholder="నోటిఫికేషన్ / అప్లై లింక్ (Optional)">
                 
-                <button type="submit" class="submit-btn">Post Update</button>
+                <button type="submit" class="submit-btn">🚀 Publish Update</button>
             </form>
+        </section>
+
+        <!-- 2. Upload Study Material / IMP Questions (PDF or Image Direct Upload) -->
+        <section class="card form-section" style="border-top: 4px solid #2563eb;">
+            <h2 class="card-title">📚 2. Study Materials & IMP Questions అప్‌లోడ్ చేయండి (PDF / Image)</h2>
+            <form id="materialForm">
+                <input type="password" id="matAdminPass" placeholder="🔑 Admin Password (pso123)" required>
+
+                <label><strong>విద్యా స్థాయి (Education Level):</strong></label>
+                <select id="matLevel">
+                    <option value="10th Class">10th Class (SSC)</option>
+                    <option value="Intermediate">Intermediate (10+2)</option>
+                    <option value="Polytechnic / ITI">Polytechnic / ITI</option>
+                    <option value="Degree / B.Tech">Degree / B.Tech</option>
+                    <option value="Entrance & Govt Exams">Entrance & Govt Exams</option>
+                </select>
+
+                <label><strong>మెటీరియల్ రకం (Material Type):</strong></label>
+                <select id="matType">
+                    <option value="IMP Questions">⭐ IMP Questions (ముఖ్య ప్రశ్నలు)</option>
+                    <option value="Study Notes">📘 Study Notes / PDF</option>
+                    <option value="Previous Papers">📝 Previous Year Papers</option>
+                    <option value="Formula / Cheat Sheet">⚡ Formula / Cheat Sheet</option>
+                </select>
+
+                <input type="text" id="matSubject" placeholder="సబ్జెక్ట్ / గ్రూప్ (ఉదా: Inter 2nd Yr Maths-2B / 10th Physical Science)" required>
+                <input type="text" id="matTitle" placeholder="మెటీరియల్ శీర్షిక (ఉదా: Public Exam 8-Marks Gun-Shot IMP Questions)" required>
+                <textarea id="matDesc" placeholder="చిన్న వివరణ లేదా ముఖ్యమైన చాప్టర్ల వివరాలు" rows="3" required></textarea>
+
+                <div style="background: var(--subcard-bg); border: 1px dashed var(--primary-color); padding: 14px; border-radius: 8px; margin-bottom: 14px;">
+                    <label style="display:block; margin-bottom:6px;"><strong>📎 PDF లేదా Image ఫైల్ ఎంచుకోండి (PDF, JPG, PNG, WebP):</strong></label>
+                    <input type="file" id="matFile" accept=".pdf,image/*" style="margin: 0 0 10px 0;">
+                    <p style="margin: 4px 0; font-size: 12.5px; opacity: 0.8;">— లేదా Google Drive లింక్ ఇవ్వాలనుకుంటే కింద పేస్ట్ చేయండి (Optional): —</p>
+                    <input type="url" id="matLink" placeholder="Google Drive / External PDF Link (Optional)" style="margin-bottom: 0;">
+                </div>
+
+                <!-- Upload Progress Indicator -->
+                <div id="uploadStatusBox" style="display:none; margin-bottom: 12px; padding: 10px; border-radius: 6px; background: rgba(37, 99, 235, 0.12); color: var(--primary-color); font-weight: 700; text-align: center;">
+                    ⏳ ఫైల్ అప్‌లోడ్ అవుతోంది... <span id="uploadProgressText">0%</span>
+                </div>
+
+                <button type="submit" id="matSubmitBtn" class="submit-btn" style="background: #2563eb;">📥 Upload Material / IMP Questions</button>
+            </form>
+        </section>
+
+        <!-- 3. Student Messages Inbox Card -->
+        <section class="card">
+            <div class="posts-header-flex">
+                <h2 class="card-title" style="border:none; margin:0; padding:0;">📩 3. విద్యార్థుల సందేశాలు (Student Queries Inbox)</h2>
+                <button onclick="loadAdminMessages()" class="saved-filter-btn">🔓 Load Messages</button>
+            </div>
+            <hr class="section-divider">
+            <div id="adminMessagesContainer">
+                <p style="text-align:center; opacity:0.75;">విద్యార్థులు పంపిన సందేశాలు చూడటానికి పైన ఉన్న <strong>"🔓 Load Messages"</strong> బటన్ క్లిక్ చేసి పాస్‌వర్డ్ ఎంటర్ చేయండి.</p>
+            </div>
         </section>
     </div>
 
